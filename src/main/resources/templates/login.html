@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -16,35 +16,19 @@
 <body>
 <div class="container-fluid">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-notino rounded">
-            <a class="navbar-brand nav-link-white" th:href="@{/}">NOTINO</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
-                <ul class="navbar-nav">
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-white active" th:href="@{/login}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-white active"  th:href="@{/login}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-white active"  th:href="@{/register}">Register</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <th:block th:include="~{fragments/navbar}"></th:block>
     </header>
     <main class="mt-3">
-        <h1 class="text-center text-notino">Don't have an account yet? Join us now for free!</h1>
-        <div class="button-holder d-flex justify-content-center">
-            <a th:href="@{/register}">
-                <button type="button" class="btn bg-notino text-white" th:href="@{/register}">Register</button>
-            </a>
+        <div class="container mt-3">
+            <h1 class="text-center text-notino">Don't have an account yet? Join us now for free!</h1>
+            <div class="button-holder d-flex justify-content-center">
+                <a th:href="@{/register}">
+                    <button type="button" class="btn bg-notino text-white" th:href="@{/register}">Register</button>
+                </a>
+            </div>
         </div>
+        <hr class="bg-notino hr-2"/>
+        <div class="container mt-3">
         <h1 class="text-center text-notino">Login</h1>
         <form class="mx-auto w-25" method="post" action="/login">
             <div class="form-group">
@@ -56,17 +40,13 @@
                 <input type="password" class="form-control" id="password" placeholder="Password..." name="password">
             </div>
             <hr class="bg-notino hr-2"/>
-            <div class="button-holder d-flex justify-content-center">
+            <div class="button-holder d-flex justify-content-center mb-3">
                 <button type="submit" class="btn bg-notino text-white">Login</button>
             </div>
         </form>
-    </main>
-    <footer>
-        <div class="container-fluid bg-notino rounded">
-            <div class="text-white p-2 text-center">&copy; CopyRight Sanity Web Design Studios 2019. All rights reserved.
-            </div>
         </div>
-    </footer>
+    </main>
+    <th:block th:include="~{fragments/footer}"></th:block>
 </div>
 </body>
 </html>

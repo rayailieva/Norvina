@@ -72,7 +72,17 @@ public class UserController {
         session.setAttribute("userId",userServiceModel.getId());
         session.setAttribute("username", userServiceModel.getUsername());
 
-        modelAndView.setViewName("redirect:/home");
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
+    @GetMapping("/logout")
+    public ModelAndView logout(ModelAndView modelAndView, HttpSession session){
+
+        session.invalidate();
+
+        modelAndView.setViewName("redirect:/");
+
         return modelAndView;
     }
 }

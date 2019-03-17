@@ -8,6 +8,7 @@ public class ProductServiceModel {
     private String id;
     private String name;
     private String description;
+    private String imageSrc;
     private BigDecimal price;
     private CategoryServiceModel category;
     private List<OrderProductServiceModel> orderProducts;
@@ -60,5 +61,13 @@ public class ProductServiceModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getImageSrc() {
+        return this.imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }

@@ -9,6 +9,7 @@ public class OrderProduct extends BaseEntity{
     private Order order;
     private Product product;
     private Integer quantity;
+    private User user;
 
     public OrderProduct(){}
 
@@ -39,5 +40,14 @@ public class OrderProduct extends BaseEntity{
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    @ManyToOne(targetEntity = User.class)
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

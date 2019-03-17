@@ -1,11 +1,14 @@
 package notino.domain.models.binding;
 
+import notino.domain.entities.Category;
+
 import java.math.BigDecimal;
 
 public class ProductCreateBindingModel {
 
     private String name;
     private String description;
+    private String imageSrc;
     private BigDecimal price;
     private String category;
 
@@ -42,5 +45,13 @@ public class ProductCreateBindingModel {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getImageSrc() {
+        return this.imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }

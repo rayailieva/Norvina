@@ -10,6 +10,7 @@ public class Product extends BaseEntity{
 
     private String name;
     private String description;
+    private String imageSrc;
     private BigDecimal price;
     private Category category;
     private List<OrderProduct> orderProducts;
@@ -59,5 +60,14 @@ public class Product extends BaseEntity{
 
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
+    }
+
+    @Column(name = "image_src", nullable = false)
+    public String getImageSrc() {
+        return this.imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }

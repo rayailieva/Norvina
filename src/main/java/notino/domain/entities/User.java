@@ -15,6 +15,7 @@ public class User extends BaseEntity {
     private String phoneNumber;
     private String address;
     //private Role role;TODO:Implement role
+    private List<OrderProduct> shoppingBasket;
     private List<Order> orders;
 
 
@@ -102,4 +103,12 @@ public class User extends BaseEntity {
     }
 
 
+    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "user")
+    public List<OrderProduct> getShoppingBasket() {
+        return this.shoppingBasket;
+    }
+
+    public void setShoppingBasket(List<OrderProduct> shoppingBasket) {
+        this.shoppingBasket = shoppingBasket;
+    }
 }

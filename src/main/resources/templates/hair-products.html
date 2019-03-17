@@ -44,15 +44,11 @@
         <div class="print-container container-fluid">
             <div class="row mb-4 home-container">
                 <th:block th:each="product : ${products}">
-                    <div class="print-scheduled bg-notino rounded">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getName()}"></h5>
-                        <hr class="bg-white">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getDescription()}"></h5>
-                        <hr class="bg-white">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getPrice()}"></h5>
-                        <hr class="bg-white">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getCategory().getName()}"></h5>
-                        <hr class="bg-white">
+                    <div class="col-md-2 column productbox">
+                        <img src="https://ntg-catalog.imgix.net/products/6811342_front.jpg?w=1200&h=1443&sfrm=jpg&fit=crop" class="img-responsive">
+                        <div class="producttitle" th:text="${product.getDescription()}">Product 2</div>
+                        <div class="producttitle"  th:text="${product.getName()}">Product 2</div>
+                        <div class="productprice"><div class="pull-right"><a href="#" class="btn btn-danger btn-sm" role="button">BUY</a></div><div class="pricetext" th:text="${product.getPrice()}"></div></div>
                     </div>
                 </th:block>
             </div>

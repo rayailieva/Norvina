@@ -2,7 +2,9 @@ package notino.web.controllers;
 
 import notino.domain.models.binding.ProductCreateBindingModel;
 import notino.domain.models.service.ProductServiceModel;
+import notino.domain.models.view.CategoryListViewModel;
 import notino.domain.models.view.ProductViewModel;
+import notino.service.CategoryService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +20,26 @@ import java.util.stream.Collectors;
 @Controller
 public class ProductController {
 
-    private ProductService productService;
-    private ModelMapper modelMapper;
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, CategoryService categoryService, ModelMapper modelMapper) {
         this.productService = productService;
+        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/product-add")
-    public ModelAndView addProduct(ModelAndView modelAndView){
+    public ModelAndView addProduct(ModelAndView modelAndView,
+                                   @ModelAttribute(name = "bindingModel") ProductCreateBindingModel bindingModel){
+
+        modelAndView.addObject("bindingModel", bindingModel);
+        modelAndView.addObject("categories", this.categoryService.findAllCategories()
+                .stream()
+                .map(c -> this.modelMapper.map(c, CategoryListViewModel.class))
+                .collect(Collectors.toList()));
 
         modelAndView.setViewName("product-add");
 
