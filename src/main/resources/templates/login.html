@@ -30,7 +30,7 @@
         <hr class="bg-notino hr-2"/>
         <div class="container mt-3">
         <h1 class="text-center text-notino">Login</h1>
-        <form class="mx-auto w-25" method="post" action="/login">
+        <form class="mx-auto w-25" th:action="@{/login}" method="post">
             <div class="form-group">
                 <label for="username" class="text-notino">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Username..." name="username">

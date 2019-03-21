@@ -9,12 +9,21 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
     @GetMapping("/")
-    public ModelAndView modelAndView(ModelAndView modelAndView){
+    public ModelAndView index(ModelAndView modelAndView){
 
         modelAndView.setViewName("index");
 
         return modelAndView;
     }
+
+    @GetMapping("/home")
+    public ModelAndView home(ModelAndView modelAndView){
+
+        modelAndView.setViewName("home");
+
+        return modelAndView;
+    }
+
 
 
 }

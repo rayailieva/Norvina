@@ -1,10 +1,9 @@
 package notino.service;
 
 import notino.domain.models.service.UserServiceModel;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     boolean registerUser(UserServiceModel userServiceModel);
-
-    UserServiceModel loginUser(UserServiceModel userServiceModel);
 }

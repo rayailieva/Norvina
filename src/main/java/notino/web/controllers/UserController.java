@@ -6,6 +6,7 @@ import notino.domain.models.service.UserServiceModel;
 import notino.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView register(ModelAndView modelAndView){
 
         modelAndView.setViewName("register");
@@ -41,38 +43,17 @@ public class UserController {
             throw new IllegalArgumentException(("Passwords don't match!"));
         }
 
-        if(!this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class))){
-            throw new IllegalArgumentException("User registration failed!");
-        }
+        this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
 
         modelAndView.setViewName("redirect:/login");
         return modelAndView;
     }
 
     @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView login(ModelAndView modelAndView){
 
         modelAndView.setViewName("login");
-
-        return modelAndView;
-    }
-
-    @PostMapping("/login")
-    public ModelAndView loginConfirm(@ModelAttribute UserLoginBindingModel model,
-                                     ModelAndView modelAndView,
-                                     HttpSession session){
-
-        UserServiceModel userServiceModel = this.userService
-                .loginUser(this.modelMapper.map(model, UserServiceModel.class));
-
-        if(userServiceModel == null){
-            throw new IllegalArgumentException("User login failed!");
-        }
-
-        session.setAttribute("userId",userServiceModel.getId());
-        session.setAttribute("username", userServiceModel.getUsername());
-
-        modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 

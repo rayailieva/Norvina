@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>NOTINO</title>
+<link rel="stylesheet" th:href="@{css/reset-css.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/style.css}">
+
+</head>
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/navbar}"></th:block>
+    </header>
+    <main class="mt-3">
+        <hr class="bg-exodia hr-2"/>
+        <div class="jumbotron mt-3 bg-notino">
+            <h1 class="text-white text-center">NORVINA</h1>
+            <h1 class="text-white text-center">World's best cosmetics online retailer.</h1>
+            <hr class="bg-white hr-2"/>
+        </div>
+        <div class="container-fluid bg-3 text-center mr-">
+            <h2>Product Categories</h2><br>
+            <div class="row text-center">
+                <div class="mx-auto">
+                    <p>FRAGRANCES</p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-niche_2k.jpg" class="img" style="width:100%" alt="Image">
+                </div>
+                <div class="mx-auto">
+                    <a class="nav-link nav-link active" th:href="@{/hair-products}">HAIR</a>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-hair_2k.jpg" class="img" style="width:100%" alt="Image">
+                </div>
+                <div class="mx-auto">
+                    <p>SKIN</p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-skin_2k.jpg" class="img" style="width:100%" alt="Image">
+                </div>
+            </div>
+        </div><br>
+        <div class="container-fluid bg-3 text-center align-content-center">
+            <div class="row align-content-md-center">
+                <div class="mx-auto">
+                    <a class="nav-link nav-link active" th:href="@{/body-products}">BODY</a>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-body_2k.jpg" class="img" style="width:100%" alt="Image">
+                </div>
+                <div class="mx-auto">
+                    <p>MAKEUP</p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/make-up_2k.jpg" class="img" style="width:100%" alt="Image">
+                </div>
+                <div class="mx-auto">
+                    <p>SUN & TAN</p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-sun_2k.jpg" class="img" style="width:100%" alt="Image">
+                </div>
+
+            </div>
+        </div><br>
+        <hr class="bg-exodia hr-2 mt-5"/>
+    </main>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</div>
+</body>
+</html>
