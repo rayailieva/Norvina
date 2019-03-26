@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="~{fragments/head}"></th:block>
-</head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NOTINO</title>
-    <link rel="stylesheet" th:href="@{css/reset-css.css}">
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{css/style.css}">
-
-</head>
-<body>
-<div class="container-fluid">
-    <header>
-        <th:block th:include="~{fragments/navbar}"></th:block>
-    </header>
+<th:block>
     <main class="mt-3">
         <hr class="bg-exodia hr-2"/>
         <div class="jumbotron mt-3 bg-notino">
@@ -61,7 +42,4 @@
         </div><br>
         <hr class="bg-exodia hr-2 mt-5"/>
     </main>
-    <th:block th:include="~{fragments/footer}"></th:block>
-</div>
-</body>
-</html>
+</th:block>

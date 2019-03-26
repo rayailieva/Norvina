@@ -1,6 +1,7 @@
 package notino.domain.entities;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_products")
@@ -10,6 +11,7 @@ public class OrderProduct extends BaseEntity{
     private Product product;
     private Integer quantity;
     private User user;
+    private ShoppingBasket shoppingBasket;
 
     public OrderProduct(){}
 
@@ -49,5 +51,14 @@ public class OrderProduct extends BaseEntity{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @ManyToOne(targetEntity = ShoppingBasket.class)
+    public ShoppingBasket getShoppingBasket() {
+        return this.shoppingBasket;
+    }
+
+    public void setShoppingBasket(ShoppingBasket shoppingBasket) {
+        this.shoppingBasket = shoppingBasket;
     }
 }

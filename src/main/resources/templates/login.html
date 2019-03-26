@@ -1,33 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="~{fragments/head}"></th:block>
-</head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NOTINO</title>
-    <link rel="stylesheet" th:href="@{css/reset-css.css}">
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{css/style.css}">
-
-</head>
-<body>
-<div class="container-fluid">
-    <header>
-        <th:block th:include="~{fragments/navbar}"></th:block>
-    </header>
+<th:block>
     <main class="mt-3">
-        <div class="container mt-3">
-            <h1 class="text-center text-notino">Don't have an account yet? Join us now for free!</h1>
-            <div class="button-holder d-flex justify-content-center">
-                <a th:href="@{/register}">
-                    <button type="button" class="btn bg-notino text-white" th:href="@{/register}">Register</button>
-                </a>
-            </div>
-        </div>
-        <hr class="bg-notino hr-2"/>
         <div class="container mt-3">
         <h1 class="text-center text-notino">Login</h1>
         <form class="mx-auto w-25" th:action="@{/login}" method="post">
@@ -46,7 +18,4 @@
         </form>
         </div>
     </main>
-    <th:block th:include="~{fragments/footer}"></th:block>
-</div>
-</body>
-</html>
+</th:block>

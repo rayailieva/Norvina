@@ -10,7 +10,8 @@ public class ProductCreateBindingModel {
     private String description;
     private String imageSrc;
     private BigDecimal price;
-    private String category;
+    private Category category;
+    private String brand;
 
     public ProductCreateBindingModel() {
     }
@@ -39,19 +40,27 @@ public class ProductCreateBindingModel {
         this.price = price;
     }
 
-    public String getCategory() {
-        return this.category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public String getImageSrc() {
         return this.imageSrc;
     }
 
     public void setImageSrc(String imageSrc) {
         this.imageSrc = imageSrc;
+    }
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getBrand() {
+        return this.brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }

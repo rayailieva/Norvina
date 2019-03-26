@@ -2,32 +2,32 @@ package notino.domain.models.binding;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class UserRegisterBindingModel {
+public class UserEditProfileBindingModel {
 
-    private String username;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private String newPassword;
     private String confirmPassword;
 
-    public UserRegisterBindingModel() {
+    public UserEditProfileBindingModel() {
     }
 
-    @NotNull(message = "Username cannot be null!")
-    @Length(min = 3, max = 15, message = "Invalid username!")
-    public String getUsername() {
-        return this.username;
+    public String getId() {
+        return this.id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @NotNull(message = "First name cannot be null!")
+    @NotNull(message = "First name cannot be null.")
     @Length(min = 2, message = "First name must be at least 2 symbols long.")
     public String getFirstName() {
         return this.firstName;
@@ -37,8 +37,9 @@ public class UserRegisterBindingModel {
         this.firstName = firstName;
     }
 
-    @NotNull(message = "Last name cannot be null!")
+    @NotNull(message = "Last name cannot be null.")
     @Length(min = 2, message = "Last name must be at least 2 symbols long.")
+    @Pattern(regexp = "^[A-Z][a-zA-Z]+", message = "Last name must start with capital letter.")
     public String getLastName() {
         return this.lastName;
     }
@@ -48,6 +49,7 @@ public class UserRegisterBindingModel {
     }
 
     @NotNull(message = "Email cannot be null.")
+    @NotEmpty(message = "Email cannot be empty.")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "Invalid email.")
     public String getEmail() {
         return this.email;
@@ -57,7 +59,8 @@ public class UserRegisterBindingModel {
         this.email = email;
     }
 
-    @NotNull(message = "Password cannot be null!")
+    @NotNull(message = "Password cannot be null.")
+    @NotEmpty(message = "Password cannot be empty.")
     @Length(min = 6, message = "Password must be at least 6 characters long!")
     public String getPassword() {
         return this.password;
@@ -67,8 +70,16 @@ public class UserRegisterBindingModel {
         this.password = password;
     }
 
-    @NotNull(message = "Confirm password cannot be null!")
-    @Length(min = 6, message = "Confirm password must be at least 6 characters long!")
+    @Length(min = 6, message = "Password must be at least 6 characters long!")
+    public String getNewPassword() {
+        return this.newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    @Length(min = 6, message = "Password must be at least 6 characters long!")
     public String getConfirmPassword() {
         return this.confirmPassword;
     }
@@ -76,5 +87,4 @@ public class UserRegisterBindingModel {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-
 }

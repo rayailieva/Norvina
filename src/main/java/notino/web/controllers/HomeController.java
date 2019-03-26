@@ -6,24 +6,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
 
     @GetMapping("/")
-    public ModelAndView index(ModelAndView modelAndView){
+    public ModelAndView index(){
 
-        modelAndView.setViewName("index");
-
-        return modelAndView;
+        return super.view("index");
     }
 
     @GetMapping("/home")
-    public ModelAndView home(ModelAndView modelAndView){
+    public ModelAndView home(){
 
-        modelAndView.setViewName("home");
-
-        return modelAndView;
+       return super.view("home");
     }
-
-
-
 }

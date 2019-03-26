@@ -2,13 +2,12 @@ package notino.domain.models.service;
 
 import java.util.List;
 
-public class CategoryServiceModel {
+public class BrandServiceModel {
 
-    private String id;
     private String name;
     private List<ProductServiceModel> products;
 
-    public CategoryServiceModel() {
+    public BrandServiceModel() {
     }
 
     public String getName() {
@@ -25,13 +24,5 @@ public class CategoryServiceModel {
 
     public void setProducts(List<ProductServiceModel> products) {
         this.products = products;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

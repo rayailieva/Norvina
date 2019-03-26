@@ -13,11 +13,12 @@ public class Product extends BaseEntity{
     private String imageSrc;
     private BigDecimal price;
     private Category category;
+    private Brand brand;
     private List<OrderProduct> orderProducts;
 
     public Product(){}
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return this.name;
     }
@@ -44,7 +45,8 @@ public class Product extends BaseEntity{
         this.price = price;
     }
 
-    @ManyToOne(targetEntity = Category.class)
+   @Enumerated(EnumType.STRING)
+   @Column(name = "category", nullable = false)
     public Category getCategory() {
         return this.category;
     }
@@ -69,5 +71,14 @@ public class Product extends BaseEntity{
 
     public void setImageSrc(String imageSrc) {
         this.imageSrc = imageSrc;
+    }
+
+    @ManyToOne(targetEntity = Brand.class)
+    public Brand getBrand() {
+        return this.brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

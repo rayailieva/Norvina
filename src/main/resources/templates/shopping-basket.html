@@ -1,40 +1,68 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="~{fragments/head}"></th:block>
-</head>
-<body>
-<div class="container-fluid">
-    <header>
-        <th:block th:include="~{fragments/navbar}"></th:block>
-    </header>
-    <main class="mt-3">
-        <hr class="bg-notino hr-2"/>
-        <div class="print-container container-fluid">
-            <div class="row mb-4 home-container">
-                <th:block th:each="product : ${products}">
-                    <div class="print-scheduled bg-notino rounded">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getName()}"></h5>
-                        <hr class="bg-white">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getDescription()}"></h5>
-                        <hr class="bg-white">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getPrice()}"></h5>
-                        <hr class="bg-white">
-                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${product.getCategory().getName()}"></h5>
-                        <hr class="bg-white">
+<th:block>
+    <main>
+        <script src="https://use.fontawesome.com/c560c025cf.js"></script>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-xs-2 col-md-2">
+                    <img class="img-responsive" src="http://placehold.it/120x80" alt="prewiew">
+                </div>
+                <div class="col-xs-4 col-md-6">
+                    <h4 class="product-name"><strong>Product name</strong></h4>
+                    <h4>
+                        <small>Product description</small>
+                    </h4>
+                </div>
+                <div class="col-xs-6 col-md-4 row">
+                    <div class="col-xs-6 col-md-6 text-right" style="padding-top: 5px">
+                        <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>
                     </div>
-                </th:block>
+                    <div class="col-xs-4 col-md-4">
+                        <input type="text" class="form-control input-sm" value="1">
+                    </div>
+                    <div class="col-xs-2 col-md-2">
+                        <button type="button" class="btn btn-outline-danger btn-xs">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-2 col-md-2">
+                    <img class="img-responsive" src="http://placehold.it/120x80" alt="prewiew">
+                </div>
+                <div class="col-xs-4 col-md-6">
+                    <h4 class="product-name"><strong>Product name</strong></h4>
+                    <h4>
+                        <small>Product description</small>
+                    </h4>
+                </div>
+                <div class="col-xs-6 col-md-4 row">
+                    <div class="col-xs-6 col-md-6 text-right" style="padding-top: 5px">
+                        <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        <input type="text" class="form-control input-sm" value="1">
+                    </div>
+                    <div class="col-xs-2 col-md-2">
+                        <button type="button" class="btn btn-outline-danger btn-xs">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="card-footer align-content-md-center">
+                <div  style="margin: 5px">
+                    Total price: <b>50.00€</b>
+                </div>
+                <a href="" class="btn btn-success align-content-md-center">Order now!</a>
             </div>
         </div>
-        <hr class="bg-notino hr-2 mt-5"/>
     </main>
-    <footer>
-        <div class="container-fluid bg-notino rounded">
-            <div class="text-white p-2 text-center">&copy; CopyRight Sanity Web Design Studios 2019. All rights
-                reserved.
-            </div>
-        </div>
-    </footer>
 </div>
-</body>
-</html>
+</div>
+</main>
+</th:block>

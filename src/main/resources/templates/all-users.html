@@ -1,0 +1,31 @@
+<th:block>
+    <main>
+        <div class="container mt-3">
+            <h3 class="h3">All Users</h3>
+
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="activeUser, iter : ${activeUsers}">
+                    <tr>
+                        <td scope="col" th:text="${iter.index + 1}"></td>
+                        <td scope="col" th:text="${activeUser.username}"></td>
+                        <td scope="col"th:text="${activeUser.firstName}"></td>
+                        <td scope="col"th:text="${activeUser.lastName}"></td>
+                        <td scope="col"th:text="${activeUser.email}"></td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+    </main>
+</th:block>

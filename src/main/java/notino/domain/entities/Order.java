@@ -10,7 +10,6 @@ public class Order extends BaseEntity {
 
     private User user;
     private LocalDateTime dateTime;
-    private Status status;
     private List<OrderProduct> products;
 
     public Order(){
@@ -32,16 +31,6 @@ public class Order extends BaseEntity {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    public Status getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     @OneToMany(targetEntity = OrderProduct.class, mappedBy = "order")

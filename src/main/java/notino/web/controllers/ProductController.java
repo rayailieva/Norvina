@@ -1,95 +1,117 @@
 package notino.web.controllers;
 
 import notino.domain.models.binding.ProductCreateBindingModel;
+import notino.domain.models.binding.ProductEditBindingModel;
+import notino.domain.models.binding.UserEditProfileBindingModel;
 import notino.domain.models.service.ProductServiceModel;
-import notino.domain.models.view.CategoryListViewModel;
 import notino.domain.models.view.ProductViewModel;
-import notino.service.CategoryService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class ProductController {
+@RequestMapping("/products")
+public class ProductController extends BaseController{
 
     private final ProductService productService;
-    private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, ModelMapper modelMapper) {
         this.productService = productService;
-        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/product-add")
-    public ModelAndView addProduct(ModelAndView modelAndView,
-                                   @ModelAttribute(name = "bindingModel") ProductCreateBindingModel bindingModel){
+    @GetMapping("/add")
+    public ModelAndView addProduct(@ModelAttribute(name = "bindingModel") ProductCreateBindingModel productBindingModel){
 
-        modelAndView.addObject("bindingModel", bindingModel);
-        modelAndView.addObject("categories", this.categoryService.findAllCategories()
-                .stream()
-                .map(c -> this.modelMapper.map(c, CategoryListViewModel.class))
-                .collect(Collectors.toList()));
+       return super.view("product-add", "productBindingModel", productBindingModel);
 
-        modelAndView.setViewName("product-add");
-
-        return modelAndView;
     }
 
-    @PostMapping("/product-add")
-       public ModelAndView addProductConfirm(@ModelAttribute ProductCreateBindingModel model,
-                                        ModelAndView modelAndView){
+    @PostMapping("/add")
+       public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel){
+
          ProductServiceModel productServiceModel=
-                  this.productService.addProduct(this.modelMapper.map(model, ProductServiceModel.class));
+                  this.productService.addProduct(this.modelMapper.map(productBindingModel, ProductServiceModel.class));
 
           if(productServiceModel == null){
               throw new IllegalArgumentException("Product creation failed!");
           }
 
-          modelAndView.setViewName("redirect:/login");
-
-          return modelAndView;
+          return super.redirect("/home");
       }
 
-    @GetMapping("/hair-products")
-    public ModelAndView viewHairProducts(ModelAndView modelAndView){
+
+    @GetMapping(value = "/edit/{id}")
+    public ModelAndView editProduct(@PathVariable(name = "id") String id ){
+
+        ProductEditBindingModel productBindingModel = this.productService.findProductToEditById(id);
+
+        return super.view("product-edit", "productBindingModel", productBindingModel);
+
+    }
+
+    @PostMapping(value = "/edit/{id}")
+    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
+                                           @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel) {
+
+         super.view("products/product-edit", "productBindingModel" ,productBindingModel);
+
+
+        this.productService.editProduct(productBindingModel);
+
+        return super.redirect("/products/all-products");
+    }
+
+    @GetMapping(value = "/details/{id}")
+    public ModelAndView detailsProduct(@PathVariable(name = "id") String id ){
+
+        ProductEditBindingModel productBindingModel = this.productService.findProductToEditById(id);
+
+        return super.view("product-details", "productBindingModel", productBindingModel);
+
+    }
+
+
+    @GetMapping(value = "/delete/{id}")
+    public ModelAndView deleteProduct(@PathVariable(name = "id") String id ){
+
+        ProductEditBindingModel productBindingModel = this.productService.findProductToEditById(id);
+
+        return super.view("product-delete", "productBindingModel", productBindingModel);
+
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id ){
+
+        if(!this.productService.deleteProduct(id)){
+            throw new IllegalArgumentException("Something went wrong!");
+        }
+
+        return super.redirect("/home");
+    }
+
+
+    @GetMapping("/all-products")
+    public ModelAndView viewAllProducts(){
 
         List<ProductViewModel> products =
-                this.productService.findProductsByCategory("Hair")
+                this.productService.findAllProducts()
                 .stream()
                 .map(p -> this.modelMapper.map(p, ProductViewModel.class))
                 .collect(Collectors.toList());
 
 
-        modelAndView.setViewName("hair-products");
-        modelAndView.addObject("products", products);
+        return super.view("all-products", "products", products);
 
-        return modelAndView;
     }
 
-    @GetMapping("/body-products")
-    public ModelAndView viewBodyProducts(ModelAndView modelAndView){
-
-        List<ProductViewModel> products =
-                this.productService.findProductsByCategory("Body")
-                        .stream()
-                        .map(p -> this.modelMapper.map(p, ProductViewModel.class))
-                        .collect(Collectors.toList());
-
-
-        modelAndView.setViewName("body-products");
-        modelAndView.addObject("products", products);
-
-        return modelAndView;
-    }
 }

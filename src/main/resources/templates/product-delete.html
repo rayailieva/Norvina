@@ -1,0 +1,14 @@
+<th:block>
+    <div class="jumbotron col-sm-11 m-auto">
+        <h1>Delete product:</h1>
+        <hr/>
+        <form th:action="@{/products/delete/{id}(id=${productBindingModel.id})}" method="post" th:object="${productBindingModel}">
+            <th:block th:include="~{fragments/product-form}"></th:block>
+        </form>
+        <script>
+            $("#product-form :input").prop("disabled", true);
+            $("#submitButton").text("Delete product!");
+            $("#submitButton").addClass("btn btn-danger");
+        </script>
+    </div>
+</th:block>

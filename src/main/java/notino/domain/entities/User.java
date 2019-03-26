@@ -16,9 +16,7 @@ public class User extends BaseEntity implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    private String phoneNumber;
-    private String address;
-    private List<OrderProduct> shoppingBasket;
+    private ShoppingBasket shoppingBasket;
     private List<Order> orders;
 
     private boolean isAccountNonExpired;
@@ -76,24 +74,6 @@ public class User extends BaseEntity implements UserDetails {
         this.password = password;
     }
 
-    @Column(name = "phone_number", nullable = false)
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @Column(name = "address")
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     @OneToMany(targetEntity = Order.class, mappedBy = "user")
     public List<Order> getOrders() {
         return this.orders;
@@ -102,17 +82,6 @@ public class User extends BaseEntity implements UserDetails {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-
-
-    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "user")
-    public List<OrderProduct> getShoppingBasket() {
-        return this.shoppingBasket;
-    }
-
-    public void setShoppingBasket(List<OrderProduct> shoppingBasket) {
-        this.shoppingBasket = shoppingBasket;
-    }
-
 
     @Override
     @Column(name = "is_account_non_expired")
@@ -156,14 +125,20 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     public Set<Role> getAuthorities() {
         return this.authorities;
     }
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    @OneToOne(targetEntity = ShoppingBasket.class)
+    public ShoppingBasket getShoppingBasket() {
+        return this.shoppingBasket;
+    }
+
+    public void setShoppingBasket(ShoppingBasket shoppingBasket) {
+        this.shoppingBasket = shoppingBasket;
     }
 }

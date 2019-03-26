@@ -1,24 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="~{fragments/head}"></th:block>
-</head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NOTINO</title>
-    <link rel="stylesheet" th:href="@{css/reset-css.css}">
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{css/style.css}">
-
-</head>
-<body>
-<div class="container-fluid">
-    <header>
-        <th:block th:include="~{fragments/navbar}"></th:block>
-    </header>
-    <main class="mt-3">
+</th:block>
+<main class="mt-3">
         <h1 class="text-center text-notino">Register</h1>
         <form class="mx-auto w-25" th:action="@{/register}" method="post">
             <div class="form-group">
@@ -30,7 +11,7 @@
                 <input type="text" class="form-control" id="firstName" placeholder="First Name..." name="firstName">
             </div>
             <div class="form-group">
-                <label for="lastName" class="text-notino">LastName</label>
+                <label for="lastName" class="text-notino">Last Name</label>
                 <input type="text" class="form-control" id="lastName" placeholder="Last Name..." name="lastName">
             </div>
             <div class="form-group">
@@ -44,23 +25,12 @@
             <div class="form-group">
                 <label for="confirmPassword" class="text-notino">Confirm Password</label>
                 <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password..." name="confirmPassword">
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber" class="text-notino">Phone Number</label>
-                <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number..." name="phoneNumber">
-            </div>
-            <div class="form-group">
-                <label for="address" class="text-notino">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="Address..." name="address">
+
             </div>
             <hr class="bg-exodia hr-2"/>
             <div class="button-holder mt-4 d-flex justify-content-center mb-3">
                 <button type="submit" class="btn bg-notino text-white">Register</button>
             </div>
         </form>
-
-    </main>
-    <th:block th:include="~{fragments/footer}"></th:block>
-</div>
-</body>
-</html>
+</main>
+</th:block>

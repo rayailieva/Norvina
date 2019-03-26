@@ -1,27 +1,14 @@
-package notino.domain.models.service;
+package notino.domain.models.view;
 
-import java.util.List;
-
-public class UserServiceModel {
+public class UserViewModel {
 
     private String id;
     private String username;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
-    //private Role role; TODO:Implement role
-    private List<OrderServiceModel> orders;
 
-    public UserServiceModel() {
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public UserViewModel() {
     }
 
     public String getUsername() {
@@ -56,20 +43,11 @@ public class UserServiceModel {
         this.email = email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getId() {
+        return this.id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(String id) {
+        this.id = id;
     }
-
-    public List<OrderServiceModel> getOrders() {
-        return this.orders;
-    }
-
-    public void setOrders(List<OrderServiceModel> orders) {
-        this.orders = orders;
-    }
-
 }

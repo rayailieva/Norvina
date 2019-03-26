@@ -1,10 +1,10 @@
-package notino.domain.models.view;
+package notino.domain.models.binding;
 
 import notino.domain.entities.Category;
 
 import java.math.BigDecimal;
 
-public class ProductViewModel {
+public class ProductEditBindingModel {
 
     private String id;
     private String name;
@@ -12,7 +12,16 @@ public class ProductViewModel {
     private BigDecimal price;
     private Category category;
 
-    public ProductViewModel(){}
+    public ProductEditBindingModel() {
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return this.name;
@@ -44,13 +53,5 @@ public class ProductViewModel {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
