@@ -8,6 +8,7 @@ public class ProductViewModel {
 
     private String id;
     private String name;
+    private String imageUrl;
     private String description;
     private BigDecimal price;
     private Category category;
@@ -52,5 +53,13 @@ public class ProductViewModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

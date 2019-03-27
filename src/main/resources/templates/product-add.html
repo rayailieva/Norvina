@@ -1,13 +1,13 @@
 <th:block>
-<div class="jumbotron col-sm-11 m-auto">
-    <h1>Create product:</h1>
-    <hr/>
-    <form th:action="@{/products/add}" method="post" th:object="${productBindingModel}">
-        <th:block th:include="~{fragments/product-form}"></th:block>
-    </form>
-    <script>
-        $("#submitButton").text("Create product!");
-        $("#submitButton").addClass("btn btn-success");
-    </script>
-</div>
+    <div class="jumbotron col-sm-11 m-auto">
+        <h1>Add Product:</h1>
+        <hr/>
+        <form th:action="@{/products/add}" method="post" th:object="${productBindingModel}" enctype="multipart/form-data">>
+            <th:block th:include="~{fragments/product-form}"></th:block>
+        </form>
+        <script>
+            $("#submitButton").text("Add product!");
+            $("#submitButton").addClass("btn btn-success");
+        </script>
+    </div>
 </th:block>

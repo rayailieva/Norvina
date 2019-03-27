@@ -1,0 +1,10 @@
+<th:block th:fragment="brand-form" th:object="${brandBindingModel}">
+
+    <div class="form-group">
+        <label for="name" class="font-weight-bold">Name</label>
+        <input type="text" class="form-control text-center" id="name" name="name" th:field="*{name}">
+    </div>
+    <hr class="hr-2 bg-dark">
+    <button type="submit" class="align-content-center" id="submitButton"></button>
+
+</th:block>

@@ -11,11 +11,10 @@ public class ProductServiceModel {
     private String id;
     private String name;
     private String description;
-    private String imageSrc;
+    private String imageUrl;
     private BigDecimal price;
     private Category category;
     private BrandServiceModel brand;
-    private List<OrderProductServiceModel> orderProducts;
 
     public ProductServiceModel(){}
 
@@ -43,15 +42,6 @@ public class ProductServiceModel {
         this.price = price;
     }
 
-
-    public List<OrderProductServiceModel> getOrderProducts() {
-        return this.orderProducts;
-    }
-
-    public void setOrderProducts(List<OrderProductServiceModel> orderProducts) {
-        this.orderProducts = orderProducts;
-    }
-
     public String getId() {
         return this.id;
     }
@@ -60,12 +50,12 @@ public class ProductServiceModel {
         this.id = id;
     }
 
-    public String getImageSrc() {
-        return this.imageSrc;
+    public String getImageUrl() {
+        return this.imageUrl;
     }
 
-    public void setImageSrc(String imageSrc) {
-        this.imageSrc = imageSrc;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Category getCategory() {

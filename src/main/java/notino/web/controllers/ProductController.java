@@ -2,9 +2,10 @@ package notino.web.controllers;
 
 import notino.domain.models.binding.ProductCreateBindingModel;
 import notino.domain.models.binding.ProductEditBindingModel;
-import notino.domain.models.binding.UserEditProfileBindingModel;
 import notino.domain.models.service.ProductServiceModel;
 import notino.domain.models.view.ProductViewModel;
+import notino.service.BrandService;
+import notino.service.CloudinaryService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,49 +13,59 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/products")
-public class ProductController extends BaseController{
+public class ProductController extends BaseController {
 
     private final ProductService productService;
+    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.productService = productService;
+        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/add")
-    public ModelAndView addProduct(@ModelAttribute(name = "bindingModel") ProductCreateBindingModel productBindingModel){
+    public ModelAndView addProduct(@ModelAttribute(name = "bindingModel") ProductCreateBindingModel productBindingModel) {
+
 
        return super.view("product-add", "productBindingModel", productBindingModel);
 
     }
 
     @PostMapping("/add")
-       public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel){
+    public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel) throws IOException {
 
-         ProductServiceModel productServiceModel=
-                  this.productService.addProduct(this.modelMapper.map(productBindingModel, ProductServiceModel.class));
+        ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
 
-          if(productServiceModel == null){
-              throw new IllegalArgumentException("Product creation failed!");
-          }
+       // productServiceModel.setImageUrl(
+       //         this.cloudinaryService.uploadImage(productBindingModel.getImage())
+       // );
 
-          return super.redirect("/home");
-      }
+        this.productService.addProduct(this.modelMapper.map(productBindingModel, ProductServiceModel.class));
+
+        if (productServiceModel == null) {
+            throw new IllegalArgumentException("Product creation failed!");
+        }
+
+        return super.redirect("/home");
+    }
 
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView editProduct(@PathVariable(name = "id") String id ){
+    public ModelAndView editProduct(@PathVariable(name = "id") String id) {
 
-        ProductEditBindingModel productBindingModel = this.productService.findProductToEditById(id);
+        ProductServiceModel productServiceModel = this.productService.findProductById(id);
+        ProductEditBindingModel productEditBindingModel = this.modelMapper.map(productServiceModel, ProductEditBindingModel.class);
 
-        return super.view("product-edit", "productBindingModel", productBindingModel);
+        return super.view("product-edit", "productBindingModel", productEditBindingModel);
 
     }
 
@@ -62,37 +73,37 @@ public class ProductController extends BaseController{
     public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
                                            @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel) {
 
-         super.view("products/product-edit", "productBindingModel" ,productBindingModel);
+        this.productService.editProduct(id, this.modelMapper.map(productBindingModel, ProductServiceModel.class));
 
-
-        this.productService.editProduct(productBindingModel);
-
-        return super.redirect("/products/all-products");
+        return super.redirect("/products/details/" + id);
     }
 
     @GetMapping(value = "/details/{id}")
-    public ModelAndView detailsProduct(@PathVariable(name = "id") String id ){
+    public ModelAndView detailsProduct(@PathVariable(name = "id") String id) {
 
-        ProductEditBindingModel productBindingModel = this.productService.findProductToEditById(id);
+        ProductServiceModel productServiceModel = this.productService.findProductById(id);
+        ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
 
-        return super.view("product-details", "productBindingModel", productBindingModel);
+        return super.view("product-details", "productBindingModel", productViewModel);
 
     }
 
 
     @GetMapping(value = "/delete/{id}")
-    public ModelAndView deleteProduct(@PathVariable(name = "id") String id ){
+    public ModelAndView deleteProduct(@PathVariable(name = "id") String id) {
 
-        ProductEditBindingModel productBindingModel = this.productService.findProductToEditById(id);
+        ProductServiceModel productServiceModel = this.productService.findProductById(id);
+        ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
 
-        return super.view("product-delete", "productBindingModel", productBindingModel);
+
+        return super.view("product-delete", "productBindingModel", productViewModel);
 
     }
 
     @PostMapping(value = "/delete/{id}")
-    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id ){
+    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
-        if(!this.productService.deleteProduct(id)){
+        if (!this.productService.deleteProduct(id)) {
             throw new IllegalArgumentException("Something went wrong!");
         }
 
@@ -101,13 +112,13 @@ public class ProductController extends BaseController{
 
 
     @GetMapping("/all-products")
-    public ModelAndView viewAllProducts(){
+    public ModelAndView viewAllProducts() {
 
         List<ProductViewModel> products =
                 this.productService.findAllProducts()
-                .stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
-                .collect(Collectors.toList());
+                        .stream()
+                        .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                        .collect(Collectors.toList());
 
 
         return super.view("all-products", "products", products);

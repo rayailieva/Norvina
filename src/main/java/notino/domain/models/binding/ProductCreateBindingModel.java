@@ -1,6 +1,7 @@
 package notino.domain.models.binding;
 
 import notino.domain.entities.Category;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -8,7 +9,7 @@ public class ProductCreateBindingModel {
 
     private String name;
     private String description;
-    private String imageSrc;
+    private String imageUrl;
     private BigDecimal price;
     private Category category;
     private String brand;
@@ -40,12 +41,12 @@ public class ProductCreateBindingModel {
         this.price = price;
     }
 
-    public String getImageSrc() {
-        return this.imageSrc;
+    public String getImageUrl() {
+        return this.imageUrl;
     }
 
-    public void setImageSrc(String imageSrc) {
-        this.imageSrc = imageSrc;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Category getCategory() {

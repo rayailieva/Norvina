@@ -7,17 +7,15 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<ProductServiceModel> findAllProducts();
-
-    ProductEditBindingModel findProductToEditById(String id);
-
-    void editProduct(ProductEditBindingModel productEditBindingModel);
 
     ProductServiceModel addProduct(ProductServiceModel productServiceModel);
 
+    List<ProductServiceModel> findAllProducts();
+
+    ProductServiceModel findProductById(String id);
+
+    ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel);
+
     boolean deleteProduct(String id);
-
-    ProductServiceModel addProductToBasket(ProductServiceModel productServiceModel);
-
 
 }

@@ -1,0 +1,15 @@
+<th:block>
+    <div class="jumbotron col-sm-11 m-auto">
+        <main class="mt-3">
+            <h1 class="text-center text-dark">Add brand</h1>
+            <hr class="hr-2 bg-dark w-25">
+            <form class="form w-25 mx-auto" th:action="@{/brands/add}" method="post" th:object="${brandBindingModel}">
+            <th:block th:include="~{fragments/brand-form}"></th:block>
+        </form>
+        </main>
+        <script>
+            $("#submitButton").text("Add brand!");
+            $("#submitButton").addClass("btn btn-success");
+        </script>
+    </div>
+</th:block>

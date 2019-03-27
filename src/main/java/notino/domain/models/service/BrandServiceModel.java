@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BrandServiceModel {
 
+    private String id;
     private String name;
     private List<ProductServiceModel> products;
 
@@ -24,5 +25,13 @@ public class BrandServiceModel {
 
     public void setProducts(List<ProductServiceModel> products) {
         this.products = products;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

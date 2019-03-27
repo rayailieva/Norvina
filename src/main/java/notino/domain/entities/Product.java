@@ -10,7 +10,7 @@ public class Product extends BaseEntity{
 
     private String name;
     private String description;
-    private String imageSrc;
+    private String imageUrl;
     private BigDecimal price;
     private Category category;
     private Brand brand;
@@ -64,13 +64,13 @@ public class Product extends BaseEntity{
         this.orderProducts = orderProducts;
     }
 
-    @Column(name = "image_src", nullable = false)
-    public String getImageSrc() {
-        return this.imageSrc;
+    @Column(name = "image_src")
+    public String getImageUrl() {
+        return this.imageUrl;
     }
 
-    public void setImageSrc(String imageSrc) {
-        this.imageSrc = imageSrc;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @ManyToOne(targetEntity = Brand.class)

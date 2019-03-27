@@ -11,7 +11,6 @@ public class UserServiceModel {
     private String email;
     private String password;
     //private Role role; TODO:Implement role
-    private List<OrderServiceModel> orders;
 
     public UserServiceModel() {
     }
@@ -64,12 +63,5 @@ public class UserServiceModel {
         this.password = password;
     }
 
-    public List<OrderServiceModel> getOrders() {
-        return this.orders;
-    }
-
-    public void setOrders(List<OrderServiceModel> orders) {
-        this.orders = orders;
-    }
 
 }
