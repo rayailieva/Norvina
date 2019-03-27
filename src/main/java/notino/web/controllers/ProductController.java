@@ -3,6 +3,7 @@ package notino.web.controllers;
 import notino.domain.models.binding.ProductCreateBindingModel;
 import notino.domain.models.binding.ProductEditBindingModel;
 import notino.domain.models.service.ProductServiceModel;
+import notino.domain.models.view.BrandViewModel;
 import notino.domain.models.view.ProductViewModel;
 import notino.service.BrandService;
 import notino.service.CloudinaryService;
@@ -22,21 +23,30 @@ import java.util.stream.Collectors;
 public class ProductController extends BaseController {
 
     private final ProductService productService;
+    private final BrandService brandService;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, BrandService brandService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.productService = productService;
+        this.brandService = brandService;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/add")
-    public ModelAndView addProduct(@ModelAttribute(name = "bindingModel") ProductCreateBindingModel productBindingModel) {
+    public ModelAndView addProduct(@ModelAttribute(name = "bindingModel") ProductCreateBindingModel productBindingModel, ModelAndView modelAndView) {
 
+        modelAndView.addObject("productBindingModel", productBindingModel);
 
-       return super.view("product-add", "productBindingModel", productBindingModel);
+        List<BrandViewModel> brands = this.brandService.findAllBrands()
+                .stream()
+                .map(p -> this.modelMapper.map(p, BrandViewModel.class))
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("brands", brands);
+        return super.view("product-add", modelAndView);
 
     }
 
@@ -45,9 +55,9 @@ public class ProductController extends BaseController {
 
         ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
 
-       // productServiceModel.setImageUrl(
-       //         this.cloudinaryService.uploadImage(productBindingModel.getImage())
-       // );
+        // productServiceModel.setImageUrl(
+        //         this.cloudinaryService.uploadImage(productBindingModel.getImage())
+        // );
 
         this.productService.addProduct(this.modelMapper.map(productBindingModel, ProductServiceModel.class));
 
@@ -60,12 +70,13 @@ public class ProductController extends BaseController {
 
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView editProduct(@PathVariable(name = "id") String id) {
+    public ModelAndView editProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductEditBindingModel productEditBindingModel = this.modelMapper.map(productServiceModel, ProductEditBindingModel.class);
 
-        return super.view("product-edit", "productBindingModel", productEditBindingModel);
+        modelAndView.addObject("productBindingModel", productEditBindingModel);
+        return super.view("product-edit", modelAndView);
 
     }
 
@@ -79,24 +90,25 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping(value = "/details/{id}")
-    public ModelAndView detailsProduct(@PathVariable(name = "id") String id) {
+    public ModelAndView detailsProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
 
-        return super.view("product-details", "productBindingModel", productViewModel);
+        modelAndView.addObject("productBindingModel", productViewModel);
+        return super.view("product-details", modelAndView);
 
     }
 
 
     @GetMapping(value = "/delete/{id}")
-    public ModelAndView deleteProduct(@PathVariable(name = "id") String id) {
+    public ModelAndView deleteProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
         ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
 
-
-        return super.view("product-delete", "productBindingModel", productViewModel);
+        modelAndView.addObject("productBindingModel", productViewModel);
+        return super.view("product-delete", modelAndView);
 
     }
 
@@ -112,7 +124,7 @@ public class ProductController extends BaseController {
 
 
     @GetMapping("/all-products")
-    public ModelAndView viewAllProducts() {
+    public ModelAndView viewAllProducts(ModelAndView modelAndView) {
 
         List<ProductViewModel> products =
                 this.productService.findAllProducts()
@@ -120,8 +132,8 @@ public class ProductController extends BaseController {
                         .map(p -> this.modelMapper.map(p, ProductViewModel.class))
                         .collect(Collectors.toList());
 
-
-        return super.view("all-products", "products", products);
+        modelAndView.addObject("products", products);
+        return super.view("all-products", modelAndView);
 
     }
 

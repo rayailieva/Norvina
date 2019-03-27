@@ -26,9 +26,10 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel) {
+    public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel, ModelAndView modelAndView) {
 
-        return super.view("brand-add", "brandBindingModel", brandBindingModel);
+        modelAndView.addObject( "brandBindingModel", brandBindingModel);
+        return super.view("brand-add", modelAndView);
     }
 
     @PostMapping("/add")
@@ -40,12 +41,13 @@ public class BrandController extends BaseController {
 
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView editBrand(@PathVariable(name = "id") String id ) {
+    public ModelAndView editBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
         BrandBindingModel brandBindingModel = this.modelMapper.map(brandServiceModel, BrandBindingModel.class);
 
-        return super.view("brand-edit","brandBindingModel", brandBindingModel );
+        modelAndView.addObject("brandBindingModel", brandBindingModel);
+        return super.view("brand-edit", modelAndView);
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -58,12 +60,13 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    public ModelAndView deleteBrand(@PathVariable(name = "id") String id ) {
+    public ModelAndView deleteBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
         BrandBindingModel brandBindingModel = this.modelMapper.map(brandServiceModel, BrandBindingModel.class);
 
-        return super.view("brand-delete","brandBindingModel", brandBindingModel );
+        modelAndView.addObject("brandBindingModel", brandBindingModel );
+        return super.view("brand-delete", modelAndView);
     }
 
     @PostMapping(value = "/delete/{id}")
@@ -77,12 +80,14 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/all-brands")
-    public ModelAndView allBrands() {
+    public ModelAndView allBrands(ModelAndView modelAndView) {
 
-        return super.view("all-brands", "brands",
+
+        modelAndView.addObject("brands",
                 this.brandService.findAllBrands()
                         .stream()
                         .map(b -> this.modelMapper.map(b, BrandViewModel.class))
                         .collect(Collectors.toList()));
+        return super.view("all-brands", modelAndView);
     }
 }

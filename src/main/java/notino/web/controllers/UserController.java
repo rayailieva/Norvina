@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -76,12 +77,13 @@ public class UserController extends BaseController {
     @GetMapping("/user-profile")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView userProfile(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
-                                    Principal principal) {
+                                    Principal principal, ModelAndView modelAndView) {
 
         userEditBindingModel =
                 this.modelMapper.map(this.userService.loadUserByUsername(principal.getName()), UserEditProfileBindingModel.class);
 
-        return super.view("user-profile", "userEditBindingModel", userEditBindingModel);
+        modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+        return super.view("user-profile", modelAndView);
 
     }
 
@@ -89,11 +91,12 @@ public class UserController extends BaseController {
     @PostMapping("/user-edit-profile")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView userEditProfileConfirm(@Valid @ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
-                                    BindingResult bindingResult) {
+                                    BindingResult bindingResult, ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.extractUserByEmail(userEditBindingModel.getEmail());
 
         if (bindingResult.hasErrors()) {
-            return super.view("user-edit-profile", "userEditBindingModel", userEditBindingModel);
+            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+            return super.view("user-edit-profile", modelAndView);
         }
 
         if (!userEditBindingModel.getNewPassword().equals("")) {

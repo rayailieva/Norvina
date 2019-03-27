@@ -2,12 +2,52 @@
     <div class="jumbotron col-sm-11 m-auto">
         <h1>Add Product:</h1>
         <hr/>
-        <form th:action="@{/products/add}" method="post" th:object="${productBindingModel}" enctype="multipart/form-data">>
-            <th:block th:include="~{fragments/product-form}"></th:block>
+        <form th:action="@{/products/add}" method="post" th:object="${productBindingModel}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name" class="text-notino">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name..." name="name" th:field="*{name}">
+            </div>
+            <div class="form-group">
+                <label for="description" class="text-notino">Description</label>
+                <input type="text" class="form-control" id="description" placeholder="Description..." name="description"
+                       th:field="*{description}">
+            </div>
+            <div class="form-group">
+                <label for="imageUrl" class="text-notino">Image Url</label>
+                <input type="text" class="form-control" id="imageUrl" placeholder="ImageUrl..." name="imageUrl"
+                       th:field="*{imageUrl}">
+            </div>
+            <div class="form-group">
+                <label for="price" class="text-notino">Price</label>
+                <input type="number" class="form-control" id="price" placeholder="Price..." name="price" th:field="*{price}">
+            </div>
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <select class="form-control" th:field="*{brand}" id="brand">
+                    <th:block th:each="brand : ${brands}">
+                        <option
+                                th:value="${brand.name}"
+                                th:text="${brand.name}">
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">Category</label>
+                <select class="form-control" th:field="*{category}" id="productCategory">
+                    <th:block th:each="category : ${T(notino.domain.entities.Category).values()}">
+                        <option
+                                th:value="${category}"
+                                th:text="${category}">
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <hr class="bg-notino hr-2"/>
+            <div class="button-holder d-flex justify-content-center mb-3">
+                <button type="submit" class="btn bg-notino text-white">Create!</button>
+            </div>
         </form>
-        <script>
-            $("#submitButton").text("Add product!");
-            $("#submitButton").addClass("btn btn-success");
-        </script>
+
     </div>
 </th:block>

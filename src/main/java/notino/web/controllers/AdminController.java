@@ -24,7 +24,7 @@ public class AdminController extends BaseController{
     }
 
     @GetMapping("/all-users")
-    public ModelAndView allUsers(){
+    public ModelAndView allUsers(ModelAndView modelAndView){
 
         List<UserViewModel> activeUsers =
                 this.userService.findAllUsers()
@@ -32,7 +32,7 @@ public class AdminController extends BaseController{
                 .map(u -> this.modelMapper.map(u, UserViewModel.class))
                 .collect(Collectors.toList());
 
-
-        return super.view("all-users", "activeUsers", activeUsers);
+        modelAndView.addObject("activeUsers", activeUsers);
+        return super.view("all-users", modelAndView);
     }
 }
