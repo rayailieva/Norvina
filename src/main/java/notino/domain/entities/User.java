@@ -16,7 +16,6 @@ public class User extends BaseEntity implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    private ShoppingBasket shoppingBasket;
     private List<Order> orders;
 
     private boolean isAccountNonExpired;
@@ -133,12 +132,4 @@ public class User extends BaseEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-    @OneToOne(targetEntity = ShoppingBasket.class)
-    public ShoppingBasket getShoppingBasket() {
-        return this.shoppingBasket;
-    }
-
-    public void setShoppingBasket(ShoppingBasket shoppingBasket) {
-        this.shoppingBasket = shoppingBasket;
-    }
 }

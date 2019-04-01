@@ -1,5 +1,6 @@
 package notino.domain.models.binding;
 
+import notino.domain.entities.Brand;
 import notino.domain.entities.Category;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +57,7 @@ public class ProductCreateBindingModel {
     public void setCategory(Category category) {
         this.category = category;
     }
+
 
     public String getBrand() {
         return this.brand;

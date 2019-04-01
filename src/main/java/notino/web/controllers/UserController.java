@@ -3,6 +3,7 @@ package notino.web.controllers;
 import notino.domain.models.binding.UserEditProfileBindingModel;
 import notino.domain.models.binding.UserRegisterBindingModel;
 import notino.domain.models.service.UserServiceModel;
+import notino.domain.models.view.UserViewModel;
 import notino.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController extends BaseController {
@@ -83,7 +86,7 @@ public class UserController extends BaseController {
                 this.modelMapper.map(this.userService.loadUserByUsername(principal.getName()), UserEditProfileBindingModel.class);
 
         modelAndView.addObject("userEditBindingModel", userEditBindingModel);
-        return super.view("user-profile", modelAndView);
+        return super.view("user/user-profile", modelAndView);
 
     }
 
@@ -96,7 +99,7 @@ public class UserController extends BaseController {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
-            return super.view("user-edit-profile", modelAndView);
+            return super.view("user/user-edit-profile", modelAndView);
         }
 
         if (!userEditBindingModel.getNewPassword().equals("")) {
@@ -108,6 +111,19 @@ public class UserController extends BaseController {
         }
 
         return super.redirect("/user-profile");
+    }
+
+    @GetMapping("/all-users")
+    public ModelAndView allUsers(ModelAndView modelAndView){
+
+        List<UserViewModel> activeUsers =
+                this.userService.findAllUsers()
+                        .stream()
+                        .map(u -> this.modelMapper.map(u, UserViewModel.class))
+                        .collect(Collectors.toList());
+
+        modelAndView.addObject("activeUsers", activeUsers);
+        return super.view("users/all-users", modelAndView);
     }
 
 }

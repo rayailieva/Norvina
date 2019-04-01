@@ -18,4 +18,5 @@ public interface ProductService {
 
     boolean deleteProduct(String id);
 
+    List<ProductServiceModel> findAllByBrand(String brandName);
 }

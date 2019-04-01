@@ -1,8 +1,6 @@
 package notino.domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -22,7 +20,10 @@ public class Brand extends BaseEntity {
         this.name = name;
     }
 
-    @OneToMany(targetEntity = Product.class, mappedBy = "brand")
+    @OneToMany(targetEntity = Product.class)
+    @JoinTable(name = "products_brands",
+            joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
     public List<Product> getProducts() {
         return this.products;
     }

@@ -55,14 +55,6 @@ public class Product extends BaseEntity{
         this.category = category;
     }
 
-    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product")
-    public List<OrderProduct> getOrderProducts() {
-        return this.orderProducts;
-    }
-
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
-    }
 
     @Column(name = "image_src")
     public String getImageUrl() {
@@ -80,5 +72,14 @@ public class Product extends BaseEntity{
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product", cascade = CascadeType.MERGE)
+    public List<OrderProduct> getOrderProducts() {
+        return this.orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 }

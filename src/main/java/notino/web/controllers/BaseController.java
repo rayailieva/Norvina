@@ -23,6 +23,10 @@ public abstract class BaseController {
     }
 
     public ModelAndView redirect(String url) {
-        return this.view("redirect:" + url);
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("redirect:" + url);
+
+        return modelAndView;
     }
 }

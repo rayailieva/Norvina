@@ -17,7 +17,9 @@
 
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-3"><div class="text-center"><img th:src="${product.imageUrl}" width="40" height="40" alt="Product"></div>
+                <td class="col-md-3"><div class="text-center">
+                    <img th:src="${product.imageUrl}" width="40" height="40" alt="Product">
+                </div>
                 <td class="col-md-3 text-center" th:text="${product.name}"></td>
                 <td class="col-md-2 text-center" th:text="${product.price}"></td>
                 <td class="col-md-3 text-center">
@@ -31,6 +33,7 @@
         </table>
         <hr class="hr-2 bg-dark">
     </main>
+
 </th:block>
 
 

@@ -1,22 +1,23 @@
 package notino.domain.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_products")
 public class OrderProduct extends BaseEntity{
 
-    private Order order;
-    private Product product;
-    private Integer quantity;
-    private User user;
-    private ShoppingBasket shoppingBasket;
+   private Order order;
+   private Product product;
+   private Integer quantity;
 
-    public OrderProduct(){}
+   public OrderProduct(){}
 
     @ManyToOne(targetEntity = Order.class)
-    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
     public Order getOrder() {
         return this.order;
     }
@@ -26,7 +27,6 @@ public class OrderProduct extends BaseEntity{
     }
 
     @ManyToOne(targetEntity = Product.class)
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     public Product getProduct() {
         return this.product;
     }
@@ -35,30 +35,12 @@ public class OrderProduct extends BaseEntity{
         this.product = product;
     }
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     public Integer getQuantity() {
         return this.quantity;
     }
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    @ManyToOne(targetEntity = User.class)
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @ManyToOne(targetEntity = ShoppingBasket.class)
-    public ShoppingBasket getShoppingBasket() {
-        return this.shoppingBasket;
-    }
-
-    public void setShoppingBasket(ShoppingBasket shoppingBasket) {
-        this.shoppingBasket = shoppingBasket;
     }
 }

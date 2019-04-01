@@ -81,6 +81,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserServiceModel findUserByUsername(String name) {
+        return this.modelMapper.map(this.userRepository.findByUsername(name), UserServiceModel.class);
+    }
+
+    @Override
     public List<UserServiceModel> findAllUsers() {
         return this.userRepository.findAll()
                 .stream()

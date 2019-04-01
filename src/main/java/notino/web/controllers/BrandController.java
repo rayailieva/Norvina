@@ -29,7 +29,7 @@ public class BrandController extends BaseController {
     public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel, ModelAndView modelAndView) {
 
         modelAndView.addObject( "brandBindingModel", brandBindingModel);
-        return super.view("brand-add", modelAndView);
+        return super.view("brand/brand-add", modelAndView);
     }
 
     @PostMapping("/add")
@@ -47,7 +47,7 @@ public class BrandController extends BaseController {
         BrandBindingModel brandBindingModel = this.modelMapper.map(brandServiceModel, BrandBindingModel.class);
 
         modelAndView.addObject("brandBindingModel", brandBindingModel);
-        return super.view("brand-edit", modelAndView);
+        return super.view("brand/brand-edit", modelAndView);
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -66,7 +66,7 @@ public class BrandController extends BaseController {
         BrandBindingModel brandBindingModel = this.modelMapper.map(brandServiceModel, BrandBindingModel.class);
 
         modelAndView.addObject("brandBindingModel", brandBindingModel );
-        return super.view("brand-delete", modelAndView);
+        return super.view("brand/brand-delete", modelAndView);
     }
 
     @PostMapping(value = "/delete/{id}")
@@ -88,6 +88,6 @@ public class BrandController extends BaseController {
                         .stream()
                         .map(b -> this.modelMapper.map(b, BrandViewModel.class))
                         .collect(Collectors.toList()));
-        return super.view("all-brands", modelAndView);
+        return super.view("brand/all-brands", modelAndView);
     }
 }

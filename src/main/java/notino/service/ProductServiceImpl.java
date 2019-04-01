@@ -2,6 +2,7 @@ package notino.service;
 
 import notino.domain.entities.Brand;
 import notino.domain.entities.Product;
+import notino.domain.models.service.BrandServiceModel;
 import notino.domain.models.service.ProductServiceModel;
 import notino.repository.BrandRepository;
 import notino.repository.ProductRepository;
@@ -32,8 +33,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductServiceModel addProduct(ProductServiceModel productServiceModel) {
 
-        Product product = this.modelMapper.map(productServiceModel, Product.class);;
-
+        Product product = this.modelMapper.map(productServiceModel, Product.class);
+        Brand brand = this.brandRepository.findByName(productServiceModel.getBrand().getName()).orElse(null);
+        if(brand == null){
+            throw new IllegalArgumentException("Brand is null :|");
+        }
+        product.setBrand(brand);
         this.productRepository.saveAndFlush(product);
 
         return this.modelMapper.map(product, ProductServiceModel.class);
@@ -65,6 +70,10 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrl(productServiceModel.getImageUrl());
         product.setPrice(productServiceModel.getPrice());
 
+        Brand brand = new Brand();
+        brand.setName(productServiceModel.getBrand().getName());
+        product.setBrand(brand);
+
         return this.modelMapper
                 .map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
     }
@@ -80,5 +89,16 @@ public class ProductServiceImpl implements ProductService {
 
             return false;
         }
+    }
+
+    @Override
+    public List<ProductServiceModel> findAllByBrand(String brandName) {
+
+       Brand brand = this.brandRepository.findByName(brandName).orElse(null);
+
+       return brand.getProducts()
+               .stream()
+               .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
+               .collect(Collectors.toList());
     }
 }

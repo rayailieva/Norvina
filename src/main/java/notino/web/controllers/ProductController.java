@@ -2,6 +2,7 @@ package notino.web.controllers;
 
 import notino.domain.models.binding.ProductCreateBindingModel;
 import notino.domain.models.binding.ProductEditBindingModel;
+import notino.domain.models.service.BrandServiceModel;
 import notino.domain.models.service.ProductServiceModel;
 import notino.domain.models.view.BrandViewModel;
 import notino.domain.models.view.ProductViewModel;
@@ -46,24 +47,22 @@ public class ProductController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("brands", brands);
-        return super.view("product-add", modelAndView);
+        return super.view("product/product-add", modelAndView);
 
     }
 
     @PostMapping("/add")
     public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel) throws IOException {
 
-        ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
+        ProductServiceModel productServiceModel =
+                this.modelMapper.map(productBindingModel, ProductServiceModel.class);
 
-        // productServiceModel.setImageUrl(
-        //         this.cloudinaryService.uploadImage(productBindingModel.getImage())
-        // );
+        BrandServiceModel brandServiceModel = this.brandService.findBrandByName(productBindingModel.getBrand());
+        productServiceModel.setBrand(brandServiceModel);
 
-        this.productService.addProduct(this.modelMapper.map(productBindingModel, ProductServiceModel.class));
+        brandServiceModel.getProducts().add(productServiceModel);
 
-        if (productServiceModel == null) {
-            throw new IllegalArgumentException("Product creation failed!");
-        }
+        this.productService.addProduct(productServiceModel);
 
         return super.redirect("/home");
     }
@@ -76,7 +75,7 @@ public class ProductController extends BaseController {
         ProductEditBindingModel productEditBindingModel = this.modelMapper.map(productServiceModel, ProductEditBindingModel.class);
 
         modelAndView.addObject("productBindingModel", productEditBindingModel);
-        return super.view("product-edit", modelAndView);
+        return super.view("product/product-edit", modelAndView);
 
     }
 
@@ -96,7 +95,7 @@ public class ProductController extends BaseController {
         ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
 
         modelAndView.addObject("productBindingModel", productViewModel);
-        return super.view("product-details", modelAndView);
+        return super.view("product/product-details", modelAndView);
 
     }
 
@@ -108,7 +107,7 @@ public class ProductController extends BaseController {
         ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
 
         modelAndView.addObject("productBindingModel", productViewModel);
-        return super.view("product-delete", modelAndView);
+        return super.view("product/product-delete", modelAndView);
 
     }
 
@@ -133,8 +132,25 @@ public class ProductController extends BaseController {
                         .collect(Collectors.toList());
 
         modelAndView.addObject("products", products);
-        return super.view("all-products", modelAndView);
+        return super.view("product/all-products", modelAndView);
 
     }
+
+    @GetMapping("/fetch/{brand}")
+    @ResponseBody
+    public List<ProductViewModel> fetchByBrand(@PathVariable String brand) {
+        if(brand.equals("all")) {
+            return this.productService.findAllProducts()
+                    .stream()
+                    .map(product -> this.modelMapper.map(product, ProductViewModel.class))
+                    .collect(Collectors.toList());
+        }
+
+        return this.productService.findAllByBrand(brand)
+                .stream()
+                .map(product -> this.modelMapper.map(product, ProductViewModel.class))
+                .collect(Collectors.toList());
+    }
+
 
 }

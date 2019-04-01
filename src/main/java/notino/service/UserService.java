@@ -13,5 +13,7 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel extractUserByEmail(String email);
 
+    UserServiceModel findUserByUsername(String name);
+
     List<UserServiceModel> findAllUsers();
 }
