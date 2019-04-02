@@ -1,6 +1,7 @@
 package notino.domain.models.service;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserServiceModel {
 
@@ -10,7 +11,9 @@ public class UserServiceModel {
     private String lastName;
     private String email;
     private String password;
-    //private Role role; TODO:Implement role
+
+    private Set<RoleServiceModel> authorities;
+
 
     public UserServiceModel() {
     }
@@ -64,4 +67,11 @@ public class UserServiceModel {
     }
 
 
+    public Set<RoleServiceModel> getAuthorities() {
+        return this.authorities;
+    }
+
+    public void setAuthorities(Set<RoleServiceModel> authorities) {
+        this.authorities = authorities;
+    }
 }

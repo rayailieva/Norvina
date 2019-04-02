@@ -8,19 +8,37 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Username</th>
-                    <th scope="col">FirstName</th>
-                    <th scope="col">LastName</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <th:block th:each="activeUser, iter : ${activeUsers}">
+                <th:block th:each="user, iter : ${users}">
                     <tr>
                         <td scope="col" th:text="${iter.index + 1}"></td>
-                        <td scope="col" th:text="${activeUser.username}"></td>
-                        <td scope="col"th:text="${activeUser.firstName}"></td>
-                        <td scope="col"th:text="${activeUser.lastName}"></td>
-                        <td scope="col"th:text="${activeUser.email}"></td>
+                        <td scope="col" th:text="${user.username}"></td>
+                        <td scope="col"th:text="${user.firstName}"></td>
+                        <td scope="col"th:text="${user.lastName}"></td>
+                        <td scope="col"th:text="${user.email}"></td>
+                        <td class="col" th:text="${#strings.listJoin(user.authorities, ', ')}"></td>
+                        <td class="col">
+
+
+                <div class="row">
+                    <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+                            !#lists.contains(user.authorities, 'ROLE_ADMIN')
+                        }">
+                        <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
+                            <input type="hidden" name="_csrf"
+                                   value="80417983-fe8b-45c7-963e-31f6915a1560">
+                            <button class="btn btn-dark">ADMIN</button>
+                        </form>
+                    </th:block>
+
+                </div>
                     </tr>
                 </th:block>
                 </tbody>

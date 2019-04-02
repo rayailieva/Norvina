@@ -2,6 +2,7 @@ package notino.web.controllers;
 
 import notino.domain.models.binding.UserEditProfileBindingModel;
 import notino.domain.models.binding.UserRegisterBindingModel;
+import notino.domain.models.service.RoleServiceModel;
 import notino.domain.models.service.UserServiceModel;
 import notino.domain.models.view.UserViewModel;
 import notino.service.UserService;
@@ -12,10 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -53,11 +51,10 @@ public class UserController extends BaseController {
             throw new IllegalArgumentException(("Passwords don't match!"));
         }
 
-        UserServiceModel userServiceModel = this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
+        UserServiceModel userServiceModel =
+                this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
 
-        if (!this.userService.registerUser(userServiceModel)) {
-            throw new IllegalArgumentException("Registering user " + userServiceModel.getUsername() + " failed.");
-        }
+        this.userService.registerUser(this.modelMapper.map(userServiceModel, UserServiceModel.class));
 
         return super.redirect("/login");
     }
@@ -116,14 +113,34 @@ public class UserController extends BaseController {
     @GetMapping("/all-users")
     public ModelAndView allUsers(ModelAndView modelAndView){
 
-        List<UserViewModel> activeUsers =
-                this.userService.findAllUsers()
-                        .stream()
-                        .map(u -> this.modelMapper.map(u, UserViewModel.class))
-                        .collect(Collectors.toList());
+        List<UserViewModel> users = this.userService.findAllUsers()
+                .stream()
+                .map(u -> {
+                    UserViewModel user = this.modelMapper.map(u, UserViewModel.class);
+                    user.setAuthorities(u.getAuthorities().stream().map(RoleServiceModel::getAuthority).collect(Collectors.toSet()));
 
-        modelAndView.addObject("activeUsers", activeUsers);
-        return super.view("users/all-users", modelAndView);
+                    return user;
+                })
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("users", users);
+        return super.view("user/all-users", modelAndView);
+    }
+
+    @PostMapping("/set-user/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setUser(@PathVariable String id) {
+        this.userService.setUserRole(id, "user");
+
+        return super.redirect("/all-users");
+    }
+
+    @PostMapping("/set-admin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setAdmin(@PathVariable String id) {
+        this.userService.setUserRole(id, "admin");
+
+        return super.redirect("/all-users");
     }
 
 }

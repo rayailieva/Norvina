@@ -5,7 +5,6 @@ import notino.domain.entities.User;
 import notino.domain.models.service.UserServiceModel;
 import notino.repository.RoleRepository;
 import notino.repository.UserRepository;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,41 +20,36 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleService roleService;
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder encoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, RoleRepository roleRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
         this.encoder = encoder;
     }
 
     @Override
-    public boolean registerUser(UserServiceModel userServiceModel) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel) {
+
+        this.seedRolesInDb();
+        if (this.userRepository.count() == 0) {
+            userServiceModel.setAuthorities(this.roleService.findAllRoles());
+        } else {
+            userServiceModel.setAuthorities(new LinkedHashSet<>());
+
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+        }
 
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.encoder.encode(userServiceModel.getPassword()));
-        this.seedRolesInDb();
 
-        if (this.userRepository.count() == 0) {
-            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_ADMIN"));
-            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
-        } else {
-            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
-        }
-
-        try{
-            this.userRepository.saveAndFlush(user);
-
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-
-            return false;
-        }
+        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 
 
@@ -124,4 +119,25 @@ public class UserServiceImpl implements UserService {
 
         }
     }
+
+    @Override
+    public void setUserRole(String id, String role) {
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Incorrect id!"));
+
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        userServiceModel.getAuthorities().clear();
+
+        switch (role) {
+            case "user":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+                break;
+            case "admin":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
+                break;
+        }
+
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
     }
+}

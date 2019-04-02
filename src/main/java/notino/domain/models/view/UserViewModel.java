@@ -1,5 +1,7 @@
 package notino.domain.models.view;
 
+import java.util.Set;
+
 public class UserViewModel {
 
     private String id;
@@ -7,6 +9,8 @@ public class UserViewModel {
     private String firstName;
     private String lastName;
     private String email;
+
+    private Set<String> authorities;
 
     public UserViewModel() {
     }
@@ -49,5 +53,13 @@ public class UserViewModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Set<String> getAuthorities() {
+        return this.authorities;
+    }
+
+    public void setAuthorities(Set<String> authorities) {
+        this.authorities = authorities;
     }
 }

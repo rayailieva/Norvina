@@ -67,7 +67,7 @@ public class OrderController extends BaseController{
 
         this.orderService.addOrder(orders);
 
-        return super.redirect("/home");
+        return super.redirect("/all-orders");
     }
 
     @GetMapping("/all-orders")
