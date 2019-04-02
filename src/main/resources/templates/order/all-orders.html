@@ -1,0 +1,40 @@
+<th:block>
+    <main>
+        <div class="container mt-3">
+            <h3 class="h3">All Orders</h3>
+
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="order, iter : ${orders}">
+                    <tr>
+                        <td scope="col" th:text="${iter.index + 1}"></td>
+                        <td scope="col" th:text="${order.id}"></td>
+                        <td scope="col" th:text="${order.date}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <td colspan="4">
+                            <div id="collapseTwo" class="collapse in">
+                               <h4>ye</h4>
+                                <h4>te</h4>
+                            </div>
+                    </td>
+                    </tr>
+
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+    </main>
+
+
+
+</th:block>

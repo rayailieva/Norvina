@@ -2,6 +2,8 @@ package notino.web.controllers;
 
 import notino.domain.models.service.OrderProductServiceModel;
 import notino.domain.models.view.OrderProductViewModel;
+import notino.domain.models.view.OrderViewModel;
+import notino.domain.models.view.ProductViewModel;
 import notino.service.OrderProductService;
 import notino.service.OrderService;
 import notino.service.ProductService;
@@ -30,7 +32,7 @@ public class OrderController extends BaseController{
     }
 
 
-    @GetMapping("/all-orders")
+    @GetMapping("/all-product-orders")
     public ModelAndView viewAllOrderProducts(ModelAndView modelAndView) {
 
         List<OrderProductServiceModel> orders =
@@ -54,8 +56,8 @@ public class OrderController extends BaseController{
         return super.view("order/all-order-products", modelAndView);
     }
 
-    @PostMapping("/all-orders")
-    public ModelAndView viewAllOrderProductsConfirm(ModelAndView modelAndView) {
+    @PostMapping("/all-product-orders")
+    public ModelAndView viewAllOrderProductsConfirm() {
 
         List<OrderProductServiceModel> orders =
                 this.orderProductService.findAllOrderProducts()
@@ -63,10 +65,22 @@ public class OrderController extends BaseController{
                         .map(p -> this.modelMapper.map(p, OrderProductServiceModel.class))
                         .collect(Collectors.toList());
 
-
         this.orderService.addOrder(orders);
 
         return super.redirect("/home");
+    }
+
+    @GetMapping("/all-orders")
+    public ModelAndView viewAllOrders(ModelAndView modelAndView) {
+
+        List<OrderViewModel> orders = this.orderService.findAllOrders()
+                .stream()
+                .map(o -> this.modelMapper.map(o, OrderViewModel.class))
+                .collect(Collectors.toList());
+
+
+        modelAndView.addObject("orders", orders);
+        return super.view("order/all-orders", modelAndView);
     }
 
 }

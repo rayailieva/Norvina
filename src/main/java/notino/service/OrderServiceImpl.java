@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -50,5 +51,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
 
         this.orderRepository.saveAndFlush(order);
+    }
+
+    @Override
+    public List<OrderServiceModel> findAllOrders() {
+        return this.orderRepository.findAll()
+                .stream()
+                .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
+                .collect(Collectors.toList());
     }
 }

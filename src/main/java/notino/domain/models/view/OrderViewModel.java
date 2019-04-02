@@ -1,46 +1,50 @@
 package notino.domain.models.view;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class OrderViewModel {
 
-    private String imageUrl;
-    private String name;
-    private BigDecimal price;
-    private String customer;
+    private String id;
+    private LocalDateTime date;
+    private BigDecimal totalPrice;
+    private List<String> orderItems;
+
+
 
     public OrderViewModel() {
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getId() {
+        return this.id;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDateTime getDate() {
+        return this.date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getTotalPrice() {
+        return this.totalPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public String getCustomer() {
-        return customer;
+    public List<String> getOrderItems() {
+        return this.orderItems;
     }
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
+    public void setOrderItems(List<String> orderItems) {
+        this.orderItems = orderItems;
     }
 }
