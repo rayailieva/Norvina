@@ -1,12 +1,18 @@
 package notino.service;
 
+import notino.domain.entities.Order;
 import notino.domain.entities.OrderProduct;
+import notino.domain.entities.User;
 import notino.domain.models.service.OrderProductServiceModel;
+import notino.domain.models.service.UserServiceModel;
 import notino.repository.OrderProductRepository;
+import notino.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,11 +20,15 @@ import java.util.stream.Collectors;
 public class OrderProductServiceImpl implements OrderProductService {
 
     private final OrderProductRepository orderProductRepository;
+    private final OrderRepository orderRepository;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public OrderProductServiceImpl(OrderProductRepository orderProductRepository, ModelMapper modelMapper) {
+    public OrderProductServiceImpl(OrderProductRepository orderProductRepository, OrderRepository orderRepository, UserService userService, ModelMapper modelMapper) {
         this.orderProductRepository = orderProductRepository;
+        this.orderRepository = orderRepository;
+        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
@@ -39,4 +49,6 @@ public class OrderProductServiceImpl implements OrderProductService {
                 .map(op -> this.modelMapper.map(op, OrderProductServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+
 }

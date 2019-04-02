@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,20 +57,7 @@ public class OrderProductController extends BaseController {
         orderProductServiceModel.setQuantity(orderProductBindingModel.getQuantity());
         this.orderProductService.addOrderProduct(orderProductServiceModel);
 
-        return super.redirect("order/list-order");
+        return super.redirect("order/all-order-products");
     }
 
-    @GetMapping("/all-orders")
-    public ModelAndView viewAllOrderProducts(ModelAndView modelAndView) {
-
-        List<OrderProductViewModel> orders =
-                this.orderProductService.findAllOrderProducts()
-                        .stream()
-                        .map(p -> this.modelMapper.map(p, OrderProductViewModel.class))
-                        .collect(Collectors.toList());
-
-        modelAndView.addObject("orders", orders);
-        return super.view("order/list-orders", modelAndView);
-
-    }
 }

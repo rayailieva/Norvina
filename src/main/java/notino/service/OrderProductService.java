@@ -9,4 +9,5 @@ public interface OrderProductService {
     OrderProductServiceModel addOrderProduct(OrderProductServiceModel orderProductServiceModel);
 
     List<OrderProductServiceModel> findAllOrderProducts();
+
 }

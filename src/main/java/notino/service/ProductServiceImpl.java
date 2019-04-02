@@ -96,6 +96,10 @@ public class ProductServiceImpl implements ProductService {
 
        Brand brand = this.brandRepository.findByName(brandName).orElse(null);
 
+       if(brand == null){
+           throw new IllegalArgumentException("Brand is null :|");
+       }
+
        return brand.getProducts()
                .stream()
                .map(p -> this.modelMapper.map(p, ProductServiceModel.class))

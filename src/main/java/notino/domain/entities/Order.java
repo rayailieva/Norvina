@@ -17,7 +17,7 @@ public class Order extends BaseEntity {
     }
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     public User getUser() {
         return this.user;
     }
@@ -26,7 +26,7 @@ public class Order extends BaseEntity {
         this.user = user;
     }
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     public LocalDateTime getDate() {
         return this.date;
     }
@@ -35,7 +35,7 @@ public class Order extends BaseEntity {
         this.date = date;
     }
 
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price")
     public BigDecimal getTotalPrice() {
         return this.totalPrice;
     }

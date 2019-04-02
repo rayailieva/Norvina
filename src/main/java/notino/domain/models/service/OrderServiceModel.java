@@ -1,14 +1,18 @@
 package notino.domain.models.service;
 
+import notino.domain.entities.OrderProduct;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class OrderServiceModel {
 
     private String id;
-    private String imageUrl;
-    private String name;
-    private BigDecimal price;
-    private String customer;
+    private LocalDateTime date;
+    private BigDecimal totalPrice;
+    private List<OrderProductServiceModel> orderItems;
+
 
     public OrderServiceModel(){}
 
@@ -20,35 +24,27 @@ public class OrderServiceModel {
         this.id = id;
     }
 
-    public String getImageUrl() {
-        return this.imageUrl;
+    public LocalDateTime getDate() {
+        return this.date;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    public String getName() {
-        return this.name;
+    public BigDecimal getTotalPrice() {
+        return this.totalPrice;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public BigDecimal getPrice() {
-        return this.price;
+    public List<OrderProductServiceModel> getOrderItems() {
+        return this.orderItems;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getCustomer() {
-        return this.customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
+    public void setOrderItems(List<OrderProductServiceModel> orderItems) {
+        this.orderItems = orderItems;
     }
 }

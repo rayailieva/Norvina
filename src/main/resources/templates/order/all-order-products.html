@@ -1,6 +1,7 @@
 <th:block>
     <main class="mt-3">
-        <h1 class="text-center text-dark">All Orders</h1>
+        <form th:action="@{/all-orders}" method="post">
+            <h1 class="text-center text-dark">All Orders</h1>
         <hr class="hr-2 bg-dark w-75">
         <table class="table table-hover w-75 mx-auto">
             <thead>
@@ -29,5 +30,9 @@
             </tbody>
         </table>
         <hr class="hr-2 bg-dark">
+        <div class="button-holder d-flex justify-content-center mb-3">
+            <button type="submit" class="btn bg-notino text-white">Order all!</button>
+        </div>
+        </form>
     </main>
 </th:block>

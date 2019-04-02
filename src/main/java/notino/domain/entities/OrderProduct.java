@@ -1,9 +1,6 @@
 package notino.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,7 +14,7 @@ public class OrderProduct extends BaseEntity{
 
    public OrderProduct(){}
 
-    @ManyToOne(targetEntity = Order.class)
+    @ManyToOne(targetEntity = Order.class, cascade = CascadeType.ALL)
     public Order getOrder() {
         return this.order;
     }
