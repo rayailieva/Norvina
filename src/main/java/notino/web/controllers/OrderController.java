@@ -1,6 +1,7 @@
 package notino.web.controllers;
 
 import notino.domain.models.service.OrderProductServiceModel;
+import notino.domain.models.service.OrderServiceModel;
 import notino.domain.models.view.OrderProductViewModel;
 import notino.domain.models.view.OrderViewModel;
 import notino.domain.models.view.ProductViewModel;
@@ -72,6 +73,15 @@ public class OrderController extends BaseController{
 
     @GetMapping("/all-orders")
     public ModelAndView viewAllOrders(ModelAndView modelAndView) {
+
+        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrders()
+                .stream()
+                .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
+                .collect(Collectors.toList());
+
+        for(OrderServiceModel orderServiceModel : orderServiceModels){
+            this.orderService.setTotalPrice(orderServiceModel);
+        }
 
         List<OrderViewModel> orders = this.orderService.findAllOrders()
                 .stream()

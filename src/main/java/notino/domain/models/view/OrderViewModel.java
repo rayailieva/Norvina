@@ -12,7 +12,6 @@ public class OrderViewModel {
     private List<String> orderItems;
 
 
-
     public OrderViewModel() {
     }
 

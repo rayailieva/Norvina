@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +46,8 @@ public class OrderServiceImpl implements OrderService {
         for(OrderProductServiceModel orderProductServiceModel : orderProductServiceModels){
             orderProductServiceModel.setOrder(orderServiceModel);
 
-            this.orderProductRepository.saveAndFlush(this.modelMapper.map(orderProductServiceModel, OrderProduct.class));
+            this.orderProductRepository
+                    .saveAndFlush(this.modelMapper.map(orderProductServiceModel, OrderProduct.class));
         }
 
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
@@ -53,11 +55,28 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository.saveAndFlush(order);
     }
 
+
+
     @Override
     public List<OrderServiceModel> findAllOrders() {
         return this.orderRepository.findAll()
                 .stream()
                 .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderServiceModel setTotalPrice(OrderServiceModel orderServiceModel) {
+        Order order = this.modelMapper.map(orderServiceModel, Order.class);
+        BigDecimal totalPrice = BigDecimal.ZERO;
+
+        for(OrderProduct orderProduct : order.getOrderItems()){
+            totalPrice = totalPrice.add(orderProduct.getProduct().getPrice());
+        }
+
+        order.setTotalPrice(totalPrice);
+        this.orderRepository.saveAndFlush(order);
+
+        return this.modelMapper.map(order, OrderServiceModel.class);
     }
 }

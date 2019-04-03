@@ -9,6 +9,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Id</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Total Price</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -17,15 +18,7 @@
                         <td scope="col" th:text="${iter.index + 1}"></td>
                         <td scope="col" th:text="${order.id}"></td>
                         <td scope="col" th:text="${order.date}"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                        <td colspan="4">
-                            <div id="collapseTwo" class="collapse in">
-                               <h4>ye</h4>
-                                <h4>te</h4>
-                            </div>
-                    </td>
+                        <td scope="col" th:text="${order.totalPrice}"></td>
                     </tr>
 
                 </th:block>

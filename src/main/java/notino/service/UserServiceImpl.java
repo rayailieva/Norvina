@@ -53,8 +53,6 @@ public class UserServiceImpl implements UserService {
             user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
         }
 
-
-
         this.userRepository.save(user);
 
         return this.modelMapper.map(user, UserServiceModel.class);

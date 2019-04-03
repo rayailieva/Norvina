@@ -10,4 +10,6 @@ public interface OrderService {
     void addOrder(List<OrderProductServiceModel> orderProductServiceModels);
 
     List<OrderServiceModel> findAllOrders();
+
+    OrderServiceModel setTotalPrice(OrderServiceModel orderServiceModel);
 }

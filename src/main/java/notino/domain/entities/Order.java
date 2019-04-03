@@ -14,6 +14,11 @@ public class Order extends BaseEntity {
     private List<OrderProduct> orderItems;
 
     public Order(){
+
+    }
+
+    private void initTotalPrice() {
+
     }
 
     @ManyToOne(targetEntity = User.class)
@@ -52,4 +57,6 @@ public class Order extends BaseEntity {
     public void setOrderItems(List<OrderProduct> orderItems) {
         this.orderItems = orderItems;
     }
+
+
 }
