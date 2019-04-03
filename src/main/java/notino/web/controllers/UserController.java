@@ -46,7 +46,6 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     public ModelAndView registerConfirm(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel) {
 
-
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
             throw new IllegalArgumentException(("Passwords don't match!"));
         }
@@ -54,7 +53,7 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel =
                 this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
 
-        this.userService.registerUser(this.modelMapper.map(userServiceModel, UserServiceModel.class));
+        this.userService.registerUser(userServiceModel);
 
         return super.redirect("/login");
     }

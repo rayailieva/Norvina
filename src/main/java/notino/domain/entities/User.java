@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +26,6 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Role> authorities;
 
     public User(){
-        this.authorities = new HashSet<>();
     }
 
     @Column(name = "username", nullable = false, unique = true, updatable = false)

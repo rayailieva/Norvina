@@ -2,6 +2,7 @@ package notino.service;
 
 import notino.domain.entities.Role;
 import notino.domain.entities.User;
+import notino.domain.models.service.RoleServiceModel;
 import notino.domain.models.service.UserServiceModel;
 import notino.repository.RoleRepository;
 import notino.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,21 +39,39 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel) {
 
-        this.seedRolesInDb();
-        if (this.userRepository.count() == 0) {
-            userServiceModel.setAuthorities(this.roleService.findAllRoles());
-        } else {
-            userServiceModel.setAuthorities(new LinkedHashSet<>());
-
-            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-        }
+        this.insertUserRoles();
 
         User user = this.modelMapper.map(userServiceModel, User.class);
-        user.setPassword(this.encoder.encode(userServiceModel.getPassword()));
+        user.setPassword(this.encoder.encode(user.getPassword()));
 
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        if (this.userRepository.count() == 0) {
+            user.setAuthorities(new HashSet<>());
+            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_ADMIN"));
+            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
+        } else {
+           user.setAuthorities(new HashSet<>());
+            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
+        }
+
+
+
+        this.userRepository.save(user);
+
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
+    private void insertUserRoles() {
+        if (this.roleRepository.count() == 0) {
+            Role userRole = new Role();
+            userRole.setAuthority("ROLE_USER");
+
+            Role adminRole = new Role();
+            adminRole.setAuthority("ROLE_ADMIN");
+
+            this.roleRepository.save(userRole);
+            this.roleRepository.save(adminRole);
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -104,20 +124,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(userEntity);
 
         return true;
-    }
-
-    private void seedRolesInDb() {
-        if (this.roleRepository.count() == 0) {
-            Role userRole = new Role();
-            userRole.setAuthority("ROLE_USER");
-
-            Role adminRole = new Role();
-            adminRole.setAuthority("ROLE_ADMIN");
-
-            this.roleRepository.save(userRole);
-            this.roleRepository.save(adminRole);
-
-        }
     }
 
     @Override

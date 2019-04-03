@@ -5,7 +5,9 @@ import notino.domain.models.service.RoleServiceModel;
 import java.util.Set;
 
 public interface RoleService {
-    Set<RoleServiceModel> findAllRoles();
+   // void seedRolesInDb();
+
+   // Set<RoleServiceModel> findAllRoles();
 
     RoleServiceModel findByAuthority(String authority);
 }

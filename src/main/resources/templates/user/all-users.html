@@ -26,14 +26,11 @@
                         <td class="col" th:text="${#strings.listJoin(user.authorities, ', ')}"></td>
                         <td class="col">
 
-
                 <div class="row">
                     <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                             !#lists.contains(user.authorities, 'ROLE_ADMIN')
                         }">
                         <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
-                            <input type="hidden" name="_csrf"
-                                   value="80417983-fe8b-45c7-963e-31f6915a1560">
                             <button class="btn btn-dark">ADMIN</button>
                         </form>
                     </th:block>
