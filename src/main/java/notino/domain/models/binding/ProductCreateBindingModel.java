@@ -2,8 +2,11 @@ package notino.domain.models.binding;
 
 import notino.domain.entities.Brand;
 import notino.domain.entities.Category;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ProductCreateBindingModel {
@@ -17,7 +20,8 @@ public class ProductCreateBindingModel {
 
     public ProductCreateBindingModel() {
     }
-
+    @NotNull(message = "Name cannot be null!")
+    @Length(min = 2, max = 50, message = "Name must be at least 2 symbols long.")
     public String getName() {
         return this.name;
     }
@@ -26,6 +30,8 @@ public class ProductCreateBindingModel {
         this.name = name;
     }
 
+    @NotNull(message = "Description cannot be null!")
+    @Length(min = 5, message = "Description must be at least 5 symbols long.")
     public String getDescription() {
         return this.description;
     }
@@ -34,6 +40,8 @@ public class ProductCreateBindingModel {
         this.description = description;
     }
 
+    @NotNull(message = "Price cannot be null!")
+    @Min(value = 1, message = "Price cannot be less than 1")
     public BigDecimal getPrice() {
         return this.price;
     }
@@ -42,6 +50,7 @@ public class ProductCreateBindingModel {
         this.price = price;
     }
 
+    @NotNull(message = "Image url cannot be null!")
     public String getImageUrl() {
         return this.imageUrl;
     }
@@ -50,6 +59,7 @@ public class ProductCreateBindingModel {
         this.imageUrl = imageUrl;
     }
 
+    @NotNull(message = "Category cannot be null!")
     public Category getCategory() {
         return this.category;
     }
@@ -58,7 +68,7 @@ public class ProductCreateBindingModel {
         this.category = category;
     }
 
-
+    @NotNull(message = "Brand cannot be null!")
     public String getBrand() {
         return this.brand;
     }

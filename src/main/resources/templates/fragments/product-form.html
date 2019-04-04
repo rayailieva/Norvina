@@ -2,21 +2,27 @@
 
     <div class="form-group">
         <label for="name" class="text-notino">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name..." name="name" th:field="*{name}">
+        <input type="text" class="form-control" id="name" placeholder="Name..." name="name"
+               th:field="*{name}" th:styleappend="${#fields.hasErrors('name')} ? border-color: red">
+        <small style="color: red" th:each="error : ${#fields.errors('name')}" th:text="${error}"></small>
     </div>
     <div class="form-group">
         <label for="description" class="text-notino">Description</label>
         <input type="text" class="form-control" id="description" placeholder="Description..." name="description"
-               th:field="*{description}">
+               th:field="*{description}" th:styleappend="${#fields.hasErrors('description')} ? border-color: red">
+        <small style="color: red" th:each="error : ${#fields.errors('description')}" th:text="${error}"></small>
     </div>
     <div class="form-group">
         <label for="imageUrl" class="text-notino">Image Url</label>
         <input type="text" class="form-control" id="imageUrl" placeholder="ImageUrl..." name="imageUrl"
-               th:field="*{imageUrl}">
+               th:field="*{imageUrl}" th:styleappend="${#fields.hasErrors('imageUrl')} ? border-color: red">
+        <small style="color: red" th:each="error : ${#fields.errors('imageUrl')}" th:text="${error}"></small>
     </div>
     <div class="form-group">
         <label for="price" class="text-notino">Price</label>
-        <input type="number" class="form-control" id="price" placeholder="Price..." name="price" th:field="*{price}">
+        <input type="number" class="form-control" id="price" placeholder="Price..." name="price"
+               th:field="*{price}" th:styleappend="${#fields.hasErrors('price')} ? border-color: red">
+        <small style="color: red" th:each="error : ${#fields.errors('price')}" th:text="${error}"></small>
     </div>
     <div class="form-group">
         <label for="productCategory">Category</label>

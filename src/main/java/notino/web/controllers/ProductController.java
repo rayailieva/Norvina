@@ -12,9 +12,11 @@ import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +39,7 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addProduct(@ModelAttribute(name = "bindingModel") ProductCreateBindingModel productBindingModel, ModelAndView modelAndView) {
+    public ModelAndView addProduct(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel, ModelAndView modelAndView) {
 
         modelAndView.addObject("productBindingModel", productBindingModel);
 
@@ -52,10 +54,17 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel) throws IOException {
+    public ModelAndView addProductConfirm(@Valid @ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
+                                          BindingResult bindingResult, ModelAndView modelAndView){
 
         ProductServiceModel productServiceModel =
                 this.modelMapper.map(productBindingModel, ProductServiceModel.class);
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("productBindingModel", productBindingModel);
+            return super.view("product/product-add", modelAndView);
+        }
+
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandByName(productBindingModel.getBrand());
         productServiceModel.setBrand(brandServiceModel);
@@ -81,7 +90,13 @@ public class ProductController extends BaseController {
 
     @PostMapping(value = "/edit/{id}")
     public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
-                                           @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel) {
+                                           @Valid @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
+                                           BindingResult bindingResult, ModelAndView modelAndView) {
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("productBindingModel", productBindingModel);
+            return super.view("product/product-edit", modelAndView);
+        }
 
         this.productService.editProduct(id, this.modelMapper.map(productBindingModel, ProductServiceModel.class));
 

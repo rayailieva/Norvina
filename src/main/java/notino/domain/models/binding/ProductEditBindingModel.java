@@ -1,7 +1,10 @@
 package notino.domain.models.binding;
 
 import notino.domain.entities.Category;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ProductEditBindingModel {
@@ -16,14 +19,8 @@ public class ProductEditBindingModel {
     public ProductEditBindingModel() {
     }
 
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    @NotNull(message = "Name cannot be null!")
+    @Length(min = 2, max = 50, message = "Name must be at least 2 symbols long.")
     public String getName() {
         return this.name;
     }
@@ -32,6 +29,8 @@ public class ProductEditBindingModel {
         this.name = name;
     }
 
+    @NotNull(message = "Description cannot be null!")
+    @Length(min = 5, message = "Description must be at least 5 symbols long.")
     public String getDescription() {
         return this.description;
     }
@@ -40,6 +39,8 @@ public class ProductEditBindingModel {
         this.description = description;
     }
 
+    @NotNull(message = "Price cannot be null!")
+    @Min(value = 1, message = "Price cannot be less than 1")
     public BigDecimal getPrice() {
         return this.price;
     }
@@ -48,6 +49,16 @@ public class ProductEditBindingModel {
         this.price = price;
     }
 
+    @NotNull(message = "Image url cannot be null!")
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    @NotNull(message = "Category cannot be null!")
     public Category getCategory() {
         return this.category;
     }
@@ -56,11 +67,11 @@ public class ProductEditBindingModel {
         this.category = category;
     }
 
-    public String getImageUrl() {
-        return this.imageUrl;
+    public String getId() {
+        return this.id;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setId(String id) {
+        this.id = id;
     }
 }

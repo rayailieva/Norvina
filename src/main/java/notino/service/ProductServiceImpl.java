@@ -70,10 +70,6 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrl(productServiceModel.getImageUrl());
         product.setPrice(productServiceModel.getPrice());
 
-        Brand brand = new Brand();
-        brand.setName(productServiceModel.getBrand().getName());
-        product.setBrand(brand);
-
         return this.modelMapper
                 .map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
     }
