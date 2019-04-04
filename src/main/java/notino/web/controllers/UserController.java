@@ -38,16 +38,24 @@ public class UserController extends BaseController {
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView register() {
+    public ModelAndView register(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel, ModelAndView modelAndView) {
 
+        modelAndView.addObject("userRegisterBindingModel", userRegisterBindingModel);
         return super.view("register");
     }
 
     @PostMapping("/register")
-    public ModelAndView registerConfirm(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel) {
+    public ModelAndView registerConfirm(@Valid @ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
+                                        BindingResult bindingResult, ModelAndView modelAndView) {
 
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
             throw new IllegalArgumentException(("Passwords don't match!"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("userRegisterBindingModel", userRegisterBindingModel);
+
+            return super.view("register", modelAndView);
         }
 
         UserServiceModel userServiceModel =

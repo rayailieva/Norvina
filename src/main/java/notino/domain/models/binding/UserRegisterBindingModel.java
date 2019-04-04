@@ -18,7 +18,7 @@ public class UserRegisterBindingModel {
     }
 
     @NotNull(message = "Username cannot be null!")
-    @Length(min = 3, max = 15, message = "Invalid username!")
+    @Length(min = 3, max = 15, message = "Username must be at least 2 symbols long.")
     public String getUsername() {
         return this.username;
     }
@@ -58,7 +58,7 @@ public class UserRegisterBindingModel {
     }
 
     @NotNull(message = "Password cannot be null!")
-    @Length(min = 6, message = "Password must be at least 6 characters long!")
+    @Length(min = 6, message = "Password must be at least 6 characters long.")
     public String getPassword() {
         return this.password;
     }
@@ -68,7 +68,7 @@ public class UserRegisterBindingModel {
     }
 
     @NotNull(message = "Confirm password cannot be null!")
-    @Length(min = 6, message = "Confirm password must be at least 6 characters long!")
+    @Length(min = 6, message = "Confirm password must be at least 6 characters long.")
     public String getConfirmPassword() {
         return this.confirmPassword;
     }
