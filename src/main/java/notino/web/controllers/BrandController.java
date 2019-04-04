@@ -7,9 +7,11 @@ import notino.service.BrandService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,16 +28,23 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel, ModelAndView modelAndView) {
+    public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel,
+                                 BindingResult bindingResult, ModelAndView modelAndView) {
 
         modelAndView.addObject( "brandBindingModel", brandBindingModel);
         return super.view("brand/brand-add", modelAndView);
     }
 
     @PostMapping("/add")
-    public ModelAndView addBrandConfirm(@ModelAttribute BrandBindingModel model) {
+    public ModelAndView addBrandConfirm(@Valid @ModelAttribute BrandBindingModel brandBindingModel ,
+                                        BindingResult bindingResult, ModelAndView modelAndView) {
 
-        this.brandService.addBrand(this.modelMapper.map(model, BrandServiceModel.class));
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("brandBindingModel", brandBindingModel);
+            return super.view("brand/brand-add", modelAndView);
+        }
+
+        this.brandService.addBrand(this.modelMapper.map(brandBindingModel, BrandServiceModel.class));
         return super.redirect("/brands/all-brands");
     }
 
@@ -52,7 +61,13 @@ public class BrandController extends BaseController {
 
     @PostMapping(value = "/edit/{id}")
     public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id,
-                                         @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel) {
+                                         @Valid @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel,
+                                         BindingResult bindingResult, ModelAndView modelAndView) {
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("brandBindingModel", brandBindingModel);
+            return super.view("brand/brand-edit", modelAndView);
+        }
 
        this.brandService.editBrand(id, this.modelMapper.map(brandBindingModel, BrandServiceModel.class));
 

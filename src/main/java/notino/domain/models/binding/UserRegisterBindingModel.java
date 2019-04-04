@@ -18,7 +18,7 @@ public class UserRegisterBindingModel {
     }
 
     @NotNull(message = "Username cannot be null!")
-    @Length(min = 3, max = 15, message = "Username must be at least 2 symbols long.")
+    @Length(min = 3, max = 15, message = "Username must be at least 3 symbols long.")
     public String getUsername() {
         return this.username;
     }

@@ -61,7 +61,7 @@ public class UserEditProfileBindingModel {
 
     @NotNull(message = "Password cannot be null.")
     @NotEmpty(message = "Password cannot be empty.")
-    @Length(min = 6, message = "Password must be at least 6 characters long!")
+    @Length(min = 6, message = "Password must be at least 6 characters long.")
     public String getPassword() {
         return this.password;
     }
@@ -70,7 +70,7 @@ public class UserEditProfileBindingModel {
         this.password = password;
     }
 
-    @Length(min = 6, message = "Password must be at least 6 characters long!")
+    @Length(min = 6, message = "Password must be at least 6 characters long.")
     public String getNewPassword() {
         return this.newPassword;
     }
@@ -79,7 +79,7 @@ public class UserEditProfileBindingModel {
         this.newPassword = newPassword;
     }
 
-    @Length(min = 6, message = "Password must be at least 6 characters long!")
+    @Length(min = 6, message = "Password must be at least 6 characters long.")
     public String getConfirmPassword() {
         return this.confirmPassword;
     }
