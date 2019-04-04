@@ -8,6 +8,7 @@ import notino.service.OrderProductService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +31,7 @@ public class OrderProductController extends BaseController {
     }
 
     @GetMapping("/add-order-product/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView addProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -45,6 +47,7 @@ public class OrderProductController extends BaseController {
     }
 
     @PostMapping("/add-order-product/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView addProductConfirm(@PathVariable(name = "id") String id, @ModelAttribute("orderProductBindingModel") OrderProductBindingModel orderProductBindingModel) {
 
         OrderProductServiceModel orderProductServiceModel = this.modelMapper

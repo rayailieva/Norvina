@@ -11,6 +11,7 @@ import notino.service.CloudinaryService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addProduct(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel, ModelAndView modelAndView) {
 
         modelAndView.addObject("productBindingModel", productBindingModel);
@@ -54,6 +56,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addProductConfirm(@Valid @ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
                                           BindingResult bindingResult, ModelAndView modelAndView){
 
@@ -78,6 +81,7 @@ public class ProductController extends BaseController {
 
 
     @GetMapping(value = "/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -89,6 +93,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping(value = "/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
                                            @Valid @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
                                            BindingResult bindingResult, ModelAndView modelAndView) {
@@ -104,6 +109,7 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping(value = "/details/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView detailsProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -111,11 +117,11 @@ public class ProductController extends BaseController {
 
         modelAndView.addObject("productBindingModel", productViewModel);
         return super.view("product/product-details", modelAndView);
-
     }
 
 
     @GetMapping(value = "/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -127,6 +133,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping(value = "/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
         if (!this.productService.deleteProduct(id)) {
@@ -138,6 +145,7 @@ public class ProductController extends BaseController {
 
 
     @GetMapping("/all-products")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView viewAllProducts(ModelAndView modelAndView) {
 
         List<ProductViewModel> products =
@@ -152,6 +160,7 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping("/fetch/{brand}")
+    @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public List<ProductViewModel> fetchByBrand(@PathVariable String brand) {
         if(brand.equals("all")) {

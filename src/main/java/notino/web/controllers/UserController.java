@@ -27,13 +27,11 @@ public class UserController extends BaseController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final BCryptPasswordEncoder encoder;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.encoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("/register")
@@ -45,6 +43,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@Valid @ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
 
@@ -74,6 +73,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/logout")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView logout(HttpSession session) {
 
         session.invalidate();
@@ -118,6 +118,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/all-users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allUsers(ModelAndView modelAndView){
 
         List<UserViewModel> users = this.userService.findAllUsers()

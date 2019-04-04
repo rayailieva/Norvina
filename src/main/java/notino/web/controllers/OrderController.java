@@ -9,6 +9,7 @@ import notino.service.OrderProductService;
 import notino.service.OrderService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,6 +35,7 @@ public class OrderController extends BaseController{
 
 
     @GetMapping("/all-product-orders")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView viewAllOrderProducts(ModelAndView modelAndView) {
 
         List<OrderProductServiceModel> orders =
@@ -58,6 +60,7 @@ public class OrderController extends BaseController{
     }
 
     @PostMapping("/all-product-orders")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView viewAllOrderProductsConfirm() {
 
         List<OrderProductServiceModel> orders =
@@ -72,6 +75,7 @@ public class OrderController extends BaseController{
     }
 
     @GetMapping("/all-orders")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView viewAllOrders(ModelAndView modelAndView) {
 
         List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrders()

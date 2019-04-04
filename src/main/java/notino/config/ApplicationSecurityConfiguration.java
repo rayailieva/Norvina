@@ -32,7 +32,9 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .and()
                 .logout()
                 .and()
-                .exceptionHandling().accessDeniedPage("/unauthorized");
+                .exceptionHandling()
+                .accessDeniedPage("/unauthorized")
+        ;
 
     }
 

@@ -6,6 +6,7 @@ import notino.domain.models.view.BrandViewModel;
 import notino.service.BrandService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel,
                                  BindingResult bindingResult, ModelAndView modelAndView) {
 
@@ -36,6 +38,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addBrandConfirm(@Valid @ModelAttribute BrandBindingModel brandBindingModel ,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
 
@@ -50,6 +53,7 @@ public class BrandController extends BaseController {
 
 
     @GetMapping(value = "/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
@@ -60,6 +64,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping(value = "/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id,
                                          @Valid @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel,
                                          BindingResult bindingResult, ModelAndView modelAndView) {
@@ -75,6 +80,7 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping(value = "/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
@@ -85,6 +91,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping(value = "/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteBrandConfirm(@PathVariable(name = "id") String id ) {
 
         if(!this.brandService.deleteBrand(id)){
@@ -95,6 +102,7 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/all-brands")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView allBrands(ModelAndView modelAndView) {
 
 
