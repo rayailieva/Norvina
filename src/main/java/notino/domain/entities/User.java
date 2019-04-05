@@ -17,7 +17,6 @@ public class User extends BaseEntity implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    private List<Order> orders;
 
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
@@ -71,15 +70,6 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @OneToMany(targetEntity = Order.class, mappedBy = "user")
-    public List<Order> getOrders() {
-        return this.orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 
     @Override

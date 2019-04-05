@@ -14,7 +14,6 @@ public class Product extends BaseEntity{
     private BigDecimal price;
     private Category category;
     private Brand brand;
-    private List<OrderProduct> orderProducts;
 
     public Product(){}
 
@@ -74,12 +73,4 @@ public class Product extends BaseEntity{
         this.brand = brand;
     }
 
-    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product", cascade = CascadeType.MERGE)
-    public List<OrderProduct> getOrderProducts() {
-        return this.orderProducts;
-    }
-
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
-    }
 }

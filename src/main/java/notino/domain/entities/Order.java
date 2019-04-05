@@ -1,4 +1,5 @@
 package notino.domain.entities;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,27 +9,22 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-    private User user;
+    private User customer;
     private LocalDateTime date;
     private BigDecimal totalPrice;
-    private List<OrderProduct> orderItems;
+    private List<Product> products;
 
-    public Order(){
-
-    }
-
-    private void initTotalPrice() {
-
+    public Order() {
     }
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id")
-    public User getUser() {
-        return this.user;
+    public User getCustomer() {
+        return this.customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(User customer) {
+        this.customer = customer;
     }
 
     @Column(name = "date")
@@ -49,13 +45,16 @@ public class Order extends BaseEntity {
         this.totalPrice = totalPrice;
     }
 
-    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "order")
-    public List<OrderProduct> getOrderItems() {
-        return this.orderItems;
+    @ManyToMany(targetEntity = Product.class)
+    @JoinTable(name = "orders_products",
+            joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"))
+    public List<Product> getProducts() {
+        return this.products;
     }
 
-    public void setOrderItems(List<OrderProduct> orderItems) {
-        this.orderItems = orderItems;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
 

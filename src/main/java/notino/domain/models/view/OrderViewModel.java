@@ -9,7 +9,8 @@ public class OrderViewModel {
     private String id;
     private LocalDateTime date;
     private BigDecimal totalPrice;
-    private List<String> orderItems;
+    private UserViewModel customer;
+    private List<ProductViewModel> products;
 
 
     public OrderViewModel() {
@@ -39,11 +40,19 @@ public class OrderViewModel {
         this.totalPrice = totalPrice;
     }
 
-    public List<String> getOrderItems() {
-        return this.orderItems;
+    public UserViewModel getCustomer() {
+        return this.customer;
     }
 
-    public void setOrderItems(List<String> orderItems) {
-        this.orderItems = orderItems;
+    public void setCustomer(UserViewModel customer) {
+        this.customer = customer;
+    }
+
+    public List<ProductViewModel> getProducts() {
+        return this.products;
+    }
+
+    public void setProducts(List<ProductViewModel> products) {
+        this.products = products;
     }
 }

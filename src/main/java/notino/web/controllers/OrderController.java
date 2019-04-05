@@ -1,11 +1,6 @@
 package notino.web.controllers;
 
-import notino.domain.models.service.OrderProductServiceModel;
-import notino.domain.models.service.OrderServiceModel;
-import notino.domain.models.view.OrderProductViewModel;
 import notino.domain.models.view.OrderViewModel;
-import notino.domain.models.view.ProductViewModel;
-import notino.service.OrderProductService;
 import notino.service.OrderService;
 import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -14,87 +9,61 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.LinkedList;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/orders")
 public class OrderController extends BaseController{
 
     private final OrderService orderService;
     private final ProductService productService;
-    private final OrderProductService orderProductService;
     private final ModelMapper modelMapper;
 
-    public OrderController(OrderService orderService, ProductService productService, OrderProductService orderProductService, ModelMapper modelMapper) {
+    public OrderController(OrderService orderService, ProductService productService, ModelMapper modelMapper) {
         this.orderService = orderService;
         this.productService = productService;
-        this.orderProductService = orderProductService;
         this.modelMapper = modelMapper;
     }
 
-
-    @GetMapping("/all-product-orders")
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView viewAllOrderProducts(ModelAndView modelAndView) {
-
-        List<OrderProductServiceModel> orders =
-                this.orderProductService.findAllOrderProducts()
-                        .stream()
-                        .map(p -> this.modelMapper.map(p, OrderProductServiceModel.class))
-                        .collect(Collectors.toList());
-
-        List<OrderProductViewModel> models = new LinkedList<>();
-        for(OrderProductServiceModel orderProductServiceModel : orders){
-            OrderProductViewModel model =
-                    this.modelMapper.map(orderProductServiceModel, OrderProductViewModel.class);
-            model.setName(orderProductServiceModel.getProduct().getName());
-            model.setPrice(orderProductServiceModel.getProduct().getPrice());
-            model.setImageUrl(orderProductServiceModel.getProduct().getImageUrl());
-
-            models.add(model);
-        }
-
-        modelAndView.addObject("orders", models);
-        return super.view("order/all-order-products", modelAndView);
-    }
-
-    @PostMapping("/all-product-orders")
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView viewAllOrderProductsConfirm() {
-
-        List<OrderProductServiceModel> orders =
-                this.orderProductService.findAllOrderProducts()
-                        .stream()
-                        .map(p -> this.modelMapper.map(p, OrderProductServiceModel.class))
-                        .collect(Collectors.toList());
-
-        this.orderService.addOrder(orders);
-
-        return super.redirect("/all-orders");
-    }
-
-    @GetMapping("/all-orders")
+    @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView viewAllOrders(ModelAndView modelAndView) {
-
-        List<OrderServiceModel> orderServiceModels = this.orderService.findAllOrders()
-                .stream()
-                .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
-                .collect(Collectors.toList());
-
-        for(OrderServiceModel orderServiceModel : orderServiceModels){
-            this.orderService.setTotalPrice(orderServiceModel);
-        }
-
-        List<OrderViewModel> orders = this.orderService.findAllOrders()
+    public ModelAndView getAllOrders(ModelAndView modelAndView) {
+        List<OrderViewModel> viewModels = orderService.findAllOrders()
                 .stream()
                 .map(o -> this.modelMapper.map(o, OrderViewModel.class))
                 .collect(Collectors.toList());
+        modelAndView.addObject("orders", viewModels);
 
-
-        modelAndView.addObject("orders", orders);
-        return super.view("order/all-orders", modelAndView);
+        return view("order/all-orders", modelAndView);
     }
 
+    @GetMapping("/all/details/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
+        modelAndView.addObject("order", this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
+
+        return super.view("order/order-details", modelAndView);
+    }
+
+    @GetMapping("/my")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView getMyOrders(ModelAndView modelAndView, Principal principal) {
+        List<OrderViewModel> viewModels = orderService.findOrdersByCustomer(principal.getName())
+                .stream()
+                .map(o -> this.modelMapper.map(o, OrderViewModel.class))
+                .collect(Collectors.toList());
+        modelAndView.addObject("orders", viewModels);
+
+        return view("order/all-orders", modelAndView);
+    }
+
+    @GetMapping("/my/details/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView myOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
+        modelAndView.addObject("order", this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
+
+        return super.view("order/order-details", modelAndView);
+    }
 }

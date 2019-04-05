@@ -108,14 +108,12 @@ public class ProductController extends BaseController {
         return super.redirect("/products/details/" + id);
     }
 
-    @GetMapping(value = "/details/{id}")
+    @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView detailsProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
+    public ModelAndView detailsProduct(@PathVariable String id, ModelAndView modelAndView) {
+        ProductViewModel productViewModel =  this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);
+        modelAndView.addObject("product", productViewModel);
 
-        ProductServiceModel productServiceModel = this.productService.findProductById(id);
-        ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
-
-        modelAndView.addObject("productBindingModel", productViewModel);
         return super.view("product/product-details", modelAndView);
     }
 

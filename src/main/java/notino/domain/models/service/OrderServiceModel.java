@@ -1,7 +1,5 @@
 package notino.domain.models.service;
 
-import notino.domain.entities.OrderProduct;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +9,8 @@ public class OrderServiceModel {
     private String id;
     private LocalDateTime date;
     private BigDecimal totalPrice;
-    private List<OrderProductServiceModel> orderItems;
+    private UserServiceModel customer;
+    private List<ProductServiceModel> products;
 
 
     public OrderServiceModel(){}
@@ -40,11 +39,19 @@ public class OrderServiceModel {
         this.totalPrice = totalPrice;
     }
 
-    public List<OrderProductServiceModel> getOrderItems() {
-        return this.orderItems;
+    public UserServiceModel getCustomer() {
+        return this.customer;
     }
 
-    public void setOrderItems(List<OrderProductServiceModel> orderItems) {
-        this.orderItems = orderItems;
+    public void setCustomer(UserServiceModel customer) {
+        this.customer = customer;
+    }
+
+    public List<ProductServiceModel> getProducts() {
+        return this.products;
+    }
+
+    public void setProducts(List<ProductServiceModel> products) {
+        this.products = products;
     }
 }
