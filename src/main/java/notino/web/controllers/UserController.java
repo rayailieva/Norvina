@@ -73,7 +73,6 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/logout")
-    @PreAuthorize("isAnonymous()")
     public ModelAndView logout(HttpSession session) {
 
         session.invalidate();
@@ -86,6 +85,7 @@ public class UserController extends BaseController {
     public ModelAndView userProfile(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
                                     Principal principal, ModelAndView modelAndView) {
 
+        modelAndView.addObject("username", principal.getName());
         userEditBindingModel =
                 this.modelMapper.map(this.userService.loadUserByUsername(principal.getName()), UserEditProfileBindingModel.class);
 

@@ -1,6 +1,7 @@
 package notino.service;
 
 import notino.domain.entities.Brand;
+import notino.domain.entities.Category;
 import notino.domain.entities.Product;
 import notino.domain.models.service.BrandServiceModel;
 import notino.domain.models.service.ProductServiceModel;
@@ -19,14 +20,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
-    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, BrandRepository brandRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, BrandRepository brandRepository,ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
-        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -100,5 +99,18 @@ public class ProductServiceImpl implements ProductService {
                .stream()
                .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductServiceModel> findAllByCategory(String categoryName) {
+
+       return this.productRepository
+                .findAll()
+                .stream()
+                .filter(p -> p.getCategory().name().equals(categoryName))
+                .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
+                .collect(Collectors.toList());
+
+
     }
 }

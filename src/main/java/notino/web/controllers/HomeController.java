@@ -1,7 +1,10 @@
 package notino.web.controllers;
 
+import notino.domain.entities.Category;
 import notino.domain.models.view.BrandViewModel;
+import notino.domain.models.view.ProductViewModel;
 import notino.service.BrandService;
+import notino.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,11 +19,13 @@ import java.util.stream.Collectors;
 public class HomeController extends BaseController{
 
     private final BrandService brandService;
+    private final ProductService productService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HomeController(BrandService brandService, ModelMapper modelMapper) {
+    public HomeController(BrandService brandService, ProductService productService, ModelMapper modelMapper) {
         this.brandService = brandService;
+        this.productService = productService;
         this.modelMapper = modelMapper;
     }
 
@@ -43,6 +48,18 @@ public class HomeController extends BaseController{
         modelAndView.addObject("brands", brands);
 
         return super.view("home", modelAndView);
+    }
+
+    @GetMapping("/makeup-category")
+    public ModelAndView makeupCategoryView(ModelAndView modelAndView){
+        List<ProductViewModel> products = this.productService.findAllByCategory("Makeup")
+                .stream()
+                .map(b -> this.modelMapper.map(b, ProductViewModel.class))
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("products", products);
+
+        return super.view("category/makeup-category", modelAndView);
     }
 
 }
