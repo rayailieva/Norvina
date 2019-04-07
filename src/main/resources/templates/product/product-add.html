@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label for="productCategory">Category</label>
                 <select class="form-control" th:field="*{category}" id="productCategory">
-                    <th:block th:each="category : ${T(notino.domain.entities.Category).values()}">
+                    <th:block th:each="category : ${T(norvina.domain.entities.Category).values()}">
                         <option
                                 th:value="${category}"
                                 th:text="${category}">

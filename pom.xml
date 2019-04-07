@@ -12,7 +12,7 @@
     <artifactId>notino</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>notino</name>
+    <name>norvina</name>
     <description>App for selling cosmetics and makeup</description>
 
     <properties>
