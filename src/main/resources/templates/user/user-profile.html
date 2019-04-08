@@ -2,6 +2,7 @@
     <div>
         <div class="jumbotron bg-forms d-flex justify-content-center text text-center"
              th:object="${userEditBindingModel}">
+            <form class="form w-25 mx-auto" th:action="@{/user-edit-profile/{id}(id=${userEditBindingModel.id})}" th:method="post">
             <div class="container">
                 <div class="row d-flex justify-content-center">
                     <h1 th:text="|Hello, ${username}|"></h1>
@@ -16,8 +17,11 @@
                 <div class="row d-flex justify-content-center">
                     <h4 th:text="'Last Name: ' + *{lastName}"></h4>
                 </div>
-
+                <th:block>
+                    <a th:href="@{/user-edit-profile/{id}(id=${userEditBindingModel.id})}" class="btn btn-info">Edit</a>
+                </th:block>
             </div>
+            </form>
         </div>
     </div>
 </th:block>

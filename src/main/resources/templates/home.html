@@ -6,7 +6,7 @@
             <div class="sidebar-heading">Brands </div>
             <div class="list-group list-group-flush">
                 <th:block th:each="brand : ${brands}" th:object="${brand}">
-                    <a href="#" class="list-group-item list-group-item-action bg-light" th:text="${brand.name}"
+                    <a class="list-group-item list-group-item-action bg-light" th:href="@{/brands/products/{id}(id=${brand.id})}"  th:text="${brand.name}"
                        th:value="*{name}"></a>
                 </th:block>
                 <button class="btn bg-white text-black-50" id="menu-toggle">Toggle Menu</button>
@@ -79,5 +79,8 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+
     </script>
+
+
 </th:block>

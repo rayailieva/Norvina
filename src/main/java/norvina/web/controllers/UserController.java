@@ -79,7 +79,6 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/user-profile")
-    @PreAuthorize("isAuthenticated()")
     public ModelAndView userProfile(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
                                     Principal principal, ModelAndView modelAndView) {
 
@@ -92,25 +91,30 @@ public class UserController extends BaseController {
 
     }
 
+    @GetMapping("/user-edit-profile/{id}")
+    public ModelAndView userEditProfile(@PathVariable("id") String id, ModelAndView modelAndView) {
+        UserEditProfileBindingModel userBindingModel =
+                this.modelMapper.map(this.userService.findUserById(id), UserEditProfileBindingModel.class);
 
-    @PostMapping("/user-edit-profile")
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView userEditProfileConfirm(@Valid @ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
-                                    BindingResult bindingResult, ModelAndView modelAndView) {
-        UserServiceModel userServiceModel = this.userService.extractUserByEmail(userEditBindingModel.getEmail());
+        modelAndView.addObject("userEditBindingModel", userBindingModel);
+
+        return super.view("user/user-edit-profile", modelAndView);
+    }
+
+    @PostMapping("/user-edit-profile/{id}")
+    public ModelAndView userEditProfileConfirm(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
+                                                BindingResult bindingResult, ModelAndView modelAndView) {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
             return super.view("user/user-edit-profile", modelAndView);
         }
 
-        if (!userEditBindingModel.getNewPassword().equals("")) {
-            userEditBindingModel.setPassword(userEditBindingModel.getNewPassword());
+        if (!userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())) {
+            return super.view("user/user-edit-profile");
         }
 
-        if (!this.userService.editUser(this.modelMapper.map(userEditBindingModel, UserServiceModel.class))) {
-            throw new IllegalArgumentException("Editing user " + userServiceModel.getEmail() + " failed.");
-        }
+        this.userService.editUser(this.modelMapper.map(userEditBindingModel, UserServiceModel.class), userEditBindingModel.getOldPassword());
 
         return super.redirect("/user-profile");
     }

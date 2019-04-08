@@ -37,6 +37,9 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(brand);
         this.productRepository.saveAndFlush(product);
 
+        brand.getProducts().add(product);
+        this.brandRepository.saveAndFlush(brand);
+
         return this.modelMapper.map(product, ProductServiceModel.class);
 
     }

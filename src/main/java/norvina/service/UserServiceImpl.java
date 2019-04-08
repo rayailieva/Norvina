@@ -86,6 +86,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserServiceModel findUserById(String id) {
+
+        User user = this.userRepository.findById(id).
+                orElseThrow(() -> new IllegalArgumentException("Username not found"));
+        return this.modelMapper.map(user, UserServiceModel.class);
+    }
+
+    @Override
     public List<UserServiceModel> findAllUsers() {
         return this.userRepository.findAll()
                 .stream()
@@ -94,21 +102,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean editUser(UserServiceModel userServiceModel) {
-        User userEntity = this.userRepository.findByUsername(userServiceModel.getEmail()).orElse(null);
+    public UserServiceModel editUser(UserServiceModel userServiceModel, String oldPassword) {
+        User user = this.userRepository.findByUsername(userServiceModel.getUsername())
+                .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
 
-        if (userEntity == null) {
-            throw new UsernameNotFoundException("Wrong or non-existent email.");
+        if (!this.encoder.matches(oldPassword, user.getPassword())) {
+            throw new IllegalArgumentException("Incorrect password!");
         }
 
-        userEntity = this.modelMapper.map(userServiceModel, User.class);
-        userEntity.setId(userServiceModel.getId());
-        userEntity.setUsername(userServiceModel.getEmail());
-        userEntity.setPassword(this.encoder.encode(userEntity.getPassword()));
+        user.setPassword(!"".equals(userServiceModel.getPassword()) ?
+                this.encoder.encode(userServiceModel.getPassword()) :
+                user.getPassword());
+        user.setEmail(userServiceModel.getEmail());
 
-        this.userRepository.save(userEntity);
-
-        return true;
+        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 
     @Override

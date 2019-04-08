@@ -118,16 +118,17 @@ public class BrandController extends BaseController {
         return super.view("brand/all-brands", modelAndView);
     }
 
-    @GetMapping("/products")
+    @GetMapping("/products/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView allProductsByBrand(@PathVariable String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
-        List<ProductServiceModel>  productServiceModels = this.productService
-                .findAllByBrand(brandServiceModel.getName());
+
+        List<ProductServiceModel>  productServiceModels =
+                this.productService.findAllByBrand(brandServiceModel.getName());
 
         modelAndView.addObject("products", productServiceModels);
         modelAndView.addObject("brand", brandServiceModel);
-        return super.view("brand/products", modelAndView);
+        return super.view("brand/products-by-brand", modelAndView);
     }
 }

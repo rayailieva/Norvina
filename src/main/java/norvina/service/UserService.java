@@ -9,11 +9,13 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel registerUser(UserServiceModel userServiceModel);
 
-    boolean editUser(UserServiceModel userServiceModel);
+    UserServiceModel editUser(UserServiceModel userServiceModel, String oldPassword);
 
     UserServiceModel extractUserByEmail(String email);
 
     UserServiceModel findUserByUsername(String name);
+
+    UserServiceModel findUserById(String id);
 
     List<UserServiceModel> findAllUsers();
 
