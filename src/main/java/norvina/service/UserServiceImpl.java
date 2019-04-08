@@ -3,6 +3,7 @@ package norvina.service;
 import norvina.domain.entities.Role;
 import norvina.domain.entities.User;
 import norvina.domain.models.service.UserServiceModel;
+import norvina.error.IdNotFoundException;
 import norvina.repository.RoleRepository;
 import norvina.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -88,8 +89,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel findUserById(String id) {
 
-        User user = this.userRepository.findById(id).
-                orElseThrow(() -> new IllegalArgumentException("Username not found"));
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new IdNotFoundException("User with the given id is not found"));
+
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 
@@ -115,13 +117,14 @@ public class UserServiceImpl implements UserService {
                 user.getPassword());
         user.setEmail(userServiceModel.getEmail());
 
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        this.userRepository.saveAndFlush(user);
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
     @Override
     public void setUserRole(String id, String role) {
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Incorrect id!"));
+                .orElseThrow(() -> new IdNotFoundException("User with the given id is not found"));
 
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
         userServiceModel.getAuthorities().clear();
@@ -141,6 +144,7 @@ public class UserServiceImpl implements UserService {
                 break;
         }
 
-        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
+        user = this.modelMapper.map(userServiceModel, User.class);
+        this.userRepository.saveAndFlush(user);
     }
 }

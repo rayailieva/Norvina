@@ -2,6 +2,7 @@ package norvina.service;
 
 import norvina.domain.entities.Order;
 import norvina.domain.models.service.OrderServiceModel;
+import norvina.error.OrderNotFoundException;
 import norvina.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceModel findOrderById(String id) {
         return this.orderRepository.findById(id)
                 .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new OrderNotFoundException("Order with the given id is not found!"));
     }
 }

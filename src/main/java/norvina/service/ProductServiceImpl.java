@@ -3,6 +3,8 @@ package norvina.service;
 import norvina.domain.entities.Brand;
 import norvina.domain.entities.Product;
 import norvina.domain.models.service.ProductServiceModel;
+import norvina.error.BrandNotFoundException;
+import norvina.error.ProductNotFoundException;
 import norvina.repository.BrandRepository;
 import norvina.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
@@ -30,10 +32,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceModel addProduct(ProductServiceModel productServiceModel) {
 
         Product product = this.modelMapper.map(productServiceModel, Product.class);
-        Brand brand = this.brandRepository.findByName(productServiceModel.getBrand().getName()).orElse(null);
+        Brand brand = this.brandRepository
+                .findByName(productServiceModel.getBrand().getName())
+                .orElse(null);
         if(brand == null){
-            throw new IllegalArgumentException("Brand is null :|");
+            throw new BrandNotFoundException("Brand with the given id is not found!");
         }
+
         product.setBrand(brand);
         this.productRepository.saveAndFlush(product);
 
@@ -56,21 +61,22 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceModel findProductById(String id) {
         return this.productRepository.findById(id)
                 .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new ProductNotFoundException("Product with the given id is not found!"));
     }
 
     @Override
     public ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new ProductNotFoundException("Product with the given id is not found!"));
 
         product.setName(productServiceModel.getName());
         product.setDescription(productServiceModel.getDescription());
         product.setImageUrl(productServiceModel.getImageUrl());
         product.setPrice(productServiceModel.getPrice());
 
-        return this.modelMapper
-                .map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
+        this.productRepository.saveAndFlush(product);
+
+        return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
     @Override

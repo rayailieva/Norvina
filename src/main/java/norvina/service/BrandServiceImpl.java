@@ -2,6 +2,7 @@ package norvina.service;
 
 import norvina.domain.entities.Brand;
 import norvina.domain.models.service.BrandServiceModel;
+import norvina.error.BrandNotFoundException;
 import norvina.repository.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandServiceModel findBrandById(String id) {
         return this.brandRepository.findById(id)
                 .map(p -> this.modelMapper.map(p, BrandServiceModel.class))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new BrandNotFoundException("Brand with the given id is not found!"));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = this.brandRepository.findByName(name).orElse(null);
 
         if(brand == null){
-            throw new IllegalArgumentException("Brand name is null!");
+            throw new BrandNotFoundException("Brand with the given name is not found!");
         }
 
         return this.modelMapper.map(brand, BrandServiceModel.class);
@@ -60,12 +61,13 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandServiceModel editBrand(String id, BrandServiceModel brandServiceModel) {
         Brand brand = this.brandRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new BrandNotFoundException("Brand with the given id is not found!"));
 
         brand.setName(brandServiceModel.getName());
 
-        return this.modelMapper
-                .map(this.brandRepository.saveAndFlush(brand), BrandServiceModel.class);
+        this.brandRepository.saveAndFlush(brand);
+
+        return this.modelMapper.map(brand, BrandServiceModel.class);
     }
 
     @Override
