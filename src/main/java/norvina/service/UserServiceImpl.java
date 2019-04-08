@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel) {
 
-        this.insertUserRoles();
+        this.roleService.seedRolesInDb();
 
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.encoder.encode(user.getPassword()));
@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
         if (this.userRepository.count() == 0) {
             user.setAuthorities(new HashSet<>());
             user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_ADMIN"));
+            user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_MODERATOR"));
             user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
         } else {
            user.setAuthorities(new HashSet<>());
@@ -56,18 +57,6 @@ public class UserServiceImpl implements UserService {
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 
-    private void insertUserRoles() {
-        if (this.roleRepository.count() == 0) {
-            Role userRole = new Role();
-            userRole.setAuthority("ROLE_USER");
-
-            Role adminRole = new Role();
-            adminRole.setAuthority("ROLE_ADMIN");
-
-            this.roleRepository.save(userRole);
-            this.roleRepository.save(adminRole);
-        }
-    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -134,9 +123,14 @@ public class UserServiceImpl implements UserService {
             case "user":
                 userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
                 break;
+            case "moderator":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
+                break;
             case "admin":
                 userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
                 userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
                 break;
         }
 

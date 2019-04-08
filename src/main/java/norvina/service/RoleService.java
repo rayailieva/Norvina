@@ -7,5 +7,7 @@ public interface RoleService {
 
    // Set<RoleServiceModel> findAllRoles();
 
+    void seedRolesInDb();
+
     RoleServiceModel findByAuthority(String authority);
 }

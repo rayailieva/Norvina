@@ -18,23 +18,15 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
     }
-/*
-     @Override
-     public void seedRolesInDb() {
-         if (this.roleRepository.count() == 0) {
-             this.roleRepository.saveAndFlush(new Role("ROLE_USER"));
-             this.roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
-         }
-     }
 
     @Override
-    public Set<RoleServiceModel> findAllRoles() {
-        return this.roleRepository.findAll()
-                .stream()
-                .map(r -> this.modelMapper.map(r, RoleServiceModel.class))
-                .collect(Collectors.toSet());
+    public void seedRolesInDb() {
+        if (this.roleRepository.count() == 0) {
+            this.roleRepository.saveAndFlush(new Role("ROLE_USER"));
+            this.roleRepository.saveAndFlush(new Role("ROLE_MODERATOR"));
+            this.roleRepository.saveAndFlush(new Role("ROLE_ADMIN"));
+        }
     }
-    */
 
     @Override
     public RoleServiceModel findByAuthority(String authority) {
