@@ -46,7 +46,6 @@ public class BrandController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addBrandConfirm(@Valid @ModelAttribute BrandBindingModel brandBindingModel ,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
-
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("brandBindingModel", brandBindingModel);
             return super.view("brand/brand-add", modelAndView);

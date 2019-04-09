@@ -10,6 +10,7 @@
 <main class="mt-3">
         <h1 class="text-center text-notino">Register</h1>
         <form class="mx-auto w-25" th:action="@{/register}" th:object="${userRegisterBindingModel}" method="post">
+            <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
             <div class="form-group">
                 <label for="username" class="text-notino">Username</label>
                 <input type="text" class="form-control" id="username" th:field="*{username}" th:styleappend="${#fields.hasErrors('username')} ? border-color: red"

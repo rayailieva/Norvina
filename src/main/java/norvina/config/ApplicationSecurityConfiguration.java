@@ -32,7 +32,17 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/unauthorized")
+                .and()
+                .csrf()
+                .disable()
         ;
 
+    }
+
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository =
+                new HttpSessionCsrfTokenRepository();
+        repository.setSessionAttributeName("_csrf");
+        return repository;
     }
 }

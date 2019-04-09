@@ -41,7 +41,6 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@Valid @ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
 
@@ -54,6 +53,7 @@ public class UserController extends BaseController {
 
             return super.view("register", modelAndView);
         }
+
 
         UserServiceModel userServiceModel =
                 this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
