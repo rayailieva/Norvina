@@ -1,4 +1,12 @@
-<th:block>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body class="bg-body justify-content-center">
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
     <div>
         <div class="jumbotron bg-forms d-flex justify-content-center text text-center">
 
@@ -47,4 +55,8 @@
             </form>
         </div>
     </div>
-</th:block>
+    <footer >
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+    </body>
+    </html>

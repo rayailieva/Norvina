@@ -1,4 +1,12 @@
-<th:block>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body class="bg-body justify-content-center">
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
     <div class="d-flex" id="wrapper">
 
         <!-- Sidebar -->
@@ -82,5 +90,8 @@
 
     </script>
 
-
-</th:block>
+    <footer >
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+    </body>
+    </html>

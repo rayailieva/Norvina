@@ -16,9 +16,6 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .csrfTokenRepository(csrfTokenRepository())
-                .and()
                 .authorizeRequests()
                 .antMatchers("/", "/login", "/register").anonymous()
                 .antMatchers("/js/**", "/css/**").permitAll()
@@ -31,17 +28,11 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .defaultSuccessUrl("/home")
                 .and()
                 .logout()
+                .logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/unauthorized")
         ;
 
-    }
-
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository =
-                new HttpSessionCsrfTokenRepository();
-        repository.setSessionAttributeName("_csrf");
-        return repository;
     }
 }

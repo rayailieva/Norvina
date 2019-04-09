@@ -6,8 +6,7 @@ public abstract class BaseController {
 
     public ModelAndView view(String viewName, ModelAndView modelAndView) {
         modelAndView.addObject("view", viewName);
-
-        modelAndView.setViewName("fragments/base-layout");
+        modelAndView.setViewName(viewName);
 
         return modelAndView;
     }
@@ -16,9 +15,7 @@ public abstract class BaseController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.addObject("view", viewName);
-
-        modelAndView.setViewName("fragments/base-layout");
-
+        modelAndView.setViewName(viewName);
         return modelAndView;
     }
 

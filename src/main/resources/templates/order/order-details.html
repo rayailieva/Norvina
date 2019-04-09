@@ -1,4 +1,12 @@
-<th:block>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body class="bg-body justify-content-center">
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
     <main class="mt-3">
         <h1 class="text-center text-dark" th:text="|Order: ${order.id}|"></h1>
         <h3 class="text-center text-dark">Products</h3>
@@ -27,4 +35,8 @@
         </table>
         <hr class="hr-2 bg-dark">
     </main>
-</th:block>
+    <footer >
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+    </body>
+    </html>

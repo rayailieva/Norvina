@@ -7,7 +7,6 @@ import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.BrandViewModel;
 import norvina.domain.models.view.ProductViewModel;
 import norvina.service.BrandService;
-import norvina.service.CloudinaryService;
 import norvina.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,12 @@ public class ProductController extends BaseController {
 
     private final ProductService productService;
     private final BrandService brandService;
-    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, BrandService brandService, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, BrandService brandService, ModelMapper modelMapper) {
         this.productService = productService;
         this.brandService = brandService;
-        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
 
