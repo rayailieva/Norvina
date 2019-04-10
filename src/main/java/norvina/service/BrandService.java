@@ -16,7 +16,7 @@ public interface BrandService {
 
     BrandServiceModel editBrand(String id, BrandServiceModel brandServiceModel);
 
-    boolean deleteBrand(String id);
+    BrandServiceModel deleteBrand(String id);
 
 
 }

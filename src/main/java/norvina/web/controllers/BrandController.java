@@ -98,9 +98,7 @@ public class BrandController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteBrandConfirm(@PathVariable(name = "id") String id ) {
 
-        if(!this.brandService.deleteBrand(id)){
-            throw new IllegalArgumentException("Something went wrong!");
-        }
+        this.brandService.deleteBrand(id);
 
         return super.redirect("/home");
     }

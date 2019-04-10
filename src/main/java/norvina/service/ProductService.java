@@ -15,7 +15,7 @@ public interface ProductService {
 
     ProductServiceModel editProduct(String id, ProductServiceModel productServiceModel);
 
-    boolean deleteProduct(String id);
+    ProductServiceModel deleteProduct(String id);
 
     List<ProductServiceModel> findAllByBrand(String brandName);
 

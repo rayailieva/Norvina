@@ -13,6 +13,7 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -78,6 +79,17 @@ public class BrandControllerTests {
     }
 
     @Test
+    public void brands_editBrandReturnsCorrectView() throws Exception {
+        Brand brand = new Brand();
+        brand.setName("loreal");
+        brand = this.mockBrandRepository.saveAndFlush(brand);
+
+        this.mvc
+                .perform(get("/brands/edit/" + brand.getId()))
+                .andExpect(view().name("brand/brand-edit"));
+    }
+
+    @Test
     public void brands_editBrandCorrectly() throws Exception {
        Brand brand = new Brand();
        brand.setName("loreal");
@@ -123,6 +135,35 @@ public class BrandControllerTests {
 
         Assert.assertEquals(1, this.mockBrandRepository.count());
         Assert.assertEquals("loreal", this.mockBrandRepository.findAll().get(0).getName());
+    }
 
+    @Test
+    public void brands_deleteBrandReturnsCorrectView() throws Exception {
+        Brand brand = new Brand();
+        brand.setName("loreal");
+        brand = this.mockBrandRepository.saveAndFlush(brand);
+
+        this.mvc
+                .perform(get("/brands/delete/" + brand.getId()))
+                .andExpect(view().name("brand/brand-delete"));
+    }
+
+    @Test
+    public void brands_allProductsByBrandReturnsCorrectView() throws Exception {
+        Brand brand = new Brand();
+        brand.setName("loreal");
+        brand = this.mockBrandRepository.saveAndFlush(brand);
+
+        this.mvc
+                .perform(get("/brands/products/" + brand.getId()))
+                .andExpect(view().name("brand/products-by-brand"));
+    }
+
+    @Test
+    public void brands_allBrandsReturnsCorrectView() throws Exception {
+
+        this.mvc
+                .perform(get("/brands/all-brands"))
+                .andExpect(view().name("brand/all-brands"));
     }
 }

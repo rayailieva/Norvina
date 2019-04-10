@@ -42,7 +42,8 @@ public class OrderController extends BaseController{
     @GetMapping("/all/details/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
-        modelAndView.addObject("order", this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
+        modelAndView.addObject("order",
+                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
 
         return super.view("order/order-details", modelAndView);
     }

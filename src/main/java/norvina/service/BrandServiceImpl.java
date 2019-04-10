@@ -51,7 +51,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandServiceModel findBrandByName(String name) {
         Brand brand = this.brandRepository.findByName(name).orElse(null);
 
-        if(brand == null){
+        if (brand == null) {
             throw new BrandNotFoundException("Brand with the given name is not found!");
         }
 
@@ -71,15 +71,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public boolean deleteBrand(String id) {
-        try {
-            this.brandRepository.deleteById(id);
+    public BrandServiceModel deleteBrand(String id) {
+        Brand brand = this.brandRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
 
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        this.brandRepository.delete(brand);
 
-            return false;
-        }
+        return this.modelMapper.map(brand, BrandServiceModel.class);
+
     }
 }

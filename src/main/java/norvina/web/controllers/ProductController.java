@@ -130,9 +130,7 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
-        if (!this.productService.deleteProduct(id)) {
-            throw new IllegalArgumentException("Something went wrong!");
-        }
+        this.productService.deleteProduct(id);
 
         return super.redirect("/home");
     }

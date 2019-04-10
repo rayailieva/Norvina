@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, BrandRepository brandRepository,ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, BrandRepository brandRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.modelMapper = modelMapper;
@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         Brand brand = this.brandRepository
                 .findByName(productServiceModel.getBrand().getName())
                 .orElse(null);
-        if(brand == null){
+        if (brand == null) {
             throw new BrandNotFoundException("Brand with the given id is not found!");
         }
 
@@ -80,37 +80,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean deleteProduct(String id) {
-        try {
-            this.productRepository.deleteById(id);
+    public ProductServiceModel deleteProduct(String id) {
+        Product product = this.productRepository.findById(id)
+                .orElseThrow(ProductNotFoundException::new);
+        this.productRepository.deleteById(id);
 
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return false;
-        }
+        return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
     @Override
     public List<ProductServiceModel> findAllByBrand(String brandName) {
 
-       Brand brand = this.brandRepository.findByName(brandName).orElse(null);
+        Brand brand = this.brandRepository.findByName(brandName).orElse(null);
 
-       if(brand == null){
-           throw new IllegalArgumentException("Brand is null :|");
-       }
+        if (brand == null) {
+            throw new IllegalArgumentException("Brand is null :|");
+        }
 
-       return brand.getProducts()
-               .stream()
-               .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
-               .collect(Collectors.toList());
+        return brand.getProducts()
+                .stream()
+                .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProductServiceModel> findAllByCategory(String categoryName) {
 
-       return this.productRepository
+        return this.productRepository
                 .findAll()
                 .stream()
                 .filter(p -> p.getCategory().name().equals(categoryName))

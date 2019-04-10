@@ -93,6 +93,25 @@ public class ProductControllerTests {
     }
 
     @Test
+    public void products_editViewReturnsCorrectView() throws Exception {
+        this.getBrandEntity();
+
+        Product product = new Product();
+        product.setName("sunscreen");
+        product.setDescription("spf 100");
+        product.setImageUrl("lalalal.com");
+        product.setPrice(BigDecimal.TEN);
+        product.setCategory(Category.Body);
+        product.setBrand(getBrandEntity());
+
+        product = this.mockProductRepository.saveAndFlush(product);
+
+        this.mvc
+                .perform(get("/products/edit/" + product.getId()))
+                .andExpect(view().name("product/product-edit"));
+    }
+
+    @Test
     public void products_editProductCorrectly() throws Exception {
 
         this.getBrandEntity();
@@ -122,6 +141,44 @@ public class ProductControllerTests {
         Assert.assertEquals("skin mist", product1.getName());
     }
 
+    @Test
+    public void products_detailsViewReturnsCorrectView() throws Exception {
+        this.getBrandEntity();
+
+        Product product = new Product();
+        product.setName("sunscreen");
+        product.setDescription("spf 100");
+        product.setPrice(BigDecimal.TEN);
+        product.setCategory(Category.Body);
+        product.setBrand(getBrandEntity());
+
+        product = this.mockProductRepository.saveAndFlush(product);
+
+
+        this.mvc
+                .perform(get("/products/details/" + product.getId()))
+                .andExpect(view().name("product/product-details"));
+    }
+
+
+    @Test
+    public void products_deleteViewReturnsCorrectView() throws Exception {
+        this.getBrandEntity();
+
+        Product product = new Product();
+        product.setName("sunscreen");
+        product.setDescription("spf 100");
+        product.setImageUrl("lalalal.com");
+        product.setPrice(BigDecimal.TEN);
+        product.setCategory(Category.Body);
+        product.setBrand(getBrandEntity());
+
+        product = this.mockProductRepository.saveAndFlush(product);
+
+        this.mvc
+                .perform(get("/products/delete/" + product.getId()))
+                .andExpect(view().name("product/product-delete"));
+    }
 
     @Test
     public void products_deleteProductCorrectly() throws Exception {
