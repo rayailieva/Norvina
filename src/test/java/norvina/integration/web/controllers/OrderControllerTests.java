@@ -61,6 +61,19 @@ public class OrderControllerTests {
                 .andExpect(view().name("order/all-orders"));
     }
 
+    @Test
+    public void orders_allOrdersDetailsReturnsCorrectView() throws Exception {
+
+        Order order = new Order();
+        order.setDate(LocalDateTime.now());
+
+        order = this.mockOrderRepository.saveAndFlush(order);
+
+        this.mvc
+                .perform(get("/orders/all/details/" + order.getId()))
+                .andExpect(view().name("order/order-details"));
+    }
+
 
     @Test
     public void orders_viewMyOrdersCorrectly() throws Exception {
@@ -68,6 +81,19 @@ public class OrderControllerTests {
         this.mvc
                 .perform(get("/orders/my"))
                 .andExpect(view().name("order/all-orders"));
+    }
+
+    @Test
+    public void orders_myOrdersDetailsReturnsCorrectView() throws Exception {
+
+        Order order = new Order();
+        order.setDate(LocalDateTime.now());
+
+        order = this.mockOrderRepository.saveAndFlush(order);
+
+        this.mvc
+                .perform(get("/orders/my/details/" + order.getId()))
+                .andExpect(view().name("order/order-details"));
     }
 
 }

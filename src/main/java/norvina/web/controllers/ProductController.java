@@ -151,22 +151,4 @@ public class ProductController extends BaseController {
 
     }
 
-    @GetMapping("/fetch/{brand}")
-    @PreAuthorize("isAuthenticated()")
-    @ResponseBody
-    public List<ProductViewModel> fetchByBrand(@PathVariable String brand) {
-        if(brand.equals("all")) {
-            return this.productService.findAllProducts()
-                    .stream()
-                    .map(product -> this.modelMapper.map(product, ProductViewModel.class))
-                    .collect(Collectors.toList());
-        }
-
-        return this.productService.findAllByBrand(brand)
-                .stream()
-                .map(product -> this.modelMapper.map(product, ProductViewModel.class))
-                .collect(Collectors.toList());
-    }
-
-
 }
