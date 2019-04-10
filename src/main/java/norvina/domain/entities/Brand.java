@@ -21,10 +21,10 @@ public class Brand extends BaseEntity {
         this.name = name;
     }
 
-    @OneToMany(targetEntity = Product.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "products_brands",
-            joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
+    //@JoinTable(name = "products_brands",
+    //        joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "id"),
+    //        inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
     public List<Product> getProducts() {
         return this.products;
     }

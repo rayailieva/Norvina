@@ -13,7 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import java.security.Principal;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -28,7 +34,25 @@ public class UserControllerTests {
     private MockMvc mvc;
 
     @Autowired
-    private UserRepository userRepository;
+    private WebApplicationContext context;
+
+
+    @Autowired
+    private UserRepository mockUserRepository;
+
+    @Before
+    public void setUp() {
+       // this.mockUserRepository.deleteAll();
+
+        /*
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .defaultRequest(get("/")
+                        .with(user("user").password("password").roles("ADMIN")))
+                .apply(springSecurity())
+                .build();
+                */
+    }
 
     @Test
     public void login_ReturnsCorrectView() throws Exception {
@@ -44,9 +68,8 @@ public class UserControllerTests {
                 .andExpect(view().name("register"));
     }
 
-    /*
     @Test
-    public void register_registersUserCorrectly() throws Exception {
+    public void users_registersUserCorrectly() throws Exception {
         this.mvc
                 .perform(post("/register")
                         .param("username", "pesho")
@@ -56,7 +79,6 @@ public class UserControllerTests {
                         .param("password", "123456")
                         .param("confirmPassword", "123456"));
 
-        Assert.assertEquals(1, this.userRepository.count());
+        Assert.assertEquals(1, this.mockUserRepository.count());
     }
-    */
 }

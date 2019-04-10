@@ -63,7 +63,7 @@ public class Product extends BaseEntity{
         this.imageUrl = imageUrl;
     }
 
-    @ManyToOne(targetEntity = Brand.class)
+    @ManyToOne()
     public Brand getBrand() {
         return this.brand;
     }
