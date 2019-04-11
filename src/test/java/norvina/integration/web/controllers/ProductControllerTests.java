@@ -60,14 +60,14 @@ public class ProductControllerTests {
                         .with(user("user").password("password").roles("ADMIN")))
                 .apply(springSecurity())
                 .build();
-            }
+    }
 
-   @Test
-   public void products_addProductReturnsCorrectView() throws Exception {
-       this.mvc
-               .perform(get("/products/add"))
-               .andExpect(view().name("product/product-add"));
-   }
+    @Test
+    public void products_addProductReturnsCorrectView() throws Exception {
+        this.mvc
+                .perform(get("/products/add"))
+                .andExpect(view().name("product/product-add"));
+    }
 
     @Test
     public void products_addProductCorrectly() throws Exception {
@@ -80,11 +80,11 @@ public class ProductControllerTests {
         this.mvc
                 .perform(post("/products/add")
                         .param("name", "sunscreen")
-                                .param("description", "spf 100")
-                                .param("imageUrl", "sunscreen")
-                                .param("price", "10")
-                                .param("category", "Sun")
-                                .param("brand", "maybelline"));
+                        .param("description", "spf 100")
+                        .param("imageUrl", "sunscreen")
+                        .param("price", "10")
+                        .param("category", "Sun")
+                        .param("brand", "maybelline"));
 
         Product product = this.mockProductRepository.findAll().get(0);
         Assert.assertEquals("sunscreen", product.getName());
@@ -129,15 +129,15 @@ public class ProductControllerTests {
         this.mvc
                 .perform(
                         post("/products/edit/" + product.getId())
-                        .param("name", "skin mist")
-                        .param("description", "spf 100")
-                        .param("imageUrl", "lalalal.bg")
+                                .param("name", "skin mist")
+                                .param("description", "spf 100")
+                                .param("imageUrl", "lalalal.bg")
                                 .param("price", product.getPrice().toString())
                                 .param("category", Category.Body.toString())
                                 .param("brand", product.getBrand().toString())
                 );
 
-        Product  product1 = this.mockProductRepository.findAll().get(0);
+        Product product1 = this.mockProductRepository.findAll().get(0);
         Assert.assertEquals("skin mist", product1.getName());
     }
 
@@ -199,7 +199,7 @@ public class ProductControllerTests {
                         post("/products/delete/" + product.getId())
                 );
 
-       Assert.assertEquals(0, this.mockProductRepository.count());
+        Assert.assertEquals(0, this.mockProductRepository.count());
     }
 
     @Test

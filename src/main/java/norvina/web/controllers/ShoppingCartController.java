@@ -1,5 +1,6 @@
 package norvina.web.controllers;
 
+import norvina.domain.models.service.OrderProductServiceModel;
 import norvina.domain.models.service.OrderServiceModel;
 import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.ProductViewModel;
@@ -122,9 +123,9 @@ public class ShoppingCartController extends BaseController{
     private OrderServiceModel prepareOrder(List<ShoppingCartItem> cart, String customer) {
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
-        List<ProductServiceModel> products = new ArrayList<>();
+        List<OrderProductServiceModel> products = new ArrayList<>();
         for (ShoppingCartItem item : cart) {
-            ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), ProductServiceModel.class);
+            OrderProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
 
             for (int i = 0; i < item.getQuantity(); i++) {
                 products.add(productServiceModel);

@@ -166,4 +166,14 @@ public class BrandControllerTests {
                 .perform(get("/brands/all-brands"))
                 .andExpect(view().name("brand/all-brands"));
     }
+
+    @Test(expected = Exception.class)
+    public void brandNotFoundException_returnsCorrect() throws BrandNotFoundException {
+        Brand brand = new Brand();
+        brand.setName("test");
+        Brand brand1 = this.mockBrandRepository.findById(brand.getId()).orElse(null);
+        if (brand1 == null) {
+            throw new BrandNotFoundException("Brand with the given id is not found!");
+        }
+    }
 }
