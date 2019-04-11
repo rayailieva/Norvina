@@ -34,7 +34,7 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/add")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel,
                                  BindingResult bindingResult, ModelAndView modelAndView) {
 
@@ -43,7 +43,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addBrandConfirm(@Valid @ModelAttribute BrandBindingModel brandBindingModel ,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
@@ -57,7 +57,7 @@ public class BrandController extends BaseController {
 
 
     @GetMapping(value = "/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
@@ -68,7 +68,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping(value = "/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id,
                                          @Valid @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel,
                                          BindingResult bindingResult, ModelAndView modelAndView) {
@@ -84,7 +84,7 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
@@ -95,7 +95,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping(value = "/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteBrandConfirm(@PathVariable(name = "id") String id ) {
 
         this.brandService.deleteBrand(id);

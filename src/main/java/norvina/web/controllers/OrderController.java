@@ -27,26 +27,6 @@ public class OrderController extends BaseController{
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView getAllOrders(ModelAndView modelAndView) {
-        List<OrderViewModel> viewModels = orderService.findAllOrders()
-                .stream()
-                .map(o -> this.modelMapper.map(o, OrderViewModel.class))
-                .collect(Collectors.toList());
-        modelAndView.addObject("orders", viewModels);
-
-        return view("order/all-orders", modelAndView);
-    }
-
-    @GetMapping("/all/details/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
-        modelAndView.addObject("order",
-                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
-
-        return super.view("order/order-details", modelAndView);
-    }
 
     @GetMapping("/my")
     @PreAuthorize("isAuthenticated()")

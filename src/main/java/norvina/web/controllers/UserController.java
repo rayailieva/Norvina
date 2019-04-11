@@ -118,39 +118,4 @@ public class UserController extends BaseController {
 
         return super.redirect("/user-profile");
     }
-
-    @GetMapping("/all-users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allUsers(ModelAndView modelAndView){
-
-        List<UserViewModel> users = this.userService.findAllUsers()
-                .stream()
-                .map(u -> {
-                    UserViewModel user = this.modelMapper.map(u, UserViewModel.class);
-                    user.setAuthorities(u.getAuthorities().stream().map(RoleServiceModel::getAuthority).collect(Collectors.toSet()));
-
-                    return user;
-                })
-                .collect(Collectors.toList());
-
-        modelAndView.addObject("users", users);
-        return super.view("user/all-users", modelAndView);
-    }
-
-    @PostMapping("/set-user/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView setUser(@PathVariable String id) {
-        this.userService.setUserRole(id, "user");
-
-        return super.redirect("/all-users");
-    }
-
-    @PostMapping("/set-admin/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView setAdmin(@PathVariable String id) {
-        this.userService.setUserRole(id, "admin");
-
-        return super.redirect("/all-users");
-    }
-
 }

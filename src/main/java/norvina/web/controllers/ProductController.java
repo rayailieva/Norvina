@@ -36,7 +36,7 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping("/add")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addProduct(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel, ModelAndView modelAndView) {
 
         modelAndView.addObject("productBindingModel", productBindingModel);
@@ -52,7 +52,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addProductConfirm(@Valid @ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
                                           BindingResult bindingResult, ModelAndView modelAndView){
 
@@ -77,7 +77,7 @@ public class ProductController extends BaseController {
 
 
     @GetMapping(value = "/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -89,7 +89,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping(value = "/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
                                            @Valid @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
                                            BindingResult bindingResult, ModelAndView modelAndView) {
@@ -115,7 +115,7 @@ public class ProductController extends BaseController {
 
 
     @GetMapping(value = "/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
         ProductServiceModel productServiceModel = this.productService.findProductById(id);
@@ -127,7 +127,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping(value = "/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
         this.productService.deleteProduct(id);

@@ -57,7 +57,7 @@ public class ProductControllerTests {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .defaultRequest(get("/")
-                        .with(user("user").password("password").roles("ADMIN")))
+                        .with(user("user").password("password").roles("MODERATOR")))
                 .apply(springSecurity())
                 .build();
     }
