@@ -34,10 +34,12 @@ public class UserController extends BaseController {
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView register(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel, ModelAndView modelAndView) {
+    public ModelAndView register(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
+                                 ModelAndView modelAndView) {
+        modelAndView.setViewName("register");
 
         modelAndView.addObject("userRegisterBindingModel", userRegisterBindingModel);
-        return super.view("register");
+        return super.view("register", modelAndView);
     }
 
     @PostMapping("/register")
@@ -65,7 +67,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView login() {
+    public ModelAndView login(ModelAndView modelAndView) {
 
         return super.view("login");
     }

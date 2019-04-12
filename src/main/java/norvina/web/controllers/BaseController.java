@@ -4,26 +4,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 public abstract class BaseController {
 
-    public ModelAndView view(String viewName, ModelAndView modelAndView) {
-        modelAndView.addObject("view", viewName);
+    protected ModelAndView view(String viewName, ModelAndView modelAndView) {
         modelAndView.setViewName(viewName);
 
         return modelAndView;
     }
 
-    public ModelAndView view(String viewName) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.addObject("view", viewName);
-        modelAndView.setViewName(viewName);
-        return modelAndView;
+    protected ModelAndView view(String view){
+        return this.view(view, new ModelAndView());
     }
 
-    public ModelAndView redirect(String url) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected ModelAndView redirect(String url) {
 
-        modelAndView.setViewName("redirect:" + url);
-
-        return modelAndView;
+        return this.view("redirect:" + url);
     }
 }

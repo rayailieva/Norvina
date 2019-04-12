@@ -52,7 +52,7 @@ public class AdminController extends BaseController{
         return super.view("order/order-details", modelAndView);
     }
 
-    @GetMapping("/users/all-users")
+    @GetMapping("/all-users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allUsers(ModelAndView modelAndView){
 
@@ -70,7 +70,7 @@ public class AdminController extends BaseController{
         return super.view("user/all-users", modelAndView);
     }
 
-    @PostMapping("/users/set-user/{id}")
+    @PostMapping("/set-user/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setUser(@PathVariable String id) {
         this.userService.setUserRole(id, "user");
@@ -78,7 +78,15 @@ public class AdminController extends BaseController{
         return super.redirect("/all-users");
     }
 
-    @PostMapping("/users/set-admin/{id}")
+    @PostMapping("/set-moderator/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView setModerator(@PathVariable String id) {
+        this.userService.setUserRole(id, "moderator");
+
+        return super.redirect("/all-users");
+    }
+
+    @PostMapping("/set-admin/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView setAdmin(@PathVariable String id) {
         this.userService.setUserRole(id, "admin");

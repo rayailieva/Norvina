@@ -100,7 +100,7 @@ public class BrandController extends BaseController {
 
         this.brandService.deleteBrand(id);
 
-        return super.redirect("/home");
+        return super.redirect("/brands/all-brands");
     }
 
     @GetMapping("/all-brands")
