@@ -7,74 +7,68 @@
 <header>
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
-    <main>
-        <div class="container mt-3">
-            <h3 class="h3">All Users</h3>
-
-            <table class="table mt-3">
-                <thead>
+<main>
+    <div class="container mt-3">
+        <h3 class="h3">All Users</h3>
+        <table class="table mt-3">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="user, iter : ${users}">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Actions</th>
+                    <td scope="col" th:text="${iter.index + 1}"></td>
+                    <td scope="col" th:text="${user.username}"></td>
+                    <td scope="col" th:text="${user.firstName}"></td>
+                    <td scope="col" th:text="${user.lastName}"></td>
+                    <td scope="col" th:text="${user.email}"></td>
+                    <td class="col"
+                        th:text="${#strings.replace(#strings.listJoin(user.authorities, ', '), 'ROLE_', '')}"></td>
+                    <td class="col">
+                        <div class="row">
+                            <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+                            !#lists.contains(user.authorities, 'ROLE_MODERATOR') &&
+                             !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
+                                <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
+                                    <button class="btn btn-dark btn-width">MODERATOR</button>
+                                </form>
+                                <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
+                                    <button class="btn btn-dark btn-width">ADMIN</button>
+                                </form>
+                            </th:block>
+                            <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+                            #lists.contains(user.authorities, 'ROLE_MODERATOR')
+                            && !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
+                                <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
+                                    <button class="btn btn-dark">ADMIN</button>
+                                </form>
+                            </th:block>
+                            <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+                            !#lists.contains(user.authorities, 'ROLE_MODERATOR')
+                            && #lists.contains(user.authorities, 'ROLE_ADMIN')}">
+                                <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
+                                    <button class="btn btn-dark">MODERATOR</button>
+                                </form>
+                            </th:block>
+                        </div>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="user, iter : ${users}">
-                    <tr>
-                        <td scope="col" th:text="${iter.index + 1}"></td>
-                        <td scope="col" th:text="${user.username}"></td>
-                        <td scope="col" th:text="${user.firstName}"></td>
-                        <td scope="col" th:text="${user.lastName}"></td>
-                        <td scope="col" th:text="${user.email}"></td>
-                        <td class="col" th:text="${#strings.replace(#strings.listJoin(user.authorities, ', '), 'ROLE_', '')}"></td>
-                        <td class="col">
-
-                            <div class="row">
-                                <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                            !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')
-                        }">
-                                    <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark btn-width">MODERATOR</button>
-                                    </form>
-                                    <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark btn-width">ADMIN</button>
-                                    </form>
-                                </th:block>
-                                <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                            #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')
-                        }">
-                                    <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark">ADMIN</button>
-                                    </form>
-                                </th:block>
-                                <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                            !#lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN')
-                        }">
-
-                                    <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark">MODERATOR</button>
-                                    </form>
-                                </th:block>
-
-                            </div>
-
-
-                        </td>
-                    </tr>
-                </th:block>
-
-                </tbody>
-            </table>
-        </div>
-        <hr>
-    </main>
-    <footer >
-        <th:block th:include="~{fragments/footer}"></th:block>
-    </footer>
-    </body>
-    </html>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+</main>
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

@@ -1,4 +1,11 @@
-<th:block>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
     <div class="jumbotron col-sm-11 m-auto">
         <h1>Edit Product:</h1>
         <hr/>
@@ -10,4 +17,8 @@
             $("#submitButton").addClass("btn btn-success");
         </script>
     </div>
-</th:block>
+<footer >
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>
