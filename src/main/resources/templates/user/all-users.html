@@ -28,10 +28,10 @@
                     <tr>
                         <td scope="col" th:text="${iter.index + 1}"></td>
                         <td scope="col" th:text="${user.username}"></td>
-                        <td scope="col"th:text="${user.firstName}"></td>
-                        <td scope="col"th:text="${user.lastName}"></td>
-                        <td scope="col"th:text="${user.email}"></td>
-                        <td class="col" th:text="${#strings.listJoin(user.authorities, ', ')}"></td>
+                        <td scope="col" th:text="${user.firstName}"></td>
+                        <td scope="col" th:text="${user.lastName}"></td>
+                        <td scope="col" th:text="${user.email}"></td>
+                        <td class="col" th:text="${#strings.replace(#strings.listJoin(user.authorities, ', '), 'ROLE_', '')}"></td>
                         <td class="col">
 
                             <div class="row">
@@ -39,30 +39,23 @@
                             !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')
                         }">
                                     <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
-                                        <input type="hidden" name="_csrf"
-                                               value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                        <button class="btn btn-dark">MODERATOR</button>
+                                        <button class="btn btn-dark btn-width">MODERATOR</button>
                                     </form>
                                     <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark">ADMIN</button>
+                                        <button class="btn btn-dark btn-width">ADMIN</button>
                                     </form>
                                 </th:block>
                                 <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                             #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')
                         }">
-                                    <form th:action="@{/set-user/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark">USER</button>
-                                    </form>
                                     <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
                                         <button class="btn btn-dark">ADMIN</button>
                                     </form>
                                 </th:block>
                                 <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                            #lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN') && !#lists.contains(user.authorities, 'ROLE_ROOT')
+                            !#lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN')
                         }">
-                                    <form th:action="@{/set-user/{id}(id=${user.id})}" method="post">
-                                        <button class="btn btn-dark">USER</button>
-                                    </form>
+
                                     <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
                                         <button class="btn btn-dark">MODERATOR</button>
                                     </form>

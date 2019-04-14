@@ -56,7 +56,8 @@ public class AdminController extends BaseController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allUsers(ModelAndView modelAndView){
 
-        List<UserViewModel> users = this.userService.findAllUsers()
+        List<UserViewModel> users = this.userService
+                .findAllUsers()
                 .stream()
                 .map(u -> {
                     UserViewModel user = this.modelMapper.map(u, UserViewModel.class);
