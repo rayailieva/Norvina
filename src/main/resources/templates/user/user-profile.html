@@ -28,6 +28,9 @@
                 <th:block>
                     <a th:href="@{/user-edit-profile/{id}(id=${userEditBindingModel.id})}" class="btn btn-info">Edit</a>
                 </th:block>
+                <th:block sec:authorize="!hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')">
+                    <a th:href="@{/orders/my}" class="btn btn-info">My Orders</a>
+                </th:block>
             </div>
             </form>
         </div>

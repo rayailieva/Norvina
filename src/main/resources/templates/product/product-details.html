@@ -27,6 +27,7 @@
                     <h4 th:text="'Price: ' + ${product.price}"></h4>
                 </div>
             </div>
+            <th:block sec:authorize="!hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')">
             <div class="row">
                 <form class="form w-25 mx-auto" th:action="@{/shopping-cart/add-product}" th:method="post">
                     <div class="form-group mx-auto">
@@ -37,6 +38,15 @@
                     <button type="submit" class="btn btn-success">Order Product</button>
                 </form>
             </div>
+            </th:block>
+            <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                <div class="row">
+                    <div class="col col-md-12">
+                        <h4><a th:href="@{/products/edit/{id}(id=${product.id})}" th:text="Edit" class="btn btn-success font-weight-bold text-white"></a></h4>
+                        <h4><a th:href="@{/products/delete/{id}(id=${product.id})}" th:text="Delete" class="btn btn-danger font-weight-bold text-white"></a></h4>
+                    </div>
+                </div>
+            </th:block>
         </div>
     </main>
     <footer >

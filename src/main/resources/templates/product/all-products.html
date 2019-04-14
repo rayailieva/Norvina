@@ -30,11 +30,18 @@
                 </div>
                 <td class="col-md-3 text-center" th:text="${product.name}"></td>
                 <td class="col-md-2 text-center" th:text="${product.price}"></td>
+                <th:block sec:authorize="!hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')">
+                    <td class="col-md-3 text-center">
+                    <a th:href="@{/products/details/{id}(id=${product.id})}" th:text="Buy" class="btn btn-secondary font-weight-bold text-white"></a>
+                    </td>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
                 <td class="col-md-3 text-center">
                     <a th:href="@{/products/details/{id}(id=${product.id})}" th:text="Details" class="btn btn-secondary font-weight-bold text-white"></a>
                     <a th:href="@{/products/edit/{id}(id=${product.id})}" th:text="Edit" class="btn btn-success font-weight-bold text-white"></a>
                     <a th:href="@{/products/delete/{id}(id=${product.id})}" th:text="Delete" class="btn btn-danger font-weight-bold text-white"></a>
                 </td>
+                </th:block>
             </tr>
             </th:block>
             </tbody>

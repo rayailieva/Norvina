@@ -76,6 +76,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     @PostMapping("/checkout")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView checkoutConfirm(HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
 
@@ -124,6 +125,7 @@ public class ShoppingCartController extends BaseController{
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
         List<OrderProductServiceModel> products = new ArrayList<>();
+
         for (ShoppingCartItem item : cart) {
             OrderProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
 

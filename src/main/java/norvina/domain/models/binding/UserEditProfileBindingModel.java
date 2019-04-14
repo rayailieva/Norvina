@@ -16,6 +16,7 @@ public class UserEditProfileBindingModel {
     private String password;
     private String confirmPassword;
 
+
     public UserEditProfileBindingModel() {
     }
 

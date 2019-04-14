@@ -115,6 +115,7 @@ public class BrandController extends BaseController {
         return super.view("brand/all-brands", modelAndView);
     }
 
+
     @GetMapping("/products/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView allProductsByBrand(@PathVariable String id, ModelAndView modelAndView) {

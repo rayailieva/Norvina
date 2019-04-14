@@ -2,6 +2,7 @@ package norvina.service;
 
 import norvina.domain.entities.Role;
 import norvina.domain.entities.User;
+import norvina.domain.models.service.RoleServiceModel;
 import norvina.domain.models.service.UserServiceModel;
 import norvina.error.IdNotFoundException;
 import norvina.repository.RoleRepository;
@@ -126,25 +127,25 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException("User with the given id is not found"));
 
-        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
-        userServiceModel.getAuthorities().clear();
+       // UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+       // userServiceModel.getAuthorities().clear();
 
         switch (role) {
             case "user":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+                Role roleUser = this.roleRepository.findByAuthority("ROLE_USER");
+                user.getAuthorities().add(roleUser);
                 break;
             case "moderator":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
+                Role roleModerator = this.roleRepository.findByAuthority("ROLE_MODERATOR");
+                user.getAuthorities().add(roleModerator);
                 break;
             case "admin":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
+                Role roleAdmin = this.roleRepository.findByAuthority("ROLE_ADMIN");
+                user.getAuthorities().add(roleAdmin);
                 break;
         }
 
-        user = this.modelMapper.map(userServiceModel, User.class);
+       // user = this.modelMapper.map(userServiceModel, User.class);
         this.userRepository.saveAndFlush(user);
     }
 }

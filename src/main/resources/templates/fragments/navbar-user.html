@@ -1,5 +1,5 @@
 <th:block th:fragment>
-    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+    <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
         <li class="nav-item dropdown">
             <a class="nav-link nav-link-white active dropdown" href="#" id="productsDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -20,6 +20,8 @@
                 <a class="dropdown-item" th:href="@{/brands/all-brands}">All brands</a>
             </div>
         </li>
+    </th:block>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         <li class="nav-item dropdown">
             <a class="nav-link nav-link-white active dropdown" href="#" id="adminToolsDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
