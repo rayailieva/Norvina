@@ -15,7 +15,6 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Customer</th>
                     <th scope="col">Date</th>
                     <th scope="col">Total Price</th>
                     <th scope="col">Actions</th>
@@ -24,11 +23,10 @@
                 <tbody>
                 <th:block th:each="order, iter : ${orders}" th:object="${order}">
                     <tr class="row mx-auto">
-                        <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                        <td class="col-md-3 text-center" th:text="*{customer.username}"></td>
-                        <td class="col-md-3 text-center" th:text="*{#temporals.format(finishedOn, 'dd-MM-yyyy HH:mm') }"></td>
-                        <td class="col-md-2 text-center" th:text="*{totalPrice}"></td>
-                        <td class="col-md-2 text-center mx-auto">
+                        <th class="col text-center" th:text="${iter.index + 1}"></th>
+                        <td class="col text-center" th:text="*{#temporals.format(date, 'dd-MM-yyyy HH:mm') }"></td>
+                        <td class="col text-center" th:text="*{totalPrice}"></td>
+                        <td class="col text-center mx-auto">
                             <div class="text-center">
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{/orders/all/details/{id}(id=*{id})}" class="btn btn-info">Products</a>

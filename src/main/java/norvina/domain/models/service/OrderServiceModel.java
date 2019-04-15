@@ -10,7 +10,7 @@ public class OrderServiceModel {
     private LocalDateTime date;
     private BigDecimal totalPrice;
     private UserServiceModel customer;
-    private List<OrderProductServiceModel> products;
+    private List<ProductServiceModel> products;
 
     public OrderServiceModel(){}
 
@@ -46,11 +46,11 @@ public class OrderServiceModel {
         this.customer = customer;
     }
 
-    public List<OrderProductServiceModel> getProducts() {
+    public List<ProductServiceModel> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<OrderProductServiceModel> products) {
+    public void setProducts(List<ProductServiceModel> products) {
         this.products = products;
     }
 }

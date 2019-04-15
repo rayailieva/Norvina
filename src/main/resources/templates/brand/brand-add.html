@@ -19,7 +19,9 @@
                     <small style="color: red" th:each="error : ${#fields.errors('name')}" th:text="${error}"></small>
                 </div>
                 <hr class="hr-2 bg-dark">
-                <button type="submit" class="align-content-center" id="submitButton">Add Brand</button>
+                <div class="button-holder d-flex justify-content-center mb-3">
+                    <button type="submit" class="btn bg-notino text-white">Add</button>
+                </div>
         </form>
         </main>
     </div>

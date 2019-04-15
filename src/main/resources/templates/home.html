@@ -12,14 +12,14 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Brands</div>
+        <div class="sidebar-heading">Our Brands</div>
         <div class="list-group list-group-flush">
             <th:block th:each="brand : ${brands}" th:object="${brand}">
                 <a class="list-group-item list-group-item-action bg-light"
                    th:href="@{/brands/products/{id}(id=${brand.id})}" th:text="${brand.name}"
                    th:value="*{name}"></a>
             </th:block>
-            <button class="btn bg-white text-black-50" id="menu-toggle">Toggle Menu</button>
+            <button id="menu-toggle" class="list-group-item list-group-item-action bg-light" >Close</button>
         </div>
     </div>
 

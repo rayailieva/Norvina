@@ -29,9 +29,12 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" th:href="@{/all-users}">All users</a>
+                <a class="dropdown-item" th:href="@{/orders/all}">Orders</a>
             </div>
+
         </li>
     </th:block>
+    <th:block sec:authorize="!hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')">
     <li class="nav-item active">
         <div class="dropdown">
             <a class="nav-link active dropdown-toggle" href="#" role="button" id="cartDropdown"
@@ -49,6 +52,7 @@
             </div>
         </div>
     </li>
+    </th:block>
     <li class="nav-item">
         <a class="nav-link nav-link-white active" th:href="@{/profile}">My Profile</a>
     </li>

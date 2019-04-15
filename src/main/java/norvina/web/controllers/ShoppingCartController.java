@@ -1,6 +1,5 @@
 package norvina.web.controllers;
 
-import norvina.domain.models.service.OrderProductServiceModel;
 import norvina.domain.models.service.OrderServiceModel;
 import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.ProductViewModel;
@@ -43,7 +42,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     @PostMapping("/add-product")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
         ProductViewModel product = this.modelMapper
                 .map(this.productService.findProductById(id), ProductViewModel.class);
@@ -55,11 +54,11 @@ public class ShoppingCartController extends BaseController{
         var cart = this.retrieveCart(session);
         this.addItemToCart(cartItem, cart);
 
-        return super.redirect("/home");
+        return super.redirect("/products/all-products");
     }
 
     @GetMapping("/details")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session) {
         var cart = this.retrieveCart(session);
         modelAndView.addObject("totalPrice", this.calcTotal(cart));
@@ -68,7 +67,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     @DeleteMapping("/remove-product")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView removeFromCartConfirm(String id, HttpSession session) {
         this.removeItemFromCart(id, this.retrieveCart(session));
 
@@ -76,7 +75,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     @PostMapping("/checkout")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView checkoutConfirm(HttpSession session, Principal principal) {
         var cart = this.retrieveCart(session);
 
@@ -124,10 +123,10 @@ public class ShoppingCartController extends BaseController{
     private OrderServiceModel prepareOrder(List<ShoppingCartItem> cart, String customer) {
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
-        List<OrderProductServiceModel> products = new ArrayList<>();
+        List<ProductServiceModel> products = new ArrayList<>();
 
         for (ShoppingCartItem item : cart) {
-            OrderProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
+            ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), ProductServiceModel.class);
 
             for (int i = 0; i < item.getQuantity(); i++) {
                 products.add(productServiceModel);

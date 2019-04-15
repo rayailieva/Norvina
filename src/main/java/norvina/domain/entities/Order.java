@@ -12,7 +12,7 @@ public class Order extends BaseEntity {
     private User customer;
     private LocalDateTime date;
     private BigDecimal totalPrice;
-    private List<OrderProduct> products;
+    private List<Product> products;
 
     public Order() {
     }
@@ -49,11 +49,11 @@ public class Order extends BaseEntity {
     @JoinTable(name = "orders_products",
             joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"))
-    public List<OrderProduct> getProducts() {
+    public List<Product> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<OrderProduct> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
