@@ -1,5 +1,7 @@
 package norvina.web.controllers;
 
+import norvina.domain.entities.OrderStatus;
+import norvina.domain.models.service.OrderServiceModel;
 import norvina.domain.models.service.RoleServiceModel;
 import norvina.domain.models.view.OrderViewModel;
 import norvina.domain.models.view.UserViewModel;
@@ -43,13 +45,26 @@ public class AdminController extends BaseController{
         return view("order/all-orders", modelAndView);
     }
 
-    @GetMapping("/orders/all/details/{id}")
+    @GetMapping("/orders/ship/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
-        modelAndView.addObject("order",
-                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
+    public ModelAndView shipOrder(@PathVariable String id, ModelAndView modelAndView) {
+        OrderViewModel orderViewModel =
+                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
+        orderViewModel.setOrderStatus(OrderStatus.Shipped);
+        modelAndView.addObject("order",orderViewModel);
 
         return super.view("order/order-details", modelAndView);
+    }
+
+    @PostMapping("/orders/ship/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView shipOrderConfirm(@PathVariable String id, ModelAndView modelAndView) {
+
+        OrderServiceModel orderServiceModel =
+                this.modelMapper.map(this.orderService.findOrderById(id), OrderServiceModel.class);
+       orderService.editOrder(id, orderServiceModel);
+
+        return super.view("home", modelAndView);
     }
 
     @GetMapping("/all-users")

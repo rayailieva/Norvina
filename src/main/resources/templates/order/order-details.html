@@ -33,6 +33,11 @@
             </th:block>
             </tbody>
         </table>
+        <form th:action="@{/orders/ship/{id}(id=*{id})}" th:method="post">
+            <div class="button-holder d-flex justify-content-center mb-3">
+                <button type="submit" class="btn btn-success">Send Order</button>
+            </div>
+        </form>
         <hr class="hr-2 bg-dark">
     </main>
     <footer >

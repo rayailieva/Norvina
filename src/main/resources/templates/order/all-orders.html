@@ -26,13 +26,13 @@
                         <th class="col text-center" th:text="${iter.index + 1}"></th>
                         <td class="col text-center" th:text="*{#temporals.format(date, 'dd-MM-yyyy HH:mm') }"></td>
                         <td class="col text-center" th:text="*{totalPrice}"></td>
+                        <td class="col text-center" th:text="*{orderStatus}"></td>
                         <td class="col text-center mx-auto">
                             <div class="text-center">
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a th:href="@{/orders/all/details/{id}(id=*{id})}" class="btn btn-info">Products</a>
+                                    <a th:href="@{/orders/ship/{id}(id=*{id})}" class="btn btn-info">Prepare order</a>
                                 </th:block>
                             </div>
-
                         </td>
                     </tr>
                 </th:block>

@@ -1,5 +1,7 @@
 package norvina.domain.models.service;
 
+import norvina.domain.entities.OrderStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +12,7 @@ public class OrderServiceModel {
     private LocalDateTime date;
     private BigDecimal totalPrice;
     private UserServiceModel customer;
+    private OrderStatus orderStatus;
     private List<ProductServiceModel> products;
 
     public OrderServiceModel(){}
@@ -44,6 +47,14 @@ public class OrderServiceModel {
 
     public void setCustomer(UserServiceModel customer) {
         this.customer = customer;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return this.orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public List<ProductServiceModel> getProducts() {

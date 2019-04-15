@@ -2,9 +2,7 @@ package norvina.web.controllers;
 
 import norvina.domain.models.binding.UserEditProfileBindingModel;
 import norvina.domain.models.binding.UserRegisterBindingModel;
-import norvina.domain.models.service.RoleServiceModel;
 import norvina.domain.models.service.UserServiceModel;
-import norvina.domain.models.view.UserViewModel;
 import norvina.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 @Controller
 public class UserController extends BaseController {
@@ -39,6 +36,7 @@ public class UserController extends BaseController {
         modelAndView.setViewName("register");
 
         modelAndView.addObject("userRegisterBindingModel", userRegisterBindingModel);
+
         return super.view("register", modelAndView);
     }
 
@@ -112,20 +110,21 @@ public class UserController extends BaseController {
     public ModelAndView userEditProfileConfirm(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
                                                BindingResult bindingResult, ModelAndView modelAndView) {
 
-            if (bindingResult.hasErrors()) {
-                userEditBindingModel.setOldPassword(null);
-                userEditBindingModel.setPassword(null);
-                userEditBindingModel.setConfirmPassword(null);
-                modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+        if (bindingResult.hasErrors()) {
+            userEditBindingModel.setOldPassword(null);
+            userEditBindingModel.setPassword(null);
+            userEditBindingModel.setConfirmPassword(null);
+            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
 
-                return super.view("user/user-edit-profile", modelAndView);
-            }
-
-            UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
-            this.userService.editUser(userServiceModel, userEditBindingModel.getOldPassword());
-
-            return super.redirect("/user-profile");
+            return super.view("user/user-edit-profile", modelAndView);
         }
+
+        UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
+        this.userService.editUser(userServiceModel, userEditBindingModel.getOldPassword());
+
+        return super.redirect("/user-profile");
     }
+}
+
 
 

@@ -1,6 +1,7 @@
 package norvina.service;
 
 import norvina.domain.entities.Order;
+import norvina.domain.entities.OrderStatus;
 import norvina.domain.models.service.OrderServiceModel;
 import norvina.error.OrderNotFoundException;
 import norvina.repository.OrderRepository;
@@ -29,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createOrder(OrderServiceModel orderServiceModel) {
         orderServiceModel.setDate(LocalDateTime.now());
+        orderServiceModel.setOrderStatus(OrderStatus.Pending);
 
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
         this.orderRepository.saveAndFlush(order);
@@ -55,5 +57,17 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository.findById(id)
                 .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
                 .orElseThrow(() -> new OrderNotFoundException("Order with the given id is not found!"));
+    }
+
+    @Override
+    public OrderServiceModel editOrder(String id, OrderServiceModel orderServiceModel) {
+        Order order = this.orderRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+
+        order.setOrderStatus(OrderStatus.Shipped);
+
+        this.orderRepository.saveAndFlush(order);
+
+        return this.modelMapper.map(order, OrderServiceModel.class);
     }
 }

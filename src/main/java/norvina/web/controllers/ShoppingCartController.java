@@ -1,5 +1,6 @@
 package norvina.web.controllers;
 
+import norvina.domain.entities.OrderStatus;
 import norvina.domain.models.service.OrderServiceModel;
 import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.ProductViewModel;
@@ -60,6 +61,7 @@ public class ShoppingCartController extends BaseController{
     @GetMapping("/details")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session) {
+
         var cart = this.retrieveCart(session);
         modelAndView.addObject("totalPrice", this.calcTotal(cart));
 

@@ -16,6 +16,10 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .disable()
+                .csrf()
+                .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/login", "/register").anonymous()
                 .antMatchers("/js/**", "/css/**").permitAll()
@@ -32,9 +36,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/unauthorized")
-                .and()
-                .csrf()
-                .disable()
+
         ;
 
     }

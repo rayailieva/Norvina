@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +56,7 @@ public class ProductController extends BaseController {
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addProductConfirm(@Valid @ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
-                                          BindingResult bindingResult, ModelAndView modelAndView){
+                                          BindingResult bindingResult, ModelAndView modelAndView, Principal principal){
 
         ProductServiceModel productServiceModel =
                 this.modelMapper.map(productBindingModel, ProductServiceModel.class);
@@ -64,13 +66,14 @@ public class ProductController extends BaseController {
             return super.view("product/product-add", modelAndView);
         }
 
-
         BrandServiceModel brandServiceModel = this.brandService.findBrandByName(productBindingModel.getBrand());
         productServiceModel.setBrand(brandServiceModel);
 
         brandServiceModel.getProducts().add(productServiceModel);
 
         this.productService.addProduct(productServiceModel);
+
+     //   this.logAction(principal.getName(), "Added product " + productServiceModel.getName());
 
         return super.redirect("/home");
     }
@@ -90,7 +93,7 @@ public class ProductController extends BaseController {
 
     @PostMapping(value = "/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
+    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id, Principal principal,
                                            @Valid @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
                                            BindingResult bindingResult, ModelAndView modelAndView) {
 
@@ -99,7 +102,10 @@ public class ProductController extends BaseController {
             return super.view("product/product-edit", modelAndView);
         }
 
-        this.productService.editProduct(id, this.modelMapper.map(productBindingModel, ProductServiceModel.class));
+        ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
+        this.productService.editProduct(id, productServiceModel);
+
+      //  this.logAction(principal.getName(), "Added product " + productServiceModel.getName());
 
         return super.redirect("/products/details/" + id);
     }
@@ -128,9 +134,12 @@ public class ProductController extends BaseController {
 
     @PostMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
+    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id, Principal principal) {
 
+        ProductServiceModel productServiceModel = this.productService.findProductById(id);
         this.productService.deleteProduct(id);
+
+        //this.logAction(principal.getName(), "Deleted product " + productServiceModel.getName());
 
         return super.redirect("/home");
     }
@@ -148,7 +157,6 @@ public class ProductController extends BaseController {
 
         modelAndView.addObject("products", products);
         return super.view("product/all-products", modelAndView);
-
     }
 
 }

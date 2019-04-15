@@ -12,6 +12,7 @@ public class Order extends BaseEntity {
     private User customer;
     private LocalDateTime date;
     private BigDecimal totalPrice;
+    private OrderStatus orderStatus;
     private List<Product> products;
 
     public Order() {
@@ -45,6 +46,16 @@ public class Order extends BaseEntity {
         this.totalPrice = totalPrice;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status", nullable = false)
+    public OrderStatus getOrderStatus() {
+        return this.orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     @ManyToMany(targetEntity = Product.class)
     @JoinTable(name = "orders_products",
             joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "id"),
@@ -56,6 +67,5 @@ public class Order extends BaseEntity {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
-
 
 }
