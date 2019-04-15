@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Incorrect password!");
         }
 
-        user.setPassword(!"".equals(userServiceModel.getPassword()) ?
+        user.setPassword(userServiceModel.getPassword() != null ?
                 this.encoder.encode(userServiceModel.getPassword()) :
                 user.getPassword());
         user.setEmail(userServiceModel.getEmail());
@@ -126,9 +126,6 @@ public class UserServiceImpl implements UserService {
     public void setUserRole(String id, String role) {
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException("User with the given id is not found"));
-
-       // UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
-       // userServiceModel.getAuthorities().clear();
 
         switch (role) {
             case "user":
@@ -145,7 +142,6 @@ public class UserServiceImpl implements UserService {
                 break;
         }
 
-       // user = this.modelMapper.map(userServiceModel, User.class);
         this.userRepository.saveAndFlush(user);
     }
 }

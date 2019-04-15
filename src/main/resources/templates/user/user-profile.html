@@ -10,7 +10,6 @@
     <div>
         <div class="jumbotron bg-forms d-flex justify-content-center text text-center"
              th:object="${userEditBindingModel}">
-            <form class="form w-25 mx-auto" th:action="@{/user-edit-profile/{id}(id=${userEditBindingModel.id})}" th:method="post">
             <div class="container">
                 <div class="row d-flex justify-content-center">
                     <h1 th:text="|Hello, ${username}|"></h1>
@@ -25,14 +24,13 @@
                 <div class="row d-flex justify-content-center">
                     <h4 th:text="'Last Name: ' + *{lastName}"></h4>
                 </div>
-                <th:block>
-                    <a th:href="@{/user-edit-profile/{id}(id=${userEditBindingModel.id})}" class="btn btn-info">Edit</a>
-                </th:block>
+                <div class="button-holder d-flex justify-content-center">
+                    <a th:href="@{/edit}" class="btn btn-dark">Edit Profile</a>
+                </div>
                 <th:block sec:authorize="!hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')">
                     <a th:href="@{/orders/my}" class="btn btn-info">My Orders</a>
                 </th:block>
             </div>
-            </form>
         </div>
     </div>
     <footer >

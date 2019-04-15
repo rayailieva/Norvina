@@ -73,6 +73,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView logout(HttpSession session) {
 
         session.invalidate();
@@ -80,7 +81,8 @@ public class UserController extends BaseController {
         return super.redirect("/");
     }
 
-    @GetMapping("/user-profile")
+    @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView userProfile(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
                                     Principal principal, ModelAndView modelAndView) {
 
@@ -93,31 +95,37 @@ public class UserController extends BaseController {
 
     }
 
-    @GetMapping("/user-edit-profile/{id}")
-    public ModelAndView userEditProfile(@PathVariable("id") String id, ModelAndView modelAndView) {
+    @GetMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView userEditProfile(Principal principal, ModelAndView modelAndView) {
         UserEditProfileBindingModel userBindingModel =
-                this.modelMapper.map(this.userService.findUserById(id), UserEditProfileBindingModel.class);
+                this.modelMapper.map(this.userService.findUserByUsername(principal.getName()), UserEditProfileBindingModel.class);
 
         modelAndView.addObject("userEditBindingModel", userBindingModel);
 
         return super.view("user/user-edit-profile", modelAndView);
     }
 
-    @PostMapping("/user-edit-profile/{id}")
+
+    @PatchMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView userEditProfileConfirm(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
-                                                BindingResult bindingResult, ModelAndView modelAndView) {
+                                               BindingResult bindingResult, ModelAndView modelAndView) {
 
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("userEditBindingModel", userEditBindingModel);
-            return super.view("user/user-edit-profile", modelAndView);
+            if (bindingResult.hasErrors()) {
+                userEditBindingModel.setOldPassword(null);
+                userEditBindingModel.setPassword(null);
+                userEditBindingModel.setConfirmPassword(null);
+                modelAndView.addObject("userEditBindingModel", userEditBindingModel);
+
+                return super.view("user/user-edit-profile", modelAndView);
+            }
+
+            UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
+            this.userService.editUser(userServiceModel, userEditBindingModel.getOldPassword());
+
+            return super.redirect("/user-profile");
         }
-
-        if (!userEditBindingModel.getPassword().equals(userEditBindingModel.getConfirmPassword())) {
-            return super.view("user/user-edit-profile");
-        }
-
-        this.userService.editUser(this.modelMapper.map(userEditBindingModel, UserServiceModel.class), userEditBindingModel.getOldPassword());
-
-        return super.redirect("/user-profile");
     }
-}
+
+

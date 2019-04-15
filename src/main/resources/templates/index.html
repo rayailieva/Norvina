@@ -7,6 +7,7 @@
 <header>
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
+<body onload="resolveAfter3Seconds()">
 <main class="mt-3 container">
     <div class="jumbotron mt-3 bg-notino">
         <h1 class="text-white text-center">NORVINA</h1>
@@ -73,9 +74,46 @@
             </div>
         </div>
     </div>
+    <button class="open-button" onclick="openForm()">Login</button>
+
+    <div class="form-popup" id="myForm">
+        <form class="form-container" th:action="@{/login}" method="post">
+            <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
+            <h1>Login</h1>
+            <label for="username"><b>Username</b></label>
+            <input type="text" id="username" placeholder="Username..." name="username">
+
+            <label for="password"><b>Username</b></label>
+            <input type="password" id="password" placeholder="Password..." name="password">
+
+            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+
 </main>
+</body>
 <footer>
     <th:block th:include="~{fragments/footer}"></th:block>
 </footer>
 </body>
 </html>
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+
+    async function resolveAfter3Seconds() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                openForm();
+            }, 3000);
+        });
+    }
+</script>

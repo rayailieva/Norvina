@@ -7,6 +7,7 @@
 <header>
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
+<body onload="loadSidebar()">
 <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
@@ -14,7 +15,8 @@
         <div class="sidebar-heading">Brands</div>
         <div class="list-group list-group-flush">
             <th:block th:each="brand : ${brands}" th:object="${brand}">
-                <a class="list-group-item list-group-item-action bg-light" th:href="@{/brands/products/{id}(id=${brand.id})}"  th:text="${brand.name}"
+                <a class="list-group-item list-group-item-action bg-light"
+                   th:href="@{/brands/products/{id}(id=${brand.id})}" th:text="${brand.name}"
                    th:value="*{name}"></a>
             </th:block>
             <button class="btn bg-white text-black-50" id="menu-toggle">Toggle Menu</button>
@@ -29,13 +31,16 @@
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="https://i.notino.com/images/gallery/ba/17/vb_WEB_loreal_14_po_19.jpg" class="d-block w-100" alt="...">
+                        <img src="https://i.notino.com/images/gallery/ba/17/vb_WEB_loreal_14_po_19.jpg"
+                             class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="https://i.notino.com/images/gallery/ba/17/vb_dk_se_fi_WEB_koktejl_14_po_19.jpg" class="d-block w-100" alt="...">
+                        <img src="https://i.notino.com/images/gallery/ba/17/vb_dk_se_fi_WEB_koktejl_14_po_19.jpg"
+                             class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="https://i.notino.com/images/gallery/ba/17/N_Mineral89_1035x340_UK.jpg" class="d-block w-100" alt="...">
+                        <img src="https://i.notino.com/images/gallery/ba/17/N_Mineral89_1035x340_UK.jpg"
+                             class="d-block w-100" alt="...">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -50,30 +55,36 @@
             <div class="row text-center mt-3">
                 <div class="mx-auto">
                     <p><a th:href="@{/category/fragrances}" th:text="FRAGRANCES" class="bg-notino-pink"></a></p>
-                    <img src="https://i.notino.com/images/gallery/hp-category/hp-niche_2k.jpg" class="float-left" width="300px" alt="Image">
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-niche_2k.jpg" class="float-left"
+                         width="300px" alt="Image">
                 </div>
                 <div class="mx-auto">
                     <p><a th:href="@{/category/hair}" th:text="HAIR" class="bg-notino-pink"></a></p>
-                    <img src="https://i.notino.com/images/gallery/hp-category/hp-hair_2k.jpg" class="float-right" width="300px" alt="Image">
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-hair_2k.jpg" class="float-right"
+                         width="300px" alt="Image">
                 </div>
                 <div class="mx-auto">
                     <p><a th:href="@{/category/skin}" th:text="SKIN" class="bg-notino-pink"></a></p>
-                    <img src="https://i.notino.com/images/gallery/hp-category/hp-skin_2k.jpg" class="float-left" width="300px" alt="Image">
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-skin_2k.jpg" class="float-left"
+                         width="300px" alt="Image">
                 </div>
             </div>
             <div class="container-fluid bg-3 text-center align-content-center">
                 <div class="row align-content-md-center">
                     <div class="mx-auto">
                         <p><a th:href="@{/category/body}" th:text="BODY" class="bg-notino-pink"></a></p>
-                        <img src="https://i.notino.com/images/gallery/hp-category/hp-body_2k.jpg" class="float-right" width="300px" alt="Image">
+                        <img src="https://i.notino.com/images/gallery/hp-category/hp-body_2k.jpg" class="float-right"
+                             width="300px" alt="Image">
                     </div>
                     <div class="mx-auto">
                         <p><a th:href="@{/category/makeup}" th:text="MAKEUP" class="bg-notino-pink"></a></p>
-                        <img src="https://i.notino.com/images/gallery/hp-category/make-up_2k.jpg" class="float-left" width="300px" alt="Image">
+                        <img src="https://i.notino.com/images/gallery/hp-category/make-up_2k.jpg" class="float-left"
+                             width="300px" alt="Image">
                     </div>
                     <div class="mx-auto">
                         <p><a th:href="@{/category/sun}" th:text="SUN" class="bg-notino-pink"></a></p>
-                        <img src="https://i.notino.com/images/gallery/hp-category/hp-sun_2k.jpg" class="float-right" width="300px" alt="Image">
+                        <img src="https://i.notino.com/images/gallery/hp-category/hp-sun_2k.jpg" class="float-right"
+                             width="300px" alt="Image">
                     </div>
                 </div>
             </div>
@@ -84,19 +95,34 @@
                         <p><a th:href="@{/products/all-products}" th:text="All" class="bg-notino-pink"></a></p>
                     </div>
                 </div>
+            </div>
         </div>
     </main>
 </div>
-
+</body>
 
 <script>
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+
+
+    function openSidebar() {
+        document.getElementById("sidebar-wrapper").style.display = "block";
+    }
+
+    async function loadSidebar() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                openSidebar();
+            }, 3000);
+        });
+    }
+
 </script>
 
-<footer >
+<footer>
     <th:block th:include="~{fragments/footer}"></th:block>
 </footer>
 </body>
