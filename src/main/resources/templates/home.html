@@ -19,7 +19,7 @@
                    th:href="@{/brands/products/{id}(id=${brand.id})}" th:text="${brand.name}"
                    th:value="*{name}"></a>
             </th:block>
-            <button id="menu-toggle" class="list-group-item list-group-item-action bg-light" >Close</button>
+            <button id="menu-toggle" class="list-group-item list-group-item-action bg-light">Close</button>
         </div>
     </div>
 
@@ -89,15 +89,21 @@
                 </div>
             </div>
             <br/>
-            <div class="container-fluid bg-3 text-center align-content-center">
-                <div class="row align-content-md-center">
-                    <div class="mx-auto">
-                        <p><a th:href="@{/products/all-products}" th:text="All" class="bg-notino-pink"></a></p>
-                    </div>
-                </div>
+
+
+            <div th:id="content-container" class="d-flex justify-content-center bg-notino-pink mb-3">
+                <form>
+                    <input class="form-check-input" type="checkbox" onclick="showProducts()" id="productsOption">
+                    <h2><label class="form-check-label" for="productsOption">View All Of Our Products Now!</label>
+                    </h2>
+                </form>
             </div>
         </div>
-    </main>
+
+        <hr/>
+
+</main>
+
 </div>
 </body>
 
@@ -107,18 +113,62 @@
         $("#wrapper").toggleClass("toggled");
     });
 
-
     function openSidebar() {
         document.getElementById("sidebar-wrapper").style.display = "block";
     }
 
-    async function loadSidebar() {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                openSidebar();
-            }, 3000);
-        });
+    // async function loadSidebar() {
+    //     return new Promise(resolve => {
+    //         setTimeout(() => {
+    //             openSidebar();
+    //         }, 3000);
+    //     });
+    // }
+
+    function showProducts() {
+
+        fetch('/fetch/products')
+            .then((response) => response.json())
+            .then((json) => {
+                $('#customText').text('All Products');
+                $('.container #content-container').remove();
+                $('.container').append('<div id="content-container" class="mt-4 bg-notino-pink"></div>');
+
+                let table =
+                    ` <table class="table table-hover w-75 mx-auto bg-white" >
+        <thead>
+        <tr class="row mx-auto">
+                <th class="col-md-1 text-center">#</th>
+                <th class="col-md-3 text-center">Image</th>
+                <th class="col-md-2 text-center">Name</th>
+                <th class="col-md-2 text-center">Price</th>
+                <th class="col-md-3 text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+                json.forEach((product, index) => {
+                    table +=
+                        `<tr class="row mx-auto">
+                     <th class="col-md-1 text-center">${index + 1}</th>
+                     <td class="col-md-3 text-center">
+                       <img src="${product.imageUrl}" class="product-image-home img-thumbnail" width="40" height="40"/></a>
+                      </td>
+                     <td class="col-md-2 text-center">${product.name}</td>
+                     <td class="col-md-2 text-center">${product.price}</td>
+                     <td class="col-md-3 text-center">
+                    <a href="/products/details/${product.id}" class="btn btn-outline-dark text-info">Details</a>
+                </td>
+                   </tr>`;
+                });
+                table +=
+                    '<tbody>' +
+                    '</table>';
+
+                $('#content-container').append(table);
+            });
     }
+
 
 </script>
 

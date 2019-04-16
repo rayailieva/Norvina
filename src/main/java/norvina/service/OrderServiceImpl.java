@@ -31,7 +31,6 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderServiceModel orderServiceModel) {
         orderServiceModel.setDate(LocalDateTime.now());
         orderServiceModel.setOrderStatus(OrderStatus.Pending);
-
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
         this.orderRepository.saveAndFlush(order);
     }

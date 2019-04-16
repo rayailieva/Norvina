@@ -55,7 +55,7 @@ public class ShoppingCartController extends BaseController{
         var cart = this.retrieveCart(session);
         this.addItemToCart(cartItem, cart);
 
-        return super.redirect("/products/all-products");
+        return super.redirect("/shopping-cart/details");
     }
 
     @GetMapping("/details")

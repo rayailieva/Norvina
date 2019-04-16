@@ -3,13 +3,16 @@ package norvina.service;
 import norvina.domain.entities.Brand;
 import norvina.domain.entities.Product;
 import norvina.domain.models.service.ProductServiceModel;
+import norvina.domain.models.view.ProductViewModel;
 import norvina.error.BrandNotFoundException;
 import norvina.error.ProductNotFoundException;
 import norvina.repository.BrandRepository;
 import norvina.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +59,15 @@ public class ProductServiceImpl implements ProductService {
                 .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProductViewModel> findAll() {
+        return this.productRepository.findAll()
+                .stream()
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public ProductServiceModel findProductById(String id) {

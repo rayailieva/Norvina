@@ -1,6 +1,7 @@
 package norvina.service;
 
 import norvina.domain.models.service.ProductServiceModel;
+import norvina.domain.models.view.ProductViewModel;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public interface ProductService {
     ProductServiceModel addProduct(ProductServiceModel productServiceModel);
 
     List<ProductServiceModel> findAllProducts();
+
+    List<ProductViewModel> findAll();
 
     ProductServiceModel findProductById(String id);
 

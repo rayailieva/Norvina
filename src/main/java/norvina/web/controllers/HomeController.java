@@ -38,17 +38,26 @@ public class HomeController extends BaseController{
         return super.view("index");
     }
 
-     @GetMapping("/home")
-     @PreAuthorize("isAuthenticated()")
-     public ModelAndView home(ModelAndView modelAndView){
 
-         modelAndView.addObject("brands",
-                 this.brandService.findAllBrands()
-                         .stream()
-                         .map(b -> this.modelMapper.map(b, BrandViewModel.class))
-                         .collect(Collectors.toList()));
-         return super.view("home", modelAndView);
-     }
+    @GetMapping("/home")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView home(ModelAndView modelAndView){
+
+        modelAndView.addObject("brands",
+                this.brandService.findAllBrands()
+                        .stream()
+                        .map(b -> this.modelMapper.map(b, BrandViewModel.class))
+                        .collect(Collectors.toList()));
+        return super.view("home", modelAndView);
+    }
+
+
+    @ResponseBody
+    @GetMapping(value = "/fetch/products", produces = "application/json")
+    public List<ProductViewModel> products(){
+        return this.productService.findAll();
+
+    }
 
 
 }
