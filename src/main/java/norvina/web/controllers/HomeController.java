@@ -20,13 +20,11 @@ import java.util.stream.Collectors;
 public class HomeController extends BaseController{
 
     private final BrandService brandService;
-    private final ProductService productService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HomeController(BrandService brandService, ProductService productService, ModelMapper modelMapper) {
+    public HomeController(BrandService brandService,ModelMapper modelMapper) {
         this.brandService = brandService;
-        this.productService = productService;
         this.modelMapper = modelMapper;
     }
 
@@ -34,7 +32,6 @@ public class HomeController extends BaseController{
     @GetMapping("/")
     @PreAuthorize("isAnonymous()")
     public ModelAndView index(){
-
         return super.view("index");
     }
 
@@ -50,14 +47,4 @@ public class HomeController extends BaseController{
                         .collect(Collectors.toList()));
         return super.view("home", modelAndView);
     }
-
-
-    @ResponseBody
-    @GetMapping(value = "/fetch/products", produces = "application/json")
-    public List<ProductViewModel> products(){
-        return this.productService.findAll();
-
-    }
-
-
 }

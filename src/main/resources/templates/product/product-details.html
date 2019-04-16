@@ -35,15 +35,15 @@
                         <input id="quantity" class="form-control" type="number" min="1" max="15" step="1" name="quantity" />
                     </div>
                     <input type="hidden" name="id" th:value="${product.id}">
-                    <button type="submit" class="btn btn-success">Order Product</button>
+                    <button type="submit" class="btn btn-pink">Order Product</button>
                 </form>
             </div>
             </th:block>
             <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
                 <div class="row">
                     <div class="col col-md-12">
-                        <h4><a th:href="@{/products/edit/{id}(id=${product.id})}" th:text="Edit" class="btn btn-success font-weight-bold text-white"></a></h4>
-                        <h4><a th:href="@{/products/delete/{id}(id=${product.id})}" th:text="Delete" class="btn btn-danger font-weight-bold text-white"></a></h4>
+                        <h4><a th:href="@{/products/edit/{id}(id=${product.id})}" th:text="Edit" class="btn btn-pink"></a></h4>
+                        <h4><a th:href="@{/products/delete/{id}(id=${product.id})}" th:text="Delete" class="btn btn-pink"></a></h4>
                     </div>
                 </div>
             </th:block>

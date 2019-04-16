@@ -37,9 +37,9 @@
                 </th:block>
                 <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
                 <td class="col-md-3 text-center">
-                    <a th:href="@{/products/details/{id}(id=${product.id})}" th:text="Details" class="btn btn-secondary font-weight-bold text-white"></a>
-                    <a th:href="@{/products/edit/{id}(id=${product.id})}" th:text="Edit" class="btn btn-success font-weight-bold text-white"></a>
-                    <a th:href="@{/products/delete/{id}(id=${product.id})}" th:text="Delete" class="btn btn-danger font-weight-bold text-white"></a>
+                    <a th:href="@{/products/details/{id}(id=${product.id})}" th:text="Details"class="btn btn-pink"></a>
+                    <a th:href="@{/products/edit/{id}(id=${product.id})}" th:text="Edit" class="btn btn-pink"></a>
+                    <a th:href="@{/products/delete/{id}(id=${product.id})}" th:text="Delete" class="btn btn-pink"></a>
                 </td>
                 </th:block>
             </tr>

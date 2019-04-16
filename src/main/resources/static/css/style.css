@@ -8,6 +8,11 @@
     color: hotpink;
 }
 
+.btn-pink{
+    background-color: pink;
+    color: black;
+}
+
 .img {
     display: block;
     width: 100%;
