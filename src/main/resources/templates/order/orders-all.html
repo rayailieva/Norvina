@@ -13,22 +13,26 @@
 
             <table class="table mt-3">
                 <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Total Price</th>
-                    <th scope="col">Actions</th>
+                <tr class="row mx-auto">
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">Date</th>
+                    <th class="col-md-2">Total Price</th>
+                    <th class="col-md-2">Customer</th>
+                    <th class="col-md-2">Order Status</th>
+                    <th class="col-md-2">Actions</th>
+
                 </tr>
                 </thead>
                 <tbody>
                 <th:block th:each="order, iter : ${orders}" th:object="${order}">
                     <tr class="row mx-auto">
-                        <th class="col text-center" th:text="${iter.index + 1}"></th>
-                        <td class="col text-center" th:text="*{#temporals.format(date, 'dd-MM-yyyy HH:mm') }"></td>
-                        <td class="col text-center" th:text="*{totalPrice}"></td>
-                        <td class="col text-center" th:text="*{orderStatus}"></td>
-                        <td class="col text-center mx-auto">
-                            <div class="text-center">
+                        <th class="col-md-1" th:text="${iter.index + 1}"></th>
+                        <td class="col-md-2" th:text="*{#temporals.format(date, 'dd-MM-yyyy HH:mm') }"></td>
+                        <td class="col-md-2" th:text="*{totalPrice}"></td>
+                        <td class="col-md-2" th:text="*{customer.username}"></td>
+                        <td class="col-md-2" th:text="*{orderStatus}"></td>
+                        <td class="col-md-2">
+                            <div>
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{/orders/ship/{id}(id=*{id})}" class="btn btn-pink">Prepare order</a>
                                 </th:block>

@@ -88,7 +88,7 @@ public class BrandController extends BaseController {
 
        // this.logAction(principal.getName(), "Edited brand " + brandServiceModel.getName());
 
-        return super.redirect("/brands/all-brands");
+        return super.redirect("/brands/brands-all");
     }
 
     @GetMapping(value = "/delete/{id}")
@@ -111,7 +111,7 @@ public class BrandController extends BaseController {
 
         //this.logAction(principal.getName(), "Deleted brand " + brandServiceModel.getName());
 
-        return super.redirect("/brands/all-brands");
+        return super.redirect("/brands/brands-all");
     }
 
     @GetMapping("/all-brands")
@@ -123,7 +123,8 @@ public class BrandController extends BaseController {
                         .stream()
                         .map(b -> this.modelMapper.map(b, BrandViewModel.class))
                         .collect(Collectors.toList()));
-        return super.view("brand/all-brands", modelAndView);
+
+        return super.view("brand/brands-all", modelAndView);
     }
 
 
@@ -138,7 +139,7 @@ public class BrandController extends BaseController {
 
         modelAndView.addObject("products", productServiceModels);
         modelAndView.addObject("brand", brandServiceModel);
-        return super.view("brand/products-by-brand", modelAndView);
+        return super.view("brand/brand-products", modelAndView);
     }
 
 }

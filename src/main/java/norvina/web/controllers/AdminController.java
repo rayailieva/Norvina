@@ -42,7 +42,7 @@ public class AdminController extends BaseController{
                 .collect(Collectors.toList());
         modelAndView.addObject("orders", viewModels);
 
-        return view("order/all-orders", modelAndView);
+        return view("order/orders-all", modelAndView);
     }
 
     @GetMapping("/orders/ship/{id}")
@@ -83,7 +83,7 @@ public class AdminController extends BaseController{
                 .collect(Collectors.toList());
 
         modelAndView.addObject("users", users);
-        return super.view("user/all-users", modelAndView);
+        return super.view("user/users-all", modelAndView);
     }
 
     @PostMapping("/set-user/{id}")

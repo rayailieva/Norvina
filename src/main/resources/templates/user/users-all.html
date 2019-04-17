@@ -38,24 +38,24 @@
                             !#lists.contains(user.authorities, 'ROLE_MODERATOR') &&
                              !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
                                 <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
-                                    <button class="btn btn-dark btn-width">MODERATOR</button>
+                                    <button class="btn btn-pink">MODERATOR</button>
                                 </form>
                                 <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
-                                    <button class="btn btn-dark btn-width">ADMIN</button>
+                                    <button class="btn btn-pink">ADMIN</button>
                                 </form>
                             </th:block>
                             <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                             #lists.contains(user.authorities, 'ROLE_MODERATOR')
                             && !#lists.contains(user.authorities, 'ROLE_ADMIN')}">
                                 <form th:action="@{/set-admin/{id}(id=${user.id})}" method="post">
-                                    <button class="btn btn-dark">ADMIN</button>
+                                    <button class="btn btn-pink">ADMIN</button>
                                 </form>
                             </th:block>
                             <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                             !#lists.contains(user.authorities, 'ROLE_MODERATOR')
                             && #lists.contains(user.authorities, 'ROLE_ADMIN')}">
                                 <form th:action="@{/set-moderator/{id}(id=${user.id})}" method="post">
-                                    <button class="btn btn-dark">MODERATOR</button>
+                                    <button class="btnbtn-pink">MODERATOR</button>
                                 </form>
                             </th:block>
                         </div>

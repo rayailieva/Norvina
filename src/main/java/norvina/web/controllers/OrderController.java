@@ -18,32 +18,33 @@ import java.util.stream.Collectors;
 public class OrderController extends BaseController{
 
     private final OrderService orderService;
-    private final ProductService productService;
     private final ModelMapper modelMapper;
 
-    public OrderController(OrderService orderService, ProductService productService, ModelMapper modelMapper) {
+    public OrderController(OrderService orderService, ModelMapper modelMapper) {
         this.orderService = orderService;
-        this.productService = productService;
         this.modelMapper = modelMapper;
     }
-
 
     @GetMapping("/my")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView getMyOrders(ModelAndView modelAndView, Principal principal) {
+
         List<OrderViewModel> viewModels = orderService.findOrdersByCustomer(principal.getName())
                 .stream()
                 .map(o -> this.modelMapper.map(o, OrderViewModel.class))
                 .collect(Collectors.toList());
+
         modelAndView.addObject("orders", viewModels);
 
-        return view("order/all-orders", modelAndView);
+        return view("order/orders-all", modelAndView);
     }
 
     @GetMapping("/my/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView myOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
-        modelAndView.addObject("order", this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class));
+
+        OrderViewModel orderViewModel =  this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
+        modelAndView.addObject("order",orderViewModel);
 
         return super.view("order/order-details", modelAndView);
     }

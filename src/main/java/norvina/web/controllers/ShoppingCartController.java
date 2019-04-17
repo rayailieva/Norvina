@@ -82,7 +82,8 @@ public class ShoppingCartController extends BaseController{
         var cart = this.retrieveCart(session);
 
         OrderServiceModel orderServiceModel = this.prepareOrder(cart, principal.getName());
-        this.orderService.createOrder(orderServiceModel);
+        this.orderService.createOrder(orderServiceModel, principal.getName());
+
         return super.redirect("/home");
     }
 

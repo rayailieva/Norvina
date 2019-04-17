@@ -13,6 +13,13 @@
     color: black;
 }
 
+.navbar-second{
+    list-style: none;
+    text-align: center;
+    background-color: black;
+    color: pink;
+}
+
 .img {
     display: block;
     width: 100%;

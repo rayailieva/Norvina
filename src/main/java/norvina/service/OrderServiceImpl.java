@@ -2,7 +2,9 @@ package norvina.service;
 
 import norvina.domain.entities.Order;
 import norvina.domain.entities.OrderStatus;
+import norvina.domain.entities.User;
 import norvina.domain.models.service.OrderServiceModel;
+import norvina.domain.models.service.UserServiceModel;
 import norvina.error.OrderNotFoundException;
 import norvina.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
@@ -28,9 +30,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void createOrder(OrderServiceModel orderServiceModel) {
+    public void createOrder(OrderServiceModel orderServiceModel, String name) {
+        UserServiceModel customer = this.userService.findUserByUsername(name);
+
         orderServiceModel.setDate(LocalDateTime.now());
         orderServiceModel.setOrderStatus(OrderStatus.Pending);
+        orderServiceModel.setCustomer(customer);
+
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
         this.orderRepository.saveAndFlush(order);
     }

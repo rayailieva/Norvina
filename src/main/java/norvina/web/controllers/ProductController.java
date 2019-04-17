@@ -156,7 +156,7 @@ public class ProductController extends BaseController {
                         .collect(Collectors.toList());
 
         modelAndView.addObject("products", products);
-        return super.view("product/all-products", modelAndView);
+        return super.view("product/products-all", modelAndView);
     }
 
 }
