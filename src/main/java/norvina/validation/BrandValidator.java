@@ -1,8 +1,7 @@
-package norvina.validation.brand;
+package norvina.validation;
 
 import norvina.domain.models.binding.BrandBindingModel;
 import norvina.repository.BrandRepository;
-import norvina.validation.Constants;
 import norvina.validation.annotation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;

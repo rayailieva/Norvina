@@ -6,7 +6,7 @@ import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.BrandViewModel;
 import norvina.service.BrandService;
 import norvina.service.ProductService;
-import norvina.validation.brand.BrandValidator;
+import norvina.validation.BrandValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 

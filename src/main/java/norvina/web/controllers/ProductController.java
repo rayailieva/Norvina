@@ -8,7 +8,7 @@ import norvina.domain.models.view.BrandViewModel;
 import norvina.domain.models.view.ProductViewModel;
 import norvina.service.BrandService;
 import norvina.service.ProductService;
-import norvina.validation.product.ProductValidator;
+import norvina.validation.ProductValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

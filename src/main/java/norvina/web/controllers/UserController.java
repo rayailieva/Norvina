@@ -4,6 +4,7 @@ import norvina.domain.models.binding.UserEditProfileBindingModel;
 import norvina.domain.models.binding.UserRegisterBindingModel;
 import norvina.domain.models.service.UserServiceModel;
 import norvina.service.UserService;
+import norvina.validation.user.UserRegisterValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,17 +16,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.time.LocalDateTime;
 
 @Controller
 public class UserController extends BaseController {
 
     private final UserService userService;
+    private final UserRegisterValidator validator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, UserRegisterValidator validator, ModelMapper modelMapper) {
         this.userService = userService;
+        this.validator = validator;
         this.modelMapper = modelMapper;
     }
 
@@ -41,8 +43,10 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerConfirm(@Valid @ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
+    public ModelAndView registerConfirm(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
+
+        this.validator.validate(userRegisterBindingModel, bindingResult);
 
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
             throw new IllegalArgumentException(("Passwords don't match!"));

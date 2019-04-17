@@ -1,4 +1,4 @@
-package norvina.validation.product;
+package norvina.validation;
 
 import norvina.domain.models.binding.ProductCreateBindingModel;
 import norvina.repository.ProductRepository;
