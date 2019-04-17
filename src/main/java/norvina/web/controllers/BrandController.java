@@ -140,7 +140,7 @@ public class BrandController extends BaseController {
 
         modelAndView.addObject("products", productServiceModels);
         modelAndView.addObject("brand", brandServiceModel);
-        return super.view("brand/brand-product", modelAndView);
+        return super.view("brand/brand-products", modelAndView);
     }
 
 }

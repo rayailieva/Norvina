@@ -8,7 +8,8 @@ import norvina.domain.models.view.BrandViewModel;
 import norvina.domain.models.view.ProductViewModel;
 import norvina.service.BrandService;
 import norvina.service.ProductService;
-import norvina.validation.ProductValidator;
+import norvina.validation.ProductCreateValidator;
+import norvina.validation.ProductEditValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,14 +27,16 @@ public class ProductController extends BaseController {
 
     private final ProductService productService;
     private final BrandService brandService;
-    private final ProductValidator validator;
+    private final ProductCreateValidator productCreateValidator;
+    private final ProductEditValidator productEditValidator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, BrandService brandService, ProductValidator validator, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, BrandService brandService, ProductCreateValidator productCreateValidator, ProductEditValidator productEditValidator, ModelMapper modelMapper) {
         this.productService = productService;
         this.brandService = brandService;
-        this.validator = validator;
+        this.productCreateValidator = productCreateValidator;
+        this.productEditValidator = productEditValidator;
         this.modelMapper = modelMapper;
     }
 
@@ -57,7 +60,7 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
                                           BindingResult bindingResult, ModelAndView modelAndView){
-        this.validator.validate(productBindingModel, bindingResult);
+        this.productCreateValidator.validate(productBindingModel, bindingResult);
 
         ProductServiceModel productServiceModel =
                 this.modelMapper.map(productBindingModel, ProductServiceModel.class);
@@ -84,7 +87,7 @@ public class ProductController extends BaseController {
     }
 
 
-    @GetMapping(value = "/edit/{id}")
+    @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
@@ -96,13 +99,13 @@ public class ProductController extends BaseController {
 
     }
 
-    @PostMapping(value = "/edit/{id}")
+    @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
                                            @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
                                            BindingResult bindingResult, ModelAndView modelAndView) {
 
-        this.validator.validate(productBindingModel, bindingResult);
+       this.productEditValidator.validate(productBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("productBindingModel", productBindingModel);
@@ -112,7 +115,7 @@ public class ProductController extends BaseController {
         ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
         this.productService.editProduct(id, productServiceModel);
 
-        return super.redirect("/product/details/" + id);
+        return super.redirect("/home");
     }
 
     @GetMapping("/details/{id}")
@@ -125,7 +128,7 @@ public class ProductController extends BaseController {
     }
 
 
-    @GetMapping(value = "/delete/{id}")
+    @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
@@ -137,7 +140,7 @@ public class ProductController extends BaseController {
 
     }
 
-    @PostMapping(value = "/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
@@ -158,7 +161,7 @@ public class ProductController extends BaseController {
                         .collect(Collectors.toList());
 
         modelAndView.addObject("products", products);
-        return super.view("product/product-all", modelAndView);
+        return super.view("product/products-all", modelAndView);
     }
 
 }

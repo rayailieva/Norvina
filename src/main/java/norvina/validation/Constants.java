@@ -4,6 +4,8 @@ public class Constants {
 
     public final static String USERNAME_ALREADY_EXISTS = "Username %s already exists!";
 
+    public final static String INVALID_USERNAME = "This username does not exist!";
+
     public final static String USERNAME_LENGTH = "Username must be between 3 and 15 characters long!";
 
     public final static String DESCRIPTION_LENGTH = "Description must be at least 3 characters long!";

@@ -9,12 +9,12 @@ import org.springframework.validation.Errors;
 
 
 @Validator
-public class ProductValidator implements org.springframework.validation.Validator {
+public class ProductCreateValidator implements org.springframework.validation.Validator {
 
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductValidator(ProductRepository productRepository) {
+    public ProductCreateValidator(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 

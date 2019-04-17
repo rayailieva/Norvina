@@ -1,4 +1,4 @@
-package norvina.validation.user;
+package norvina.validation;
 
 import norvina.domain.models.binding.UserRegisterBindingModel;
 import norvina.repository.UserRepository;

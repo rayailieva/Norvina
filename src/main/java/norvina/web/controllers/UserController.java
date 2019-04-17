@@ -4,7 +4,8 @@ import norvina.domain.models.binding.UserEditProfileBindingModel;
 import norvina.domain.models.binding.UserRegisterBindingModel;
 import norvina.domain.models.service.UserServiceModel;
 import norvina.service.UserService;
-import norvina.validation.user.UserRegisterValidator;
+import norvina.validation.UserLoginValidator;
+import norvina.validation.UserRegisterValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,20 +15,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
 public class UserController extends BaseController {
 
     private final UserService userService;
-    private final UserRegisterValidator validator;
+    private final UserRegisterValidator userRegisterValidator;
+    private final UserLoginValidator userLoginValidator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, UserRegisterValidator validator, ModelMapper modelMapper) {
+    public UserController(UserService userService, UserRegisterValidator userRegisterValidator, UserLoginValidator userLoginValidator, ModelMapper modelMapper) {
         this.userService = userService;
-        this.validator = validator;
+        this.userRegisterValidator = userRegisterValidator;
+        this.userLoginValidator = userLoginValidator;
         this.modelMapper = modelMapper;
     }
 
@@ -46,7 +48,7 @@ public class UserController extends BaseController {
     public ModelAndView registerConfirm(@ModelAttribute("userRegisterBindingModel") UserRegisterBindingModel userRegisterBindingModel,
                                         BindingResult bindingResult, ModelAndView modelAndView) {
 
-        this.validator.validate(userRegisterBindingModel, bindingResult);
+        this.userRegisterValidator.validate(userRegisterBindingModel, bindingResult);
 
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
             throw new IllegalArgumentException(("Passwords don't match!"));
@@ -69,7 +71,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView login(ModelAndView modelAndView) {
+    public ModelAndView login() {
 
         return super.view("login");
     }

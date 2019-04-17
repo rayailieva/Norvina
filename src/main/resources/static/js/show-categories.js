@@ -220,7 +220,7 @@ function showFragrances() {
 
 function showBody() {
 
-    fetch('/fetch/category/body`')
+    fetch('/fetch/category/body')
         .then((response) => response.json())
         .then((json) => {
             $('#customText').text('All Products');

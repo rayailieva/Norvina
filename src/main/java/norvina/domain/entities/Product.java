@@ -25,7 +25,7 @@ public class Product extends BaseEntity{
         this.name = name;
     }
 
-    @Column(name = "description", columnDefinition = "text", nullable = false)
+    @Column(name = "description", columnDefinition = "text")
     public String getDescription() {
         return this.description;
     }
@@ -34,7 +34,7 @@ public class Product extends BaseEntity{
         this.description = description;
     }
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     public BigDecimal getPrice() {
         return this.price;
     }
@@ -44,7 +44,7 @@ public class Product extends BaseEntity{
     }
 
    @Enumerated(EnumType.STRING)
-   @Column(name = "category", nullable = false)
+   @Column(name = "category")
     public Category getCategory() {
         return this.category;
     }
