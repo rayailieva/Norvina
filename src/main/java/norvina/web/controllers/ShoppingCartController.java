@@ -83,6 +83,8 @@ public class ShoppingCartController extends BaseController{
         OrderServiceModel orderServiceModel = this.prepareOrder(cart, principal.getName());
         this.orderService.createOrder(orderServiceModel, principal.getName());
 
+        this.emptyCart(session);
+
         return super.redirect("/home");
     }
 
@@ -90,6 +92,12 @@ public class ShoppingCartController extends BaseController{
         this.initCart(session);
 
         return (List<ShoppingCartItem>) session.getAttribute("shopping-cart");
+    }
+
+    private void emptyCart(HttpSession session) {
+
+        session.setAttribute("shopping-cart", new LinkedList<>());
+
     }
 
     private void initCart(HttpSession session) {
