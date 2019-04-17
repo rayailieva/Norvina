@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ShoppingCartItem implements Serializable {
 
+    private String id;
     private ProductViewModel product;
     private int quantity;
 
@@ -24,5 +25,13 @@ public class ShoppingCartItem implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

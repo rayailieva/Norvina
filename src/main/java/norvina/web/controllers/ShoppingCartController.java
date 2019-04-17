@@ -1,6 +1,5 @@
 package norvina.web.controllers;
 
-import norvina.domain.entities.OrderStatus;
 import norvina.domain.models.service.OrderServiceModel;
 import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.ProductViewModel;
@@ -43,7 +42,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     @PostMapping("/add-product")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView addToCartConfirm(String id, int quantity, HttpSession session) {
         ProductViewModel product = this.modelMapper
                 .map(this.productService.findProductById(id), ProductViewModel.class);
@@ -59,7 +58,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     @GetMapping("/details")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView cartDetails(ModelAndView modelAndView, HttpSession session) {
 
         var cart = this.retrieveCart(session);
@@ -69,11 +68,11 @@ public class ShoppingCartController extends BaseController{
     }
 
     @DeleteMapping("/remove-product")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView removeFromCartConfirm(String id, HttpSession session) {
         this.removeItemFromCart(id, this.retrieveCart(session));
 
-        return super.redirect("/shoppingcart/shopping-cart-details");
+        return super.redirect("/shopping-cart/details");
     }
 
     @PostMapping("/checkout")
@@ -94,12 +93,14 @@ public class ShoppingCartController extends BaseController{
     }
 
     private void initCart(HttpSession session) {
+
         if (session.getAttribute("shopping-cart") == null) {
             session.setAttribute("shopping-cart", new LinkedList<>());
         }
     }
 
     private void addItemToCart(ShoppingCartItem item, List<ShoppingCartItem> cart) {
+
         for (ShoppingCartItem shoppingCartItem : cart) {
             if (shoppingCartItem.getProduct().getId().equals(item.getProduct().getId())) {
                 shoppingCartItem.setQuantity(shoppingCartItem.getQuantity() + item.getQuantity());
@@ -116,6 +117,7 @@ public class ShoppingCartController extends BaseController{
 
     private BigDecimal calcTotal(List<ShoppingCartItem> cart) {
         BigDecimal result = new BigDecimal(0);
+
         for (ShoppingCartItem item : cart) {
             result = result.add(item.getProduct().getPrice().multiply(new BigDecimal(item.getQuantity())));
         }
@@ -124,6 +126,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     private OrderServiceModel prepareOrder(List<ShoppingCartItem> cart, String customer) {
+
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
         List<ProductServiceModel> products = new ArrayList<>();
@@ -141,5 +144,4 @@ public class ShoppingCartController extends BaseController{
 
         return orderServiceModel;
     }
-
 }
