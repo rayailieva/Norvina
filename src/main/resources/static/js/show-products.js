@@ -1,6 +1,6 @@
 function showProducts() {
 
-    fetch('/fetch/products')
+    fetch('/fetch/product')
         .then((response) => response.json())
         .then((json) => {
             $('#customText').text('All Products');

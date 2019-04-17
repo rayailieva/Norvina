@@ -1,9 +1,5 @@
 package norvina.domain.models.binding;
 
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
-
 public class BrandBindingModel {
 
     private String id;
@@ -20,8 +16,7 @@ public class BrandBindingModel {
         this.id = id;
     }
 
-    @NotNull(message = "Username cannot be null!")
-    @Length(min = 2, max = 15, message = "Name must be at least 2 symbols long.")
+
     public String getName() {
         return this.name;
     }

@@ -155,8 +155,8 @@ public class BrandControllerTests {
         brand = this.mockBrandRepository.saveAndFlush(brand);
 
         this.mvc
-                .perform(get("/brands/products/" + brand.getId()))
-                .andExpect(view().name("brand/products-by-brand"));
+                .perform(get("/brands/product/" + brand.getId()))
+                .andExpect(view().name("brand/product-by-brand"));
     }
 
     @Test

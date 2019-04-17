@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 
 public class ProductEditBindingModel {
 
+    //TODO REFACTOR AND MAYBE COMBINE THIS BINDING MODEL WITH THE CREATE PRODUCT ONE?
+
     private String id;
     private String name;
     private String imageUrl;

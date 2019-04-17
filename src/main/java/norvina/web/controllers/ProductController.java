@@ -8,6 +8,7 @@ import norvina.domain.models.view.BrandViewModel;
 import norvina.domain.models.view.ProductViewModel;
 import norvina.service.BrandService;
 import norvina.service.ProductService;
+import norvina.validation.product.ProductValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,24 +17,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping(value = "/products")
+@RequestMapping("/products")
 public class ProductController extends BaseController {
 
     private final ProductService productService;
     private final BrandService brandService;
+    private final ProductValidator validator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, BrandService brandService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, BrandService brandService, ProductValidator validator, ModelMapper modelMapper) {
         this.productService = productService;
         this.brandService = brandService;
+        this.validator = validator;
         this.modelMapper = modelMapper;
     }
 
@@ -55,14 +55,22 @@ public class ProductController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addProductConfirm(@Valid @ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
-                                          BindingResult bindingResult, ModelAndView modelAndView, Principal principal){
+    public ModelAndView addProductConfirm(@ModelAttribute(name = "productBindingModel") ProductCreateBindingModel productBindingModel,
+                                          BindingResult bindingResult, ModelAndView modelAndView){
+        this.validator.validate(productBindingModel, bindingResult);
 
         ProductServiceModel productServiceModel =
                 this.modelMapper.map(productBindingModel, ProductServiceModel.class);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("productBindingModel", productBindingModel);
+
+            List<BrandViewModel> brands = this.brandService.findAllBrands()
+                    .stream()
+                    .map(p -> this.modelMapper.map(p, BrandViewModel.class))
+                    .collect(Collectors.toList());
+
+            modelAndView.addObject("brands", brands);
             return super.view("product/product-add", modelAndView);
         }
 
@@ -72,9 +80,6 @@ public class ProductController extends BaseController {
         brandServiceModel.getProducts().add(productServiceModel);
 
         this.productService.addProduct(productServiceModel);
-
-     //   this.logAction(principal.getName(), "Added product " + productServiceModel.getName());
-
         return super.redirect("/home");
     }
 
@@ -93,9 +98,11 @@ public class ProductController extends BaseController {
 
     @PostMapping(value = "/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id, Principal principal,
-                                           @Valid @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
+    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
+                                           @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
                                            BindingResult bindingResult, ModelAndView modelAndView) {
+
+        this.validator.validate(productBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("productBindingModel", productBindingModel);
@@ -105,9 +112,7 @@ public class ProductController extends BaseController {
         ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
         this.productService.editProduct(id, productServiceModel);
 
-      //  this.logAction(principal.getName(), "Added product " + productServiceModel.getName());
-
-        return super.redirect("/products/details/" + id);
+        return super.redirect("/product/details/" + id);
     }
 
     @GetMapping("/details/{id}")
@@ -134,12 +139,9 @@ public class ProductController extends BaseController {
 
     @PostMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id, Principal principal) {
+    public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
-        ProductServiceModel productServiceModel = this.productService.findProductById(id);
         this.productService.deleteProduct(id);
-
-        //this.logAction(principal.getName(), "Deleted product " + productServiceModel.getName());
 
         return super.redirect("/home");
     }
@@ -156,7 +158,7 @@ public class ProductController extends BaseController {
                         .collect(Collectors.toList());
 
         modelAndView.addObject("products", products);
-        return super.view("product/products-all", modelAndView);
+        return super.view("product/product-all", modelAndView);
     }
 
 }

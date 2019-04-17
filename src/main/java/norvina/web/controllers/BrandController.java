@@ -6,6 +6,7 @@ import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.view.BrandViewModel;
 import norvina.service.BrandService;
 import norvina.service.ProductService;
+import norvina.validation.brand.BrandValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,12 +26,14 @@ public class BrandController extends BaseController {
 
     private final BrandService brandService;
     private final ProductService productService;
+    private final BrandValidator validator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public BrandController(BrandService brandService, ProductService productService, ModelMapper modelMapper) {
+    public BrandController(BrandService brandService, ProductService productService, BrandValidator validator, ModelMapper modelMapper) {
         this.brandService = brandService;
         this.productService = productService;
+        this.validator = validator;
         this.modelMapper = modelMapper;
     }
 
@@ -45,17 +48,19 @@ public class BrandController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addBrandConfirm(@Valid @ModelAttribute BrandBindingModel brandBindingModel ,
-                                        BindingResult bindingResult, ModelAndView modelAndView, Principal principal) {
+    public ModelAndView addBrandConfirm(@ModelAttribute BrandBindingModel brandBindingModel ,
+                                        BindingResult bindingResult, ModelAndView modelAndView) {
+        this.validator.validate(brandBindingModel, bindingResult);
+
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("brandBindingModel", brandBindingModel);
             return super.view("brand/brand-add", modelAndView);
         }
 
-        BrandServiceModel brandServiceModel = this.modelMapper.map(brandBindingModel, BrandServiceModel.class);
+        BrandServiceModel brandServiceModel =
+                this.modelMapper.map(brandBindingModel, BrandServiceModel.class);
         this.brandService.addBrand(brandServiceModel);
 
-       // this.logAction(principal.getName(), "Added brand " + brandServiceModel.getName());
 
         return super.redirect("/brands/all-brands");
     }
@@ -74,9 +79,10 @@ public class BrandController extends BaseController {
 
     @PostMapping(value = "/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id, Principal principal,
-                                         @Valid @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel,
+    public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id,
+                                         @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel,
                                          BindingResult bindingResult, ModelAndView modelAndView) {
+        this.validator.validate(brandBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("brandBindingModel", brandBindingModel);
@@ -84,7 +90,7 @@ public class BrandController extends BaseController {
         }
 
         BrandServiceModel brandServiceModel = this.modelMapper.map(brandBindingModel, BrandServiceModel.class);
-       this.brandService.editBrand(id, brandServiceModel);
+        this.brandService.editBrand(id, brandServiceModel);
 
        // this.logAction(principal.getName(), "Edited brand " + brandServiceModel.getName());
 
@@ -104,12 +110,9 @@ public class BrandController extends BaseController {
 
     @PostMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView deleteBrandConfirm(@PathVariable(name = "id") String id, Principal principal ) {
+    public ModelAndView deleteBrandConfirm(@PathVariable(name = "id") String id) {
 
-        BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
         this.brandService.deleteBrand(id);
-
-        //this.logAction(principal.getName(), "Deleted brand " + brandServiceModel.getName());
 
         return super.redirect("/brands/brands-all");
     }
@@ -139,7 +142,7 @@ public class BrandController extends BaseController {
 
         modelAndView.addObject("products", productServiceModels);
         modelAndView.addObject("brand", brandServiceModel);
-        return super.view("brand/brand-products", modelAndView);
+        return super.view("brand/brand-product", modelAndView);
     }
 
 }

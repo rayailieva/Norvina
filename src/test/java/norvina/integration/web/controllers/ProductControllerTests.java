@@ -65,7 +65,7 @@ public class ProductControllerTests {
     @Test
     public void products_addProductReturnsCorrectView() throws Exception {
         this.mvc
-                .perform(get("/products/add"))
+                .perform(get("/product/add"))
                 .andExpect(view().name("product/product-add"));
     }
 
@@ -78,7 +78,7 @@ public class ProductControllerTests {
         this.mockBrandRepository.saveAndFlush(brand);
 
         this.mvc
-                .perform(post("/products/add")
+                .perform(post("/product/add")
                         .param("name", "sunscreen")
                         .param("description", "spf 100")
                         .param("imageUrl", "sunscreen")
@@ -107,7 +107,7 @@ public class ProductControllerTests {
         product = this.mockProductRepository.saveAndFlush(product);
 
         this.mvc
-                .perform(get("/products/edit/" + product.getId()))
+                .perform(get("/product/edit/" + product.getId()))
                 .andExpect(view().name("product/product-edit"));
     }
 
@@ -128,7 +128,7 @@ public class ProductControllerTests {
 
         this.mvc
                 .perform(
-                        post("/products/edit/" + product.getId())
+                        post("/product/edit/" + product.getId())
                                 .param("name", "skin mist")
                                 .param("description", "spf 100")
                                 .param("imageUrl", "lalalal.bg")
@@ -156,7 +156,7 @@ public class ProductControllerTests {
 
 
         this.mvc
-                .perform(get("/products/details/" + product.getId()))
+                .perform(get("/product/details/" + product.getId()))
                 .andExpect(view().name("product/product-details"));
     }
 
@@ -176,7 +176,7 @@ public class ProductControllerTests {
         product = this.mockProductRepository.saveAndFlush(product);
 
         this.mvc
-                .perform(get("/products/delete/" + product.getId()))
+                .perform(get("/product/delete/" + product.getId()))
                 .andExpect(view().name("product/product-delete"));
     }
 
@@ -196,7 +196,7 @@ public class ProductControllerTests {
 
         this.mvc
                 .perform(
-                        post("/products/delete/" + product.getId())
+                        post("/product/delete/" + product.getId())
                 );
 
         Assert.assertEquals(0, this.mockProductRepository.count());
@@ -205,8 +205,8 @@ public class ProductControllerTests {
     @Test
     public void products_allProductsReturnsCorrectView() throws Exception {
         this.mvc
-                .perform(get("/products/all-products"))
-                .andExpect(view().name("product/all-products"));
+                .perform(get("/product/all-product"))
+                .andExpect(view().name("product/all-product"));
     }
 
 
