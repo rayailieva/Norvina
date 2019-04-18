@@ -50,6 +50,7 @@ public class AdminController extends BaseController{
     public ModelAndView shipOrder(@PathVariable String id, ModelAndView modelAndView) {
         OrderViewModel orderViewModel =
                 this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
+
         orderViewModel.setOrderStatus(OrderStatus.Shipped);
         modelAndView.addObject("order",orderViewModel);
 

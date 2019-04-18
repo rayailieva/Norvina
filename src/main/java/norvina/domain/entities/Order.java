@@ -56,7 +56,7 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
-    @ManyToMany(targetEntity = OrderProduct.class)
+    @ManyToMany(targetEntity = OrderProduct.class, cascade = CascadeType.ALL)
     @JoinTable(name = "orders_products",
             joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"))
