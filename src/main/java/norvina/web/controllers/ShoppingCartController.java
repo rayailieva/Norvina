@@ -1,7 +1,9 @@
 package norvina.web.controllers;
 
+import norvina.domain.models.service.OrderProductServiceModel;
 import norvina.domain.models.service.OrderServiceModel;
 import norvina.domain.models.service.ProductServiceModel;
+import norvina.domain.models.view.OrderProductViewModel;
 import norvina.domain.models.view.ProductViewModel;
 import norvina.domain.models.view.ShoppingCartItem;
 import norvina.service.OrderService;
@@ -47,8 +49,12 @@ public class ShoppingCartController extends BaseController{
         ProductViewModel product = this.modelMapper
                 .map(this.productService.findProductById(id), ProductViewModel.class);
 
+        OrderProductViewModel orderProductViewModel = new OrderProductViewModel();
+        orderProductViewModel.setProductViewModel(product);
+        orderProductViewModel.setPrice(product.getPrice());
+
         ShoppingCartItem cartItem = new ShoppingCartItem();
-        cartItem.setProduct(product);
+        cartItem.setProduct(orderProductViewModel);
         cartItem.setQuantity(quantity);
 
         var cart = this.retrieveCart(session);
@@ -110,7 +116,7 @@ public class ShoppingCartController extends BaseController{
     private void addItemToCart(ShoppingCartItem item, List<ShoppingCartItem> cart) {
 
         for (ShoppingCartItem shoppingCartItem : cart) {
-            if (shoppingCartItem.getProduct().getId().equals(item.getProduct().getId())) {
+            if (shoppingCartItem.getProduct().getProductViewModel().getId().equals(item.getProduct().getProductViewModel().getId())) {
                 shoppingCartItem.setQuantity(shoppingCartItem.getQuantity() + item.getQuantity());
                 return;
             }
@@ -120,7 +126,7 @@ public class ShoppingCartController extends BaseController{
     }
 
     private void removeItemFromCart(String id, List<ShoppingCartItem> cart) {
-        cart.removeIf(ci -> ci.getProduct().getId().equals(id));
+        cart.removeIf(ci -> ci.getProduct().getProductViewModel().getId().equals(id));
     }
 
     private BigDecimal calcTotal(List<ShoppingCartItem> cart) {
@@ -137,10 +143,11 @@ public class ShoppingCartController extends BaseController{
 
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
-        List<ProductServiceModel> products = new ArrayList<>();
+
+        List<OrderProductServiceModel> products = new ArrayList<>();
 
         for (ShoppingCartItem item : cart) {
-            ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), ProductServiceModel.class);
+            OrderProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
 
             for (int i = 0; i < item.getQuantity(); i++) {
                 products.add(productServiceModel);

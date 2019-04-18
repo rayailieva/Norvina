@@ -13,7 +13,7 @@ public class Order extends BaseEntity {
     private LocalDateTime date;
     private BigDecimal totalPrice;
     private OrderStatus orderStatus;
-    private List<Product> products;
+    private List<OrderProduct> products;
 
     public Order() {
     }
@@ -56,15 +56,15 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
-    @ManyToMany(targetEntity = Product.class)
+    @ManyToMany(targetEntity = OrderProduct.class)
     @JoinTable(name = "orders_products",
             joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"))
-    public List<Product> getProducts() {
+    public List<OrderProduct> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<OrderProduct> products) {
         this.products = products;
     }
 

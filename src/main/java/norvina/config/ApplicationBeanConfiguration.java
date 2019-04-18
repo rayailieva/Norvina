@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 @Configuration
 public class ApplicationBeanConfiguration {
 
@@ -24,4 +27,8 @@ public class ApplicationBeanConfiguration {
         return new SpringSecurityDialect();
     }
 
+    @Bean
+    public Validator validator() {
+        return Validation.buildDefaultValidatorFactory().getValidator();
+    }
 }

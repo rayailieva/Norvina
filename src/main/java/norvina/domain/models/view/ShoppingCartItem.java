@@ -5,17 +5,17 @@ import java.io.Serializable;
 public class ShoppingCartItem implements Serializable {
 
     private String id;
-    private ProductViewModel product;
+    private OrderProductViewModel  product;
     private int quantity;
 
     public ShoppingCartItem() {
     }
 
-    public ProductViewModel getProduct() {
+    public OrderProductViewModel getProduct() {
         return product;
     }
 
-    public void setProduct(ProductViewModel product) {
+    public void setProduct(OrderProductViewModel product) {
         this.product = product;
     }
 

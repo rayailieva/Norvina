@@ -13,7 +13,7 @@ public class OrderViewModel {
     private BigDecimal totalPrice;
     private UserViewModel customer;
     private OrderStatus orderStatus;
-    private List<ProductViewModel> products;
+    private List<OrderProductViewModel> products;
 
 
     public OrderViewModel() {
@@ -59,11 +59,11 @@ public class OrderViewModel {
         this.orderStatus = orderStatus;
     }
 
-    public List<ProductViewModel> getProducts() {
+    public List<OrderProductViewModel> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<ProductViewModel> products) {
+    public void setProducts(List<OrderProductViewModel> products) {
         this.products = products;
     }
 }
