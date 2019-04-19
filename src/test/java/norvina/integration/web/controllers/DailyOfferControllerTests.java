@@ -77,6 +77,8 @@ public class DailyOfferControllerTests {
         product.setCategory(Category.Body);
         product.setBrand(brand);
 
+        product = this.mockProductRepository.saveAndFlush(product);
+
         DailyOffer dailyOffer = new DailyOffer();
         dailyOffer.setProduct(product);
         dailyOffer.setPrice(product.getPrice().multiply(new BigDecimal(0.5)));

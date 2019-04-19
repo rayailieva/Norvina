@@ -24,12 +24,14 @@
                 <div class="row d-flex justify-content-center">
                     <h4 th:text="'Last Name: ' + *{lastName}"></h4>
                 </div>
-                <div class="button-holder d-flex justify-content-center">
+                <div class="button-holder d-flex justify-content-center mt-3">
                     <a th:href="@{/edit}" class="btn btn-dark">Edit Profile</a>
                 </div>
+                <div class="button-holder d-flex justify-content-center mt-3">
                 <th:block sec:authorize="!hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')">
                     <a th:href="@{/orders/my}" class="btn btn-info">My Orders</a>
                 </th:block>
+                </div>
             </div>
         </div>
     </div>

@@ -128,7 +128,7 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
         this.userService.editUser(userServiceModel, userEditBindingModel.getOldPassword());
 
-        return super.redirect("/user-profile");
+        return super.redirect("/profile");
     }
 }
 

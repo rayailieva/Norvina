@@ -48,7 +48,7 @@ public class DailyOfferServiceImpl implements DailyOfferService {
      return dailyOfferServiceModel;
     }
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 500000)
     private void generateOffers() {
         this.dailyOfferRepository.deleteAll();
         List<ProductServiceModel> products = this.productService.findAllProducts();

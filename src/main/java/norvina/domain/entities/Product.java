@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
     private String name;
     private String description;
@@ -17,7 +17,8 @@ public class Product extends BaseEntity{
     private List<OrderProduct> orderProducts;
     private List<DailyOffer> dailyOffers;
 
-    public Product(){}
+    public Product() {
+    }
 
     @Column(name = "name", nullable = false, unique = true)
     public String getName() {
@@ -46,8 +47,8 @@ public class Product extends BaseEntity{
         this.price = price;
     }
 
-   @Enumerated(EnumType.STRING)
-   @Column(name = "category")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     public Category getCategory() {
         return this.category;
     }
@@ -55,7 +56,6 @@ public class Product extends BaseEntity{
     public void setCategory(Category category) {
         this.category = category;
     }
-
 
     @Column(name = "image_src")
     public String getImageUrl() {

@@ -9,12 +9,13 @@ import javax.validation.constraints.Pattern;
 public class UserEditProfileBindingModel {
 
     private String id;
+    private String username;
     private String firstName;
     private String lastName;
-    private String email;
     private String oldPassword;
     private String password;
     private String confirmPassword;
+    private String email;
 
 
     public UserEditProfileBindingModel() {
@@ -87,5 +88,13 @@ public class UserEditProfileBindingModel {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
