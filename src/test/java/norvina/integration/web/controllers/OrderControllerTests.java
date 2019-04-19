@@ -59,7 +59,7 @@ public class OrderControllerTests {
 
         this.mvc
                 .perform(get("/orders/my"))
-                .andExpect(view().name("order/all-orders"));
+                .andExpect(view().name("order/orders-all"));
     }
 
     @Test

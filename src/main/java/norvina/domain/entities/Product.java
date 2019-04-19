@@ -2,6 +2,7 @@ package norvina.domain.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -13,6 +14,7 @@ public class Product extends BaseEntity{
     private BigDecimal price;
     private Category category;
     private Brand brand;
+    private List<OrderProduct> orderProducts;
 
     public Product(){}
 
@@ -72,4 +74,12 @@ public class Product extends BaseEntity{
         this.brand = brand;
     }
 
+    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product", cascade = CascadeType.ALL)
+    public List<OrderProduct> getOrderProducts() {
+        return this.orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
 }

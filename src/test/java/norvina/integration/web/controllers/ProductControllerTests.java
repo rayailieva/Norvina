@@ -65,7 +65,7 @@ public class ProductControllerTests {
     @Test
     public void products_addProductReturnsCorrectView() throws Exception {
         this.mvc
-                .perform(get("/product/add"))
+                .perform(get("/products/add"))
                 .andExpect(view().name("product/product-add"));
     }
 
@@ -78,7 +78,7 @@ public class ProductControllerTests {
         this.mockBrandRepository.saveAndFlush(brand);
 
         this.mvc
-                .perform(post("/product/add")
+                .perform(post("/products/add")
                         .param("name", "sunscreen")
                         .param("description", "spf 100")
                         .param("imageUrl", "sunscreen")
@@ -94,7 +94,10 @@ public class ProductControllerTests {
 
     @Test
     public void products_editViewReturnsCorrectView() throws Exception {
-        this.getBrandEntity();
+        Brand brand = new Brand();
+        brand.setName("gucci");
+
+        brand = this.mockBrandRepository.saveAndFlush(brand);
 
         Product product = new Product();
         product.setName("sunscreen");
@@ -102,19 +105,22 @@ public class ProductControllerTests {
         product.setImageUrl("lalalal.com");
         product.setPrice(BigDecimal.TEN);
         product.setCategory(Category.Body);
-        product.setBrand(getBrandEntity());
+        product.setBrand(brand);
 
         product = this.mockProductRepository.saveAndFlush(product);
 
         this.mvc
-                .perform(get("/product/edit/" + product.getId()))
+                .perform(get("/products/edit/" + product.getId()))
                 .andExpect(view().name("product/product-edit"));
     }
 
     @Test
     public void products_editProductCorrectly() throws Exception {
 
-        this.getBrandEntity();
+        Brand brand = new Brand();
+        brand.setName("7heaven");
+
+        brand = this.mockBrandRepository.saveAndFlush(brand);
 
         Product product = new Product();
         product.setName("sunscreen");
@@ -122,13 +128,13 @@ public class ProductControllerTests {
         product.setImageUrl("lalalal.com");
         product.setPrice(BigDecimal.TEN);
         product.setCategory(Category.Body);
-        product.setBrand(getBrandEntity());
+        product.setBrand(brand);
 
         product = this.mockProductRepository.saveAndFlush(product);
 
         this.mvc
                 .perform(
-                        post("/product/edit/" + product.getId())
+                        post("/products/edit/" + product.getId())
                                 .param("name", "skin mist")
                                 .param("description", "spf 100")
                                 .param("imageUrl", "lalalal.bg")
@@ -143,60 +149,68 @@ public class ProductControllerTests {
 
     @Test
     public void products_detailsViewReturnsCorrectView() throws Exception {
-        this.getBrandEntity();
+        Brand brand = new Brand();
+        brand.setName("mixa");
+
+        brand = this.mockBrandRepository.saveAndFlush(brand);
 
         Product product = new Product();
         product.setName("sunscreen");
         product.setDescription("spf 100");
         product.setPrice(BigDecimal.TEN);
         product.setCategory(Category.Body);
-        product.setBrand(getBrandEntity());
+        product.setBrand(brand);
 
         product = this.mockProductRepository.saveAndFlush(product);
 
 
         this.mvc
-                .perform(get("/product/details/" + product.getId()))
+                .perform(get("/products/details/" + product.getId()))
                 .andExpect(view().name("product/product-details"));
     }
 
 
     @Test
     public void products_deleteViewReturnsCorrectView() throws Exception {
-        this.getBrandEntity();
+        Brand brand = new Brand();
+        brand.setName("nivea");
 
+        brand = this.mockBrandRepository.saveAndFlush(brand);
         Product product = new Product();
         product.setName("sunscreen");
         product.setDescription("spf 100");
         product.setImageUrl("lalalal.com");
         product.setPrice(BigDecimal.TEN);
         product.setCategory(Category.Body);
-        product.setBrand(getBrandEntity());
+        product.setBrand(brand);
 
         product = this.mockProductRepository.saveAndFlush(product);
 
         this.mvc
-                .perform(get("/product/delete/" + product.getId()))
+                .perform(get("/products/delete/" + product.getId()))
                 .andExpect(view().name("product/product-delete"));
     }
 
     @Test
     public void products_deleteProductCorrectly() throws Exception {
 
-        this.getBrandEntity();
+        Brand brand = new Brand();
+        brand.setName("neutrogena");
+
+        brand = this.mockBrandRepository.saveAndFlush(brand);
 
         Product product = new Product();
         product.setName("sunscreen");
         product.setDescription("spf 100");
         product.setPrice(BigDecimal.TEN);
         product.setCategory(Category.Body);
-        product.setBrand(getBrandEntity());
+        product.setBrand(brand);
 
         product = this.mockProductRepository.saveAndFlush(product);
 
         this.mvc
                 .perform(
-                        post("/product/delete/" + product.getId())
+                        post("/products/delete/" + product.getId())
                 );
 
         Assert.assertEquals(0, this.mockProductRepository.count());
@@ -205,18 +219,10 @@ public class ProductControllerTests {
     @Test
     public void products_allProductsReturnsCorrectView() throws Exception {
         this.mvc
-                .perform(get("/product/all-product"))
-                .andExpect(view().name("product/all-product"));
+                .perform(get("/products/all-products"))
+                .andExpect(view().name("product/products-all"));
     }
 
-
-    private Brand getBrandEntity() {
-        Brand brand = new Brand();
-        brand.setName("maybelline");
-
-        brand = this.mockBrandRepository.saveAndFlush(brand);
-        return brand;
-    }
 }
 
 

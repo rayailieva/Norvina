@@ -1,7 +1,9 @@
 package norvina.web.controllers;
 
+import norvina.domain.entities.Order;
 import norvina.domain.entities.OrderStatus;
 import norvina.domain.models.service.OrderServiceModel;
+import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.service.RoleServiceModel;
 import norvina.domain.models.view.OrderViewModel;
 import norvina.domain.models.view.UserViewModel;
@@ -48,8 +50,12 @@ public class AdminController extends BaseController{
     @GetMapping("/orders/ship/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView shipOrder(@PathVariable String id, ModelAndView modelAndView) {
+
+        OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
+
         OrderViewModel orderViewModel =
-                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
+                this.modelMapper.map(orderServiceModel, OrderViewModel.class);
+
 
         orderViewModel.setOrderStatus(OrderStatus.Shipped);
         modelAndView.addObject("order",orderViewModel);
@@ -61,8 +67,7 @@ public class AdminController extends BaseController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView shipOrderConfirm(@PathVariable String id, ModelAndView modelAndView) {
 
-        OrderServiceModel orderServiceModel =
-                this.modelMapper.map(this.orderService.findOrderById(id), OrderServiceModel.class);
+        OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
        orderService.editOrder(id, orderServiceModel);
 
         return super.view("home", modelAndView);

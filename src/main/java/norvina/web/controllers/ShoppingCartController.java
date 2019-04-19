@@ -12,6 +12,7 @@ import norvina.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -147,13 +148,15 @@ public class ShoppingCartController extends BaseController{
         List<OrderProductServiceModel> products = new ArrayList<>();
 
         for (ShoppingCartItem item : cart) {
-            OrderProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
+            OrderProductServiceModel orderProductServiceModel =
+            this.modelMapper.map(item.getProduct(), OrderProductServiceModel.class);
 
             for (int i = 0; i < item.getQuantity(); i++) {
-                products.add(productServiceModel);
+                ProductServiceModel productServiceModel = this.modelMapper.map(item.getProduct().getProductViewModel(), ProductServiceModel.class);
+                orderProductServiceModel.setProductServiceModel(productServiceModel);
+                products.add(orderProductServiceModel);
             }
         }
-
         orderServiceModel.setProducts(products);
         orderServiceModel.setTotalPrice(this.calcTotal(cart));
 

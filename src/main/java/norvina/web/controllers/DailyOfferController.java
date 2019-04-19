@@ -36,8 +36,10 @@ public class DailyOfferController extends BaseController{
 
         DailyOfferServiceModel dailyOfferServiceModel = this.offerService.findActiveOffer();
 
-        DailyOfferViewModel offer = this.modelMapper.map(dailyOfferServiceModel, DailyOfferViewModel.class);
-        offer.setProductViewModel(this.modelMapper.map(dailyOfferServiceModel.getProductServiceModel(), ProductViewModel.class));
+        DailyOfferViewModel offer =
+                this.modelMapper.map(dailyOfferServiceModel, DailyOfferViewModel.class);
+        offer
+                .setProductViewModel(this.modelMapper.map(dailyOfferServiceModel.getProductServiceModel(), ProductViewModel.class));
         modelAndView.addObject("offer", offer);
 
         return super.view("offer/daily-offers", modelAndView);

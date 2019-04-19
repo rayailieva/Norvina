@@ -4,6 +4,7 @@ import norvina.domain.entities.Order;
 import norvina.domain.entities.OrderStatus;
 import norvina.domain.entities.User;
 import norvina.domain.models.service.OrderServiceModel;
+import norvina.domain.models.service.ProductServiceModel;
 import norvina.domain.models.service.UserServiceModel;
 import norvina.error.OrderNotFoundException;
 import norvina.repository.OrderRepository;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderServiceModel findOrderById(String id) {
+
         return this.orderRepository.findById(id)
                 .map(o -> this.modelMapper.map(o, OrderServiceModel.class))
                 .orElseThrow(() -> new OrderNotFoundException("Order with the given id is not found!"));

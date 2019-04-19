@@ -92,7 +92,7 @@ public class BrandController extends BaseController {
 
        // this.logAction(principal.getName(), "Edited brand " + brandServiceModel.getName());
 
-        return super.redirect("/brands/brands-all");
+        return super.redirect("/brands/all-brands");
     }
 
     @GetMapping(value = "/delete/{id}")
@@ -112,7 +112,7 @@ public class BrandController extends BaseController {
 
         this.brandService.deleteBrand(id);
 
-        return super.redirect("/brands/brands-all");
+        return super.redirect("/brands/all-brands");
     }
 
     @GetMapping("/all-brands")
