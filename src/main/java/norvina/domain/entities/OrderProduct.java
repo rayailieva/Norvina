@@ -10,7 +10,7 @@ public class OrderProduct extends BaseEntity{
     private Product product;
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Product.class)
     @JoinColumn(
             name = "product_id",
             referencedColumnName = "id"

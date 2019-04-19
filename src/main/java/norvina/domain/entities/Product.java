@@ -84,7 +84,7 @@ public class Product extends BaseEntity{
         this.orderProducts = orderProducts;
     }
 
-    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = DailyOffer.class, mappedBy = "product", cascade = CascadeType.ALL)
     public List<DailyOffer> getDailyOffers() {
         return this.dailyOffers;
     }

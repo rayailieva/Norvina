@@ -13,7 +13,7 @@ public class DailyOffer extends BaseEntity{
     public DailyOffer() {
     }
 
-    @ManyToOne(targetEntity = Product.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Product.class)
     @JoinColumn(
             name = "product_id",
             referencedColumnName = "id"
