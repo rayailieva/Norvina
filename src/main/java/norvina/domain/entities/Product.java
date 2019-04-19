@@ -15,6 +15,7 @@ public class Product extends BaseEntity{
     private Category category;
     private Brand brand;
     private List<OrderProduct> orderProducts;
+    private List<DailyOffer> dailyOffers;
 
     public Product(){}
 
@@ -81,5 +82,14 @@ public class Product extends BaseEntity{
 
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
+    }
+
+    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product", cascade = CascadeType.ALL)
+    public List<DailyOffer> getDailyOffers() {
+        return this.dailyOffers;
+    }
+
+    public void setDailyOffers(List<DailyOffer> dailyOffers) {
+        this.dailyOffers = dailyOffers;
     }
 }
