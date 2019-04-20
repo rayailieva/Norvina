@@ -37,8 +37,7 @@ public class BrandController extends BaseController {
 
     @GetMapping("/add")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel,
-                                 BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView addBrand(@ModelAttribute(name = "bindingModel") BrandBindingModel brandBindingModel,ModelAndView modelAndView) {
 
         modelAndView.addObject( "brandBindingModel", brandBindingModel);
         return super.view("brand/brand-add", modelAndView);
@@ -55,9 +54,7 @@ public class BrandController extends BaseController {
             return super.view("brand/brand-add", modelAndView);
         }
 
-        BrandServiceModel brandServiceModel =
-                this.modelMapper.map(brandBindingModel, BrandServiceModel.class);
-        this.brandService.addBrand(brandServiceModel);
+        this.brandService.addBrand( this.modelMapper.map(brandBindingModel, BrandServiceModel.class));
 
 
         return super.redirect("/brands/all-brands");
@@ -68,8 +65,8 @@ public class BrandController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
-        BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
-        BrandBindingModel brandBindingModel = this.modelMapper.map(brandServiceModel, BrandBindingModel.class);
+        BrandBindingModel brandBindingModel =
+                this.modelMapper.map(this.brandService.findBrandById(id), BrandBindingModel.class);
 
         modelAndView.addObject("brandBindingModel", brandBindingModel);
         return super.view("brand/brand-edit", modelAndView);
@@ -87,10 +84,7 @@ public class BrandController extends BaseController {
             return super.view("brand/brand-edit", modelAndView);
         }
 
-        BrandServiceModel brandServiceModel = this.modelMapper.map(brandBindingModel, BrandServiceModel.class);
-        this.brandService.editBrand(id, brandServiceModel);
-
-       // this.logAction(principal.getName(), "Edited brand " + brandServiceModel.getName());
+        this.brandService.editBrand(id, this.modelMapper.map(brandBindingModel, BrandServiceModel.class));
 
         return super.redirect("/brands/all-brands");
     }
@@ -99,8 +93,8 @@ public class BrandController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteBrand(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
-        BrandServiceModel brandServiceModel = this.brandService.findBrandById(id);
-        BrandBindingModel brandBindingModel = this.modelMapper.map(brandServiceModel, BrandBindingModel.class);
+        BrandBindingModel brandBindingModel =
+                this.modelMapper.map(this.brandService.findBrandById(id), BrandBindingModel.class);
 
         modelAndView.addObject("brandBindingModel", brandBindingModel );
         return super.view("brand/brand-delete", modelAndView);

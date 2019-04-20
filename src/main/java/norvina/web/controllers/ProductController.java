@@ -91,8 +91,8 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView editProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
-        ProductServiceModel productServiceModel = this.productService.findProductById(id);
-        ProductEditBindingModel productEditBindingModel = this.modelMapper.map(productServiceModel, ProductEditBindingModel.class);
+        ProductEditBindingModel productEditBindingModel =
+                this.modelMapper.map(this.productService.findProductById(id), ProductEditBindingModel.class);
 
         modelAndView.addObject("productBindingModel", productEditBindingModel);
         return super.view("product/product-edit", modelAndView);
@@ -112,8 +112,7 @@ public class ProductController extends BaseController {
             return super.view("product/product-edit", modelAndView);
         }
 
-        ProductServiceModel productServiceModel = this.modelMapper.map(productBindingModel, ProductServiceModel.class);
-        this.productService.editProduct(id, productServiceModel);
+        this.productService.editProduct(id, this.modelMapper.map(productBindingModel, ProductServiceModel.class));
 
         return super.redirect("/home");
     }
@@ -123,8 +122,8 @@ public class ProductController extends BaseController {
     public ModelAndView detailsProduct(@PathVariable String id, ModelAndView modelAndView) {
         ProductViewModel productViewModel =
                 this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);
-        modelAndView.addObject("product", productViewModel);
 
+        modelAndView.addObject("product", productViewModel);
         return super.view("product/product-details", modelAndView);
     }
 
@@ -133,8 +132,8 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView deleteProduct(@PathVariable(name = "id") String id, ModelAndView modelAndView) {
 
-        ProductServiceModel productServiceModel = this.productService.findProductById(id);
-        ProductViewModel productViewModel = this.modelMapper.map(productServiceModel, ProductViewModel.class);
+        ProductViewModel productViewModel =
+                this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);
 
         modelAndView.addObject("productBindingModel", productViewModel);
         return super.view("product/product-delete", modelAndView);

@@ -40,7 +40,6 @@ public class UserController extends BaseController {
         modelAndView.setViewName("register");
 
         modelAndView.addObject("userRegisterBindingModel", userRegisterBindingModel);
-
         return super.view("register", modelAndView);
     }
 
@@ -59,7 +58,6 @@ public class UserController extends BaseController {
 
             return super.view("register", modelAndView);
         }
-
 
         UserServiceModel userServiceModel =
                 this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
@@ -102,11 +100,11 @@ public class UserController extends BaseController {
     @GetMapping("/edit")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView userEditProfile(Principal principal, ModelAndView modelAndView) {
+
         UserEditProfileBindingModel userBindingModel =
                 this.modelMapper.map(this.userService.findUserByUsername(principal.getName()), UserEditProfileBindingModel.class);
 
         modelAndView.addObject("userEditBindingModel", userBindingModel);
-
         return super.view("user/user-edit-profile", modelAndView);
     }
 

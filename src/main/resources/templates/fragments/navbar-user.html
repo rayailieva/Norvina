@@ -54,8 +54,9 @@
         </div>
     </li>
     </th:block>
+
     <li class="nav-item">
-        <a class="nav-link nav-link-white active" th:href="@{/profile}">My Profile</a>
+        <a class="nav-link nav-link-white active" th:href="@{/profile}" th:text="${username}">Logout</a>
     </li>
     <li class="nav-item">
         <a class="nav-link nav-link-white active" th:href="@{/logout}">Logout</a>

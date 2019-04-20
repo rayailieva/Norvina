@@ -35,7 +35,6 @@ public class OrderController extends BaseController{
                 .collect(Collectors.toList());
 
         modelAndView.addObject("orders", viewModels);
-
         return view("order/orders-all", modelAndView);
     }
 
@@ -43,9 +42,10 @@ public class OrderController extends BaseController{
     @PreAuthorize("isAuthenticated()")
     public ModelAndView myOrderDetails(@PathVariable String id, ModelAndView modelAndView) {
 
-        OrderViewModel orderViewModel =  this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
-        modelAndView.addObject("order",orderViewModel);
+        OrderViewModel orderViewModel =
+                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
 
+        modelAndView.addObject("order",orderViewModel);
         return super.view("order/order-details", modelAndView);
     }
 }

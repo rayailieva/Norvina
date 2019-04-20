@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class AdminController extends BaseController{
+public class AdminController extends BaseController {
 
     private final OrderService orderService;
     private final UserService userService;
@@ -50,15 +50,11 @@ public class AdminController extends BaseController{
     @GetMapping("/orders/ship/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView shipOrder(@PathVariable String id, ModelAndView modelAndView) {
-
-        OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
-
         OrderViewModel orderViewModel =
-                this.modelMapper.map(orderServiceModel, OrderViewModel.class);
-
+                this.modelMapper.map(this.orderService.findOrderById(id), OrderViewModel.class);
 
         orderViewModel.setOrderStatus(OrderStatus.Shipped);
-        modelAndView.addObject("order",orderViewModel);
+        modelAndView.addObject("order", orderViewModel);
 
         return super.view("order/order-details", modelAndView);
     }
@@ -67,15 +63,14 @@ public class AdminController extends BaseController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView shipOrderConfirm(@PathVariable String id, ModelAndView modelAndView) {
 
-        OrderServiceModel orderServiceModel = this.orderService.findOrderById(id);
-       orderService.editOrder(id, orderServiceModel);
+        orderService.editOrder(id, this.orderService.findOrderById(id));
 
         return super.view("home", modelAndView);
     }
 
     @GetMapping("/all-users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView allUsers(ModelAndView modelAndView){
+    public ModelAndView allUsers(ModelAndView modelAndView) {
 
         List<UserViewModel> users = this.userService
                 .findAllUsers()
@@ -83,7 +78,6 @@ public class AdminController extends BaseController{
                 .map(u -> {
                     UserViewModel user = this.modelMapper.map(u, UserViewModel.class);
                     user.setAuthorities(u.getAuthorities().stream().map(RoleServiceModel::getAuthority).collect(Collectors.toSet()));
-
                     return user;
                 })
                 .collect(Collectors.toList());
