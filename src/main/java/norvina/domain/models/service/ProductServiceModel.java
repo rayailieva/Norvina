@@ -11,6 +11,7 @@ public class ProductServiceModel {
     private String description;
     private String imageUrl;
     private BigDecimal price;
+    private BigDecimal discountedPrice;
     private Category category;
     private BrandServiceModel brand;
 
@@ -70,5 +71,13 @@ public class ProductServiceModel {
 
     public void setBrand(BrandServiceModel brand) {
         this.brand = brand;
+    }
+
+    public BigDecimal getDiscountedPrice() {
+        return this.discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 }

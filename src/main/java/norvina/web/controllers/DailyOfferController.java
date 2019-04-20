@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,11 +36,14 @@ public class DailyOfferController extends BaseController{
     public ModelAndView topOffers(ModelAndView modelAndView) {
 
         DailyOfferServiceModel dailyOfferServiceModel = this.offerService.findActiveOffer();
+        ProductServiceModel productServiceModel = dailyOfferServiceModel.getProductServiceModel();
 
         DailyOfferViewModel offer =
                 this.modelMapper.map(dailyOfferServiceModel, DailyOfferViewModel.class);
-        offer
-                .setProductViewModel(this.modelMapper.map(dailyOfferServiceModel.getProductServiceModel(), ProductViewModel.class));
+
+        BigDecimal discounted = productServiceModel.getPrice().multiply(BigDecimal.valueOf(0.5));
+        productServiceModel.setDiscountedPrice(discounted);
+        offer.setProductViewModel(this.modelMapper.map(productServiceModel, ProductViewModel.class));
         modelAndView.addObject("offer", offer);
 
         return super.view("offer/daily-offers", modelAndView);

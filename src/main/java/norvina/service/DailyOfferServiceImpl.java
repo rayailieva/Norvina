@@ -58,19 +58,14 @@ public class DailyOfferServiceImpl implements DailyOfferService {
         }
 
         Random rnd = new Random();
-        List<DailyOffer> offers = new ArrayList<>();
+        DailyOffer offer = new DailyOffer();
 
-        for (int i = 0; i < 1; i++) {
-            DailyOffer offer = new DailyOffer();
 
-            offer.setProduct(this.modelMapper.map(products.get(rnd.nextInt(products.size())), Product.class));
+            Product product = this.modelMapper.map(products.get(rnd.nextInt(products.size())), Product.class);
+            offer.setProduct(product);
             offer.setPrice(offer.getProduct().getPrice().multiply(new BigDecimal(0.5)));
 
-            if (offers.stream().filter(o -> o.getProduct().getId().equals(offer.getProduct().getId())).count() == 0) {
-                offers.add(offer);
-            }
-        }
 
-        this.dailyOfferRepository.saveAll(offers);
+        this.dailyOfferRepository.saveAndFlush(offer);
     }
 }
