@@ -4,7 +4,7 @@ import norvina.domain.models.binding.UserEditProfileBindingModel;
 import norvina.domain.models.binding.UserRegisterBindingModel;
 import norvina.domain.models.service.UserServiceModel;
 import norvina.service.UserService;
-import norvina.validation.UserLoginValidator;
+import norvina.validation.UserEditValidator;
 import norvina.validation.UserRegisterValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,14 @@ public class UserController extends BaseController {
 
     private final UserService userService;
     private final UserRegisterValidator userRegisterValidator;
-    private final UserLoginValidator userLoginValidator;
+    private final UserEditValidator userEditValidator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, UserRegisterValidator userRegisterValidator, UserLoginValidator userLoginValidator, ModelMapper modelMapper) {
+    public UserController(UserService userService, UserRegisterValidator userRegisterValidator, UserEditValidator userEditValidator, ModelMapper modelMapper) {
         this.userService = userService;
         this.userRegisterValidator = userRegisterValidator;
-        this.userLoginValidator = userLoginValidator;
+        this.userEditValidator = userEditValidator;
         this.modelMapper = modelMapper;
     }
 
@@ -113,6 +113,8 @@ public class UserController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView userEditProfileConfirm(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
                                                BindingResult bindingResult, ModelAndView modelAndView) {
+
+        this.userEditValidator.validate(userEditBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
             userEditBindingModel.setOldPassword(null);

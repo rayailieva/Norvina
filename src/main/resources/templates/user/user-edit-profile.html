@@ -17,40 +17,39 @@
                 </div>
                 <div class="form-group">
                     <label for="firstName" class="font-weight-bold">FirstName</label>
-                    <input type="text" th:value="*{firstName}" class="form-control" name="firstName" id="firstName" >
+                    <input type="text" th:value="*{firstName}" class="form-control" name="firstName" id="firstName"
+                           th:styleappend="${#fields.hasErrors('firstName')} ? border-color: red">
+                    <small style="color: red" th:each="error : ${#fields.errors('firstName')}" th:text="${error}"></small>
                 </div>
                 <div class="form-group">
                     <label for="lastName" class="font-weight-bold">LastName</label>
-                    <input type="text" th:value="*{lastName}" class="form-control" name="lastName" id="lastName" >
+                    <input type="text" th:value="*{lastName}" class="form-control" name="lastName" id="lastName"
+                           th:styleappend="${#fields.hasErrors('lastName')} ? border-color: red">
+                    <small style="color: red" th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></small>
                 </div>
                 <div class="form-group">
                     <label for="oldPassword" class="font-weight-bold">Old Password</label>
                     <input th:value="*{oldPassword}" type="password" class="form-control" id="oldPassword"
                            placeholder="Password..." name="oldPassword" required>
-                    <th:block th:if="${#fields.hasErrors('oldPassword')}">
-                        <small th:errors="*{oldPassword}" class="error"></small>
-                    </th:block>
                 </div>
                 <div class="form-group">
                     <label for="password" class="font-weight-bold">New Password</label>
-                    <input th:value="*{password}" type="password" class="form-control" id="password" placeholder="New Password..." name="password">
-                    <th:block th:if="${#fields.hasErrors('password')}">
-                        <small th:errors="*{password}" class="error"></small>
-                    </th:block>
+                    <input th:value="*{password}" type="password" class="form-control" id="password" placeholder="New Password..." name="password"
+                           th:styleappend="${#fields.hasErrors('password')} ? border-color: red">
+                    <small style="color: red" th:each="error : ${#fields.errors('password')}" th:text="${error}"></small>
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword" class="font-weight-bold">Confirm New Password</label>
-                    <input th:value="*{confirmPassword}" type="password" class="form-control" id="confirmPassword" placeholder="Confirm New Password..." name="confirmPassword">
-                    <th:block th:if="${#fields.hasErrors('password')}">
-                        <small th:errors="*{password}" class="error"></small>
-                    </th:block>
+                    <input th:value="*{confirmPassword}" type="password" class="form-control" id="confirmPassword"
+                           placeholder="Confirm New Password..." name="confirmPassword"
+                           th:styleappend="${#fields.hasErrors('confirmPassword')} ? border-color: red">
+                    <small style="color: red" th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></small>
                 </div>
                 <div class="form-group">
                     <label for="email" class="font-weight-bold">Email</label>
-                    <input th:value="*{email}" type="email" class="form-control" id="email" placeholder="Email..." name="email">
-                    <th:block th:if="${#fields.hasErrors('email')}">
-                        <small th:errors="*{email}" class="error"></small>
-                    </th:block>
+                    <input th:value="*{email}" type="email" class="form-control" id="email" placeholder="Email..." name="email"
+                           th:styleappend="${#fields.hasErrors('email')} ? border-color: red">
+                    <small style="color: red" th:each="error : ${#fields.errors('email')}" th:text="${error}"></small>
                 </div>
                 <hr class="hr-2 bg-dark">
                 <div class="button-holder d-flex justify-content-center">
