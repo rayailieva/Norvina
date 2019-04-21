@@ -1,4 +1,7 @@
 <th:block th:fragment>
+    <li class="nav-item">
+        <a class="nav-link nav-link-white active" th:href="@{/profile}" th:text="|Hello, *{username}|"></a>
+    </li>
     <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
         <li class="nav-item dropdown">
             <a class="nav-link nav-link-white active dropdown" href="#" id="productsDropdown" role="button"
@@ -30,7 +33,6 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" th:href="@{/all-users}">All users</a>
                 <a class="dropdown-item" th:href="@{/orders/all}">Orders</a>
-                <a class="dropdown-item" th:href="@{/logs}">Logs</a>
             </div>
 
         </li>
@@ -54,10 +56,6 @@
         </div>
     </li>
     </th:block>
-
-    <li class="nav-item">
-        <a class="nav-link nav-link-white active" th:href="@{/profile}" th:text="${username}">Logout</a>
-    </li>
     <li class="nav-item">
         <a class="nav-link nav-link-white active" th:href="@{/logout}">Logout</a>
     </li>

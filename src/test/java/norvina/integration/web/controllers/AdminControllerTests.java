@@ -94,7 +94,7 @@ public class AdminControllerTests {
         Assert.assertEquals("Shipped", order1.getOrderStatus().toString());
     }
 
-    
+
 
 
 }

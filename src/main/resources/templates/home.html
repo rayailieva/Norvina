@@ -26,58 +26,60 @@
             <h1 class="text-white text-center">World's best cosmetics online retailer.</h1>
             <hr class="bg-white hr-2"/>
 
-           <div class="align-content-md-center">
-               <a  th:href="@{/daily-offers}">
-                   <img src="https://2a494542b89257583ec9-cb62f704a7d9d3d1832b8008d7ddd7e2.ssl.cf3.rackcdn.com/images/original/927f35ae-7337-46b9-a530-c04953d5cba5.jpg?mobilelazy"
-                  class="center">
-               </a>
-           </div>
+            <div class="align-content-md-center">
+                <a th:href="@{/daily-offers}">
+                    <img src="https://2a494542b89257583ec9-cb62f704a7d9d3d1832b8008d7ddd7e2.ssl.cf3.rackcdn.com/images/original/927f35ae-7337-46b9-a530-c04953d5cba5.jpg?mobilelazy"
+                         class="center">
+                </a>
+            </div>
 
             <hr/>
-            <div th:id="content-container">
-                <div class="row text-center mt-3">
-                    <div class="mx-auto">
-                        <p><a onclick="showFragrances()" th:text="FRAGRANCES" class="bg-notino-pink"></a></p>
-                        <img src="https://i.notino.com/images/gallery/hp-category/hp-niche_2k.jpg" class="float-left"
-                             width="300px" alt="Image">
-                    </div>
-                    <div class="mx-auto">
-                        <p><a onclick="showHair()" th:text="HAIR" class="bg-notino-pink"></a></p>
-                        <img src="https://i.notino.com/images/gallery/hp-category/hp-hair_2k.jpg" class="float-right"
-                             width="300px" alt="Image">
-                    </div>
-                    <div class="mx-auto">
-                        <p><a onclick="showSkin()" th:text="SKIN" class="bg-notino-pink"></a></p>
-                        <img src="https://i.notino.com/images/gallery/hp-category/hp-skin_2k.jpg" class="float-left"
-                             width="300px" alt="Image">
-                    </div>
+            <div class="row text-center mt-3">
+                <div class="mx-auto">
+                    <p><a onclick="showFragrances()" th:text="FRAGRANCES" class="bg-notino-pink"></a></p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-niche_2k.jpg" class="float-left"
+                         width="300px" alt="Image">
                 </div>
-                <div class="container-fluid bg-3 text-center align-content-center">
-                    <div class="row align-content-md-center">
-                        <div class="mx-auto">
-                            <p><a onclick="showBody()" th:text="BODY" class="bg-notino-pink"></a></p>
-                            <img src="https://i.notino.com/images/gallery/hp-category/hp-body_2k.jpg"
-                                 class="float-right"
-                                 width="300px" alt="Image">
-                        </div>
-                        <div class="mx-auto">
-                            <p><a onclick="showMakeup()" th:text="MAKEUP" class="bg-notino-pink"></a></p>
-                            <img src="https://i.notino.com/images/gallery/hp-category/make-up_2k.jpg" class="float-left"
-                                 width="300px" alt="Image">
-                        </div>
-                        <div class="mx-auto">
-                            <p><a onclick="showSun()" th:text="SUN" class="bg-notino-pink"></a></p>
-                            <img src="https://i.notino.com/images/gallery/hp-category/hp-sun_2k.jpg" class="float-right"
-                                 width="300px" alt="Image">
-                        </div>
-                        <div class="text-center align-content-center mt-3">
-                            <h3>View All OF Our Product Now:</h3>
-                                <button onclick="showProducts()" class="btn btn-pink"
-                                        id="productsOption" th:text="Products"></button>
-                        </div>
-                    </div>
+                <div class="mx-auto">
+                    <p><a onclick="showHair()" th:text="HAIR" class="bg-notino-pink"></a></p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-hair_2k.jpg" class="float-right"
+                         width="300px" alt="Image">
+                </div>
+                <div class="mx-auto">
+                    <p><a onclick="showSkin()" th:text="SKIN" class="bg-notino-pink"></a></p>
+                    <img src="https://i.notino.com/images/gallery/hp-category/hp-skin_2k.jpg" class="float-left"
+                         width="300px" alt="Image">
                 </div>
             </div>
+            <div class="container-fluid bg-3 text-center align-content-center">
+                <div class="row align-content-md-center">
+                    <div class="mx-auto">
+                        <p><a onclick="showBody()" th:text="BODY" class="bg-notino-pink"></a></p>
+                        <img src="https://i.notino.com/images/gallery/hp-category/hp-body_2k.jpg"
+                             class="float-right"
+                             width="300px" alt="Image">
+                    </div>
+                    <div class="mx-auto">
+                        <p><a onclick="showMakeup()" th:text="MAKEUP" class="bg-notino-pink"></a></p>
+                        <img src="https://i.notino.com/images/gallery/hp-category/make-up_2k.jpg" class="float-left"
+                             width="300px" alt="Image">
+                    </div>
+                    <div class="mx-auto">
+                        <p><a onclick="showSun()" th:text="SUN" class="bg-notino-pink"></a></p>
+                        <img src="https://i.notino.com/images/gallery/hp-category/hp-sun_2k.jpg" class="float-right"
+                             width="300px" alt="Image">
+                    </div>
+                </div>
+                <hr/>
+                <div class="text-center align-content-center mt-3">
+                    <h3>View All OF Our Product Now:</h3>
+                    <button onclick="showProducts()" class="btn btn-pink"
+                            id="productsOption" th:text="Products"></button>
+                </div>
+                <div th:id="content-container">
+                </div>
+            </div>
+
         </div>
     </main>
 </div>
