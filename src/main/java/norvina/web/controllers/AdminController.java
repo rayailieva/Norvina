@@ -65,7 +65,7 @@ public class AdminController extends BaseController {
 
         orderService.editOrder(id, this.orderService.findOrderById(id));
 
-        return super.view("home", modelAndView);
+        return super.redirect("/orders/all");
     }
 
     @GetMapping("/all-users")

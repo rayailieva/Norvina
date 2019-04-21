@@ -101,9 +101,7 @@ public class ProductController extends BaseController {
 
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id,
-                                           @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel,
-                                           BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView editProductConfirm(@PathVariable(name = "id") String id, @ModelAttribute("productBindingModel") ProductEditBindingModel productBindingModel, BindingResult bindingResult, ModelAndView modelAndView) {
 
        this.productEditValidator.validate(productBindingModel, bindingResult);
 
@@ -113,7 +111,6 @@ public class ProductController extends BaseController {
         }
 
         this.productService.editProduct(id, this.modelMapper.map(productBindingModel, ProductServiceModel.class));
-
         return super.redirect("/home");
     }
 
@@ -145,7 +142,6 @@ public class ProductController extends BaseController {
     public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
         this.productService.deleteProduct(id);
-
         return super.redirect("/home");
     }
 

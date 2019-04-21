@@ -2,7 +2,7 @@ package norvina.validation;
 
 public class Constants {
 
-    public final static String USERNAME_ALREADY_EXISTS = "Username %s already exists!";
+    public final static String USERNAME_ALREADY_EXISTS = "Username already exists!";
 
     public final static String INVALID_USERNAME = "This username does not exist!";
 
@@ -28,5 +28,5 @@ public class Constants {
 
     public final static String NAME_LENGTH = "Name must contain at least 2 characters!";
 
-    public final static String NAME_ALREADY_EXISTS = "%s with name %s already exists!";
+    public final static String NAME_ALREADY_EXISTS = "User with this name already exists!";
 }

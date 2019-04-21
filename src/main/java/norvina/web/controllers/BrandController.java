@@ -45,8 +45,7 @@ public class BrandController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addBrandConfirm(@ModelAttribute BrandBindingModel brandBindingModel ,
-                                        BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView addBrandConfirm(@ModelAttribute BrandBindingModel brandBindingModel, BindingResult bindingResult, ModelAndView modelAndView) {
         this.validator.validate(brandBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -55,8 +54,6 @@ public class BrandController extends BaseController {
         }
 
         this.brandService.addBrand( this.modelMapper.map(brandBindingModel, BrandServiceModel.class));
-
-
         return super.redirect("/brands/all-brands");
     }
 
@@ -74,9 +71,7 @@ public class BrandController extends BaseController {
 
     @PostMapping(value = "/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id,
-                                         @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel,
-                                         BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView editBrandConfirm(@PathVariable(name = "id") String id, @ModelAttribute("brandBindingModel") BrandBindingModel brandBindingModel, BindingResult bindingResult, ModelAndView modelAndView) {
         this.validator.validate(brandBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -85,7 +80,6 @@ public class BrandController extends BaseController {
         }
 
         this.brandService.editBrand(id, this.modelMapper.map(brandBindingModel, BrandServiceModel.class));
-
         return super.redirect("/brands/all-brands");
     }
 
@@ -105,7 +99,6 @@ public class BrandController extends BaseController {
     public ModelAndView deleteBrandConfirm(@PathVariable(name = "id") String id) {
 
         this.brandService.deleteBrand(id);
-
         return super.redirect("/brands/all-brands");
     }
 

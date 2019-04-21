@@ -55,15 +55,10 @@ public class UserController extends BaseController {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("userRegisterBindingModel", userRegisterBindingModel);
-
             return super.view("register", modelAndView);
         }
 
-        UserServiceModel userServiceModel =
-                this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
-
-        this.userService.registerUser(userServiceModel);
-
+        this.userService.registerUser(this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
         return super.redirect("/login");
     }
 
@@ -79,7 +74,6 @@ public class UserController extends BaseController {
     public ModelAndView logout(HttpSession session) {
 
         session.invalidate();
-
         return super.redirect("/");
     }
 
