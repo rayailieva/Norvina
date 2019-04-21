@@ -145,7 +145,7 @@ public class ShoppingCartController extends BaseController{
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel.setCustomer(this.userService.findUserByUsername(customer));
 
-        List<OrderProductServiceModel> products = new ArrayList<>();
+        List<OrderProductServiceModel> products = new LinkedList<>();
 
         for (ShoppingCartItem item : cart) {
             OrderProductServiceModel orderProductServiceModel =
