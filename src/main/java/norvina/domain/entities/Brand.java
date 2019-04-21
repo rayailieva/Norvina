@@ -21,7 +21,7 @@ public class Brand extends BaseEntity {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "brand", targetEntity = Product.class, fetch = FetchType.EAGER)
     public List<Product> getProducts() {
         return this.products;
     }

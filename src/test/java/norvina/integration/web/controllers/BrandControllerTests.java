@@ -118,14 +118,15 @@ public class BrandControllerTests {
                 );
     }
 
+
     @Test
     public void brands_deleteBrandCorrectly() throws Exception {
         Brand brand = new Brand();
-        brand.setName("loreal2");
+        brand.setName("test");
         brand = this.mockBrandRepository.saveAndFlush(brand);
 
         Brand brand1 = new Brand();
-        brand1.setName("neutrogena");
+        brand1.setName("test2");
         brand1 = this.mockBrandRepository.saveAndFlush(brand1);
 
         this.mvc
@@ -134,8 +135,9 @@ public class BrandControllerTests {
                 );
 
         Assert.assertEquals(1, this.mockBrandRepository.count());
-        Assert.assertEquals("loreal2", this.mockBrandRepository.findAll().get(0).getName());
+        Assert.assertEquals("test", this.mockBrandRepository.findAll().get(0).getName());
     }
+
 
     @Test
     public void brands_deleteBrandReturnsCorrectView() throws Exception {

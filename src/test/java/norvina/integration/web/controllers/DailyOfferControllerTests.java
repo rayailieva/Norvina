@@ -66,12 +66,12 @@ public class DailyOfferControllerTests {
     @Test
     public void dailyOffer_ReturnsCorrectView() throws Exception {
         Brand brand = new Brand();
-        brand.setName("mixa");
+        brand.setName("testBrand");
 
         brand = this.mockBrandRepository.saveAndFlush(brand);
 
         Product product = new Product();
-        product.setName("sunscreen");
+        product.setName("sunblock");
         product.setDescription("spf 100");
         product.setPrice(BigDecimal.TEN);
         product.setCategory(Category.Body);

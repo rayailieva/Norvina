@@ -10,6 +10,7 @@ public class GlobalExceptionController extends BaseController{
 
     @ExceptionHandler(RuntimeException.class)
     public ModelAndView getException(RuntimeException re) {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/unauthorized");
         modelAndView.addObject("message", re.getClass().isAnnotationPresent(ResponseStatus.class)

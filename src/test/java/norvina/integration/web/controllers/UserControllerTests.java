@@ -1,5 +1,6 @@
 package norvina.integration.web.controllers;
 
+import norvina.domain.entities.User;
 import norvina.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -34,25 +36,8 @@ public class UserControllerTests {
     private MockMvc mvc;
 
     @Autowired
-    private WebApplicationContext context;
-
-
-    @Autowired
     private UserRepository mockUserRepository;
 
-    @Before
-    public void setUp() {
-       // this.mockUserRepository.deleteAll();
-
-        /*
-        mvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .defaultRequest(get("/")
-                        .with(user("user").password("password").roles("ADMIN")))
-                .apply(springSecurity())
-                .build();
-                */
-    }
 
     @Test
     public void login_ReturnsCorrectView() throws Exception {
@@ -81,4 +66,6 @@ public class UserControllerTests {
 
         Assert.assertEquals(1, this.mockUserRepository.count());
     }
+
+
 }
