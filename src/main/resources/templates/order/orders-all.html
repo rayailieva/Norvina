@@ -34,7 +34,7 @@
                         <td class="col-md-2">
                             <div>
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a th:href="@{/orders/ship/{id}(id=*{id})}" class="btn btn-pink">Prepare order</a>
+                                    <a  th:href="@{/orders/ship/{id}(id=*{id})}" class="btn btn-pink">Ship order</a>
                                 </th:block>
                             </div>
                         </td>

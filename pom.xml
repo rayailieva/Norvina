@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>softuni</groupId>
-    <artifactId>notino</artifactId>
+    <artifactId>norvina</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>norvina</name>
