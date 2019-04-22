@@ -4,7 +4,6 @@ import norvina.domain.models.binding.UserEditProfileBindingModel;
 import norvina.domain.models.binding.UserRegisterBindingModel;
 import norvina.domain.models.service.UserServiceModel;
 import norvina.service.UserService;
-import norvina.validation.UserEditValidator;
 import norvina.validation.UserRegisterValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,12 @@ public class UserController extends BaseController {
 
     private final UserService userService;
     private final UserRegisterValidator userRegisterValidator;
-    private final UserEditValidator userEditValidator;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, UserRegisterValidator userRegisterValidator, UserEditValidator userEditValidator, ModelMapper modelMapper) {
+    public UserController(UserService userService, UserRegisterValidator userRegisterValidator, ModelMapper modelMapper) {
         this.userService = userService;
         this.userRegisterValidator = userRegisterValidator;
-        this.userEditValidator = userEditValidator;
         this.modelMapper = modelMapper;
     }
 
@@ -108,19 +105,14 @@ public class UserController extends BaseController {
     public ModelAndView userEditProfileConfirm(@ModelAttribute("userEditBindingModel") UserEditProfileBindingModel userEditBindingModel,
                                                BindingResult bindingResult, ModelAndView modelAndView) {
 
-        this.userEditValidator.validate(userEditBindingModel, bindingResult);
-
         if (bindingResult.hasErrors()) {
-            userEditBindingModel.setOldPassword(null);
-            userEditBindingModel.setPassword(null);
-            userEditBindingModel.setConfirmPassword(null);
             modelAndView.addObject("userEditBindingModel", userEditBindingModel);
 
             return super.view("user/user-edit-profile", modelAndView);
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
-        this.userService.editUser(userServiceModel, userEditBindingModel.getOldPassword());
+        this.userService.editUser(userServiceModel);
 
         return super.redirect("/profile");
     }

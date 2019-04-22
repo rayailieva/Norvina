@@ -77,7 +77,6 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(OrderStatus.Shipped);
 
         this.orderRepository.saveAndFlush(order);
-
         return this.modelMapper.map(order, OrderServiceModel.class);
     }
 }

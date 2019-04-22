@@ -12,7 +12,6 @@ public class UserEditProfileBindingModel {
     private String username;
     private String firstName;
     private String lastName;
-    private String oldPassword;
     private String password;
     private String confirmPassword;
     private String email;
@@ -29,8 +28,7 @@ public class UserEditProfileBindingModel {
         this.id = id;
     }
 
-    @NotNull(message = "First name cannot be null.")
-    @Length(min = 2, message = "First name must be at least 2 symbols long.")
+
     public String getFirstName() {
         return this.firstName;
     }
@@ -39,9 +37,6 @@ public class UserEditProfileBindingModel {
         this.firstName = firstName;
     }
 
-    @NotNull(message = "Last name cannot be null.")
-    @Length(min = 2, message = "Last name must be at least 2 symbols long.")
-    @Pattern(regexp = "^[A-Z][a-zA-Z]+", message = "Last name must start with capital letter.")
     public String getLastName() {
         return this.lastName;
     }
@@ -50,9 +45,6 @@ public class UserEditProfileBindingModel {
         this.lastName = lastName;
     }
 
-    @NotNull(message = "Email cannot be null.")
-    @NotEmpty(message = "Email cannot be empty.")
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "Invalid email.")
     public String getEmail() {
         return this.email;
     }
@@ -61,18 +53,6 @@ public class UserEditProfileBindingModel {
         this.email = email;
     }
 
-
-    public String getOldPassword() {
-        return this.oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
-    @NotNull(message = "Password cannot be null.")
-    @NotEmpty(message = "Password cannot be empty.")
-    @Length(min = 6, message = "Password must be at least 6 characters long.")
     public String getPassword() {
         return this.password;
     }
@@ -81,7 +61,7 @@ public class UserEditProfileBindingModel {
         this.password = password;
     }
 
-    @Length(min = 6, message = "Password must be at least 6 characters long.")
+
     public String getConfirmPassword() {
         return this.confirmPassword;
     }

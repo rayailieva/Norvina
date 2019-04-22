@@ -36,11 +36,10 @@ public class DailyOfferServiceImpl implements DailyOfferService {
 
     @Override
     public DailyOfferServiceModel findActiveOffer() {
-
      DailyOffer dailyOffer = this.dailyOfferRepository.findAll().get(0);
 
-     DailyOfferServiceModel dailyOfferServiceModel =  this.modelMapper.map(this.dailyOfferRepository
-                .findAll().get(0), DailyOfferServiceModel.class);
+     DailyOfferServiceModel dailyOfferServiceModel =
+             this.modelMapper.map(this.dailyOfferRepository.findAll().get(0), DailyOfferServiceModel.class);
 
      dailyOfferServiceModel
              .setProductServiceModel(this.modelMapper.map(dailyOffer.getProduct(), ProductServiceModel.class));
@@ -60,11 +59,9 @@ public class DailyOfferServiceImpl implements DailyOfferService {
         Random rnd = new Random();
         DailyOffer offer = new DailyOffer();
 
-
-            Product product = this.modelMapper.map(products.get(rnd.nextInt(products.size())), Product.class);
-            offer.setProduct(product);
-            offer.setPrice(offer.getProduct().getPrice().multiply(new BigDecimal(0.5)));
-
+        Product product = this.modelMapper.map(products.get(rnd.nextInt(products.size())), Product.class);
+        offer.setProduct(product);
+        offer.setPrice(offer.getProduct().getPrice().multiply(new BigDecimal(0.5)));
 
         this.dailyOfferRepository.saveAndFlush(offer);
     }

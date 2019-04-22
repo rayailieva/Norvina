@@ -9,7 +9,7 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel registerUser(UserServiceModel userServiceModel);
 
-    UserServiceModel editUser(UserServiceModel userServiceModel, String oldPassword);
+    UserServiceModel editUser(UserServiceModel userServiceModel);
 
     UserServiceModel extractUserByEmail(String email);
 

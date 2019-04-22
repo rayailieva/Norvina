@@ -83,7 +83,7 @@ public class ProductController extends BaseController {
         brandServiceModel.getProducts().add(productServiceModel);
 
         this.productService.addProduct(productServiceModel);
-        return super.redirect("/home");
+        return super.redirect("/products/all-products");
     }
 
 
@@ -111,7 +111,7 @@ public class ProductController extends BaseController {
         }
 
         this.productService.editProduct(id, this.modelMapper.map(productBindingModel, ProductServiceModel.class));
-        return super.redirect("/home");
+        return super.redirect("/products/all-products");
     }
 
     @GetMapping("/details/{id}")
@@ -142,7 +142,7 @@ public class ProductController extends BaseController {
     public ModelAndView deleteProductConfirm(@PathVariable(name = "id") String id) {
 
         this.productService.deleteProduct(id);
-        return super.redirect("/home");
+        return super.redirect("/products/all-products");
     }
 
 
